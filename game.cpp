@@ -2,7 +2,7 @@
 
 void Game::start()
 {
-	engine_.createRenderWindow(VideoMode(engine_.getResolution().x, engine_.getResolution().y), "NineRings", "Default");
+	engine_.createRenderWindow(VideoMode(engine_.getResolution().x, engine_.getResolution().y), "NineRings", "Close");
 
 	//1920x1080
 	pair<size_t, size_t> res1 = { 1920, 1080 };
@@ -31,11 +31,13 @@ void Game::start()
 		{res3, {size3, pos3}},
 	};
 
-	Button* btn1 = engine_.createButton("button1", sizePosMap1, "./textures/buttons/button1.png", "./textures/buttons/button12.png");
+	Button* btn1 = engine_.createButton("button1", sizePosMap1, "./textures/buttons/button1.png", "./textures/buttons/button12.png", "./textures/buttons/button13.png");
 
 	win1->addButton(btn1);
 
 	string clickedButtonId = "";
+	
+	engine_.createLevel(new Level1());
 
 	while (engine_.renderWindowIsOpen())
 	{
@@ -70,7 +72,7 @@ void Game::start()
 
 		if (Keyboard::isKeyPressed(Keyboard::LAlt) && Keyboard::isKeyPressed(Keyboard::Enter) && engine_.isRenderWindowFullscreen() == true)
 		{
-			engine_.createRenderWindow(VideoMode::getDesktopMode(), "NineRings", "Default");
+			engine_.createRenderWindow(VideoMode::getDesktopMode(), "NineRings", "Close");
 			engine_.changeRenderWindowMode();
 		}
 
@@ -84,6 +86,7 @@ void Game::start()
 		}
 
 		engine_.renderWindowClear();
+		engine_.buildMap();
 		engine_.drawGameWindow(win1);
 		engine_.renderWindowDisplay();
 	}

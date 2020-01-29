@@ -1,6 +1,6 @@
 #include "button.h"
 
-Button::Button(string id, map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string mouseContainsTexturePath, string mouseNotContainsTexturePath, Vector2i resolution)
+Button::Button(string id, map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string mouseContainsTexturePath, string mouseNotContainsTexturePath, string mouseClickedTexturePath, Vector2i resolution)
 {
 	pair<size_t, size_t> res = { resolution.x, resolution.y };
 
@@ -15,18 +15,23 @@ Button::Button(string id, map<pair<size_t, size_t>, pair<pair<size_t, size_t>, p
 
 	textureMouseContains_.loadFromFile(mouseContainsTexturePath);
 	textureMouseNotContains_.loadFromFile(mouseNotContainsTexturePath);
+	textureMouseClicked_.loadFromFile(mouseClickedTexturePath);
 
 	spriteMouseContains_.setTexture(textureMouseContains_);
 	spriteMouseNotContains_.setTexture(textureMouseNotContains_);
+	spriteMouseClicked_.setTexture(textureMouseClicked_);
 
-	spriteMouseContains_.setPosition(position_.x, position_.y);
-	spriteMouseNotContains_.setPosition(position_.x, position_.y);
+	spriteMouseContains_.move(position_.x, position_.y);
+	spriteMouseNotContains_.move(position_.x, position_.y);
+	spriteMouseClicked_.move(position_.x, position_.y);
 
 	Vector2u textureMouseContainsSize = textureMouseContains_.getSize();
 	Vector2u textureMouseNotContainsSize = textureMouseNotContains_.getSize();
+	Vector2u textureMouseClickedSize = textureMouseClicked_.getSize();
 
 	spriteMouseContains_.setScale(size_.x / textureMouseContainsSize.x, size_.y / textureMouseContainsSize.y);
 	spriteMouseNotContains_.setScale(size_.x / textureMouseNotContainsSize.x, size_.y / textureMouseNotContainsSize.y);
+	spriteMouseClicked_.setScale(size_.x / textureMouseClickedSize.x, size_.y / textureMouseClickedSize.y);
 
 	//mouseContains_ = false;
 
@@ -47,9 +52,19 @@ Button::~Button() {}
 
 void Button::draw(RenderWindow *window)
 {
-	if (IntRect(position_.x, position_.y, size_.x, size_.y).contains(Mouse::getPosition(*window)))
+	Vector2f pos = spriteMouseClicked_.getPosition();
+	Vector2u size = spriteMouseClicked_.getTexture()->getSize();
+
+	if (IntRect(pos.x, pos.y, size_.x, size_.y).contains(Mouse::getPosition(*window)))
 	{
-		window->draw(spriteMouseContains_);
+		if (Mouse::isButtonPressed(Mouse::Left))
+		{
+			window->draw(spriteMouseClicked_);
+		}
+		else
+		{
+			window->draw(spriteMouseContains_);
+		}
 		//mouseContains_ = true;
 	}
 	else
@@ -61,7 +76,12 @@ void Button::draw(RenderWindow *window)
 
 bool Button::containsCursor(RenderWindow* window)
 {
-	if (IntRect(position_.x, position_.y, size_.x, size_.y).contains(Mouse::getPosition(*window)))
+	Vector2f pos = spriteMouseClicked_.getPosition();
+	Vector2u size = spriteMouseClicked_.getTexture()->getSize();
+
+	//size_.x = size.x / 
+
+	if (IntRect(pos.x, pos.y, size_.x, size_.y).contains(Mouse::getPosition(*window)))
 	{
 		return true;
 	}

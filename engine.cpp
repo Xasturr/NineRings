@@ -26,8 +26,6 @@ void Engine::start()
 	rect.setFillColor(Color::Black);
 	rect.setPosition(500, 400);
 
-
-
 	while (window_.isOpen())
 	{
 		Event event;
@@ -47,7 +45,7 @@ void Engine::start()
 
 			if (Keyboard::isKeyPressed(Keyboard::LAlt) && Keyboard::isKeyPressed(Keyboard::Enter) && isFullscreen_ == true)
 			{
-				window_.create(VideoMode::getDesktopMode(), "NineRings", Style::Default);
+				window_.create(VideoMode::getDesktopMode(), "NineRings", Style::None);
 				isFullscreen_ = false;
 			}
 
@@ -86,9 +84,9 @@ GameWindow* Engine::createGameWindow(map<pair<size_t, size_t>, pair<pair<size_t,
 	return gameWindow;
 }
 
-Button* Engine::createButton(string id, map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string mouseContainsTexturePath, string mouseNotContainsTexturePath)
+Button* Engine::createButton(string id, map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string mouseContainsTexturePath, string mouseNotContainsTexturePath, string mouseClickedTexturePath)
 {
-	Button* button = new Button(id, sizePosMap, mouseContainsTexturePath, mouseNotContainsTexturePath, resolution_);
+	Button* button = new Button(id, sizePosMap, mouseContainsTexturePath, mouseNotContainsTexturePath, mouseClickedTexturePath, resolution_);
 	return button;
 }
 
@@ -106,6 +104,14 @@ void Engine::createRenderWindow(VideoMode videoMode, string title, string window
 {
 	if (windowStyle == "Fullscreen")
 		window_.create(videoMode, title, Style::Fullscreen);
+	else if (windowStyle == "None")
+		window_.create(videoMode, title, Style::None);
+	else if (windowStyle == "Resize")
+		window_.create(videoMode, title, Style::Resize);
+	else if (windowStyle == "Titlebar")
+		window_.create(videoMode, title, Style::Titlebar);
+	else if (windowStyle == "Close")
+		window_.create(videoMode, title, Style::Close);
 	else 
 		window_.create(videoMode, title, Style::Default);
 }
@@ -171,4 +177,19 @@ string Engine::getClickedButtonId(GameWindow* gameWindow)
 Event* Engine::getEvent()
 {
 	return &event_;
+}
+
+//Level* Engine::getLevel()
+//{
+//	return level_;
+//}
+
+void Engine::buildMap()
+{
+	level_->buildMap(&window_);
+}
+
+void Engine::createLevel(Level* level)
+{
+	level_ = level;
 }

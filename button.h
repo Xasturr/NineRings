@@ -16,15 +16,17 @@ class Button
 
 	Texture textureMouseContains_;
 	Texture textureMouseNotContains_;
+	Texture textureMouseClicked_;
 
 	Sprite spriteMouseContains_;
 	Sprite spriteMouseNotContains_;
+	Sprite spriteMouseClicked_;
 
 	//bool mouseContains_;
 	string id_;
 
 public:
-	Button(string id, map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string mouseContainsTexturePath, string mouseNotContainsTexturePath, Vector2i resolution);
+	Button(string id, map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string mouseContainsTexturePath, string mouseNotContainsTexturePath, string mouseClickedTexturePath, Vector2i resolution);
 	~Button();
 
 	//void setTextureMouseContains();

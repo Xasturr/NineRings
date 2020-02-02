@@ -8,6 +8,9 @@ Engine::Engine()
 	isFullscreen_ = false;
 
 	window_.setKeyRepeatEnabled(false);
+
+	viewSizeX_ = 1280;
+	viewSizeY_ = 720;
 }
 
 Engine::~Engine() {}
@@ -68,14 +71,6 @@ void Engine::start()
 			window_.display();
 		}
 	}
-}
-
-void Engine::update()
-{
-	//for (list<Button>::iterator iter = buttons.begin(); iter != buttons.end(); iter++)
-	//{
-	//	iter->draw(&window_);
-	//}
 }
 
 GameWindow* Engine::createGameWindow(map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string texturePath)
@@ -141,6 +136,47 @@ bool Engine::isRenderWindowFullscreen()
 	return isFullscreen_;
 }
 
+int Engine::input()
+{
+	if (Keyboard::isKeyPressed(Keyboard::A))
+	{
+		player_->moveLeft();
+	}
+	else
+	{
+		player_->stopLeft();
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::W)) 
+	{
+		player_->moveUp();
+	}
+	else
+	{
+		player_->stopUp();
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::S)) 
+	{
+		player_->moveDown();
+	}
+	else
+	{
+		player_->stopDown();
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::D)) 
+	{
+		player_->moveRight();
+	}
+	else
+	{
+		player_->stopRight();
+	}
+
+	return 0;
+}
+
 void Engine::changeRenderWindowMode()
 {
 	if (isFullscreen_)
@@ -192,4 +228,41 @@ void Engine::buildMap()
 void Engine::createLevel(Level* level)
 {
 	level_ = level;
+}
+
+void Engine::setPlayer(string charName, float posX, float posY)
+{
+	player_ = new Player(charName, posX, posY);
+}
+
+void Engine::playerMoveLeft()
+{
+	player_->moveLeft();
+}
+
+void Engine::playerMoveRight()
+{
+	player_->moveRight();
+}
+
+void Engine::playerMoveUp()
+{
+	player_->moveUp();
+}
+
+void Engine::playerMoveDown()
+{
+	player_->moveDown();
+}
+
+void Engine::update()
+{
+	player_->update();
+	view_.setCenter(player_->getCharacterPosition().x, player_->getCharacterPosition().y);
+}
+
+void Engine::draw()
+{
+	level_->buildMap(&window_);
+	window_.draw(player_->getSprite());
 }

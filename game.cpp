@@ -38,6 +38,7 @@ void Game::start()
 	string clickedButtonId = "";
 	
 	engine_.createLevel(new Level1());
+	engine_.setPlayer("Character1", 200, 130);
 
 	while (engine_.renderWindowIsOpen())
 	{
@@ -76,24 +77,29 @@ void Game::start()
 			engine_.changeRenderWindowMode();
 		}
 
-		if (Keyboard::isKeyPressed(Keyboard::A))
-		{
-			engine_.setGameWindowVisible(win1);
-		}
-		if (Keyboard::isKeyPressed(Keyboard::S))
-		{
-			engine_.setGameWindowInvisible(win1);
-		}
+		inputValue = engine_.input();
+		engine_.update();
+
+		//if (Keyboard::isKeyPressed(Keyboard::A))
+		//{
+		//	engine_.setGameWindowVisible(win1);
+		//}
+		//if (Keyboard::isKeyPressed(Keyboard::S))
+		//{
+		//	engine_.setGameWindowInvisible(win1);
+		//}
 
 		engine_.renderWindowClear();
-		engine_.buildMap();
-		engine_.drawGameWindow(win1);
+		//engine_.buildMap();
+		//engine_.drawGameWindow(win1);
+		engine_.draw();
 		engine_.renderWindowDisplay();
 	}
 }
 
 Game::Game()
 {
+	inputValue = 0;
 }
 
 Game::~Game()

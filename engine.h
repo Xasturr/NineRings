@@ -6,6 +6,7 @@
 #include "windowStyle.h"
 #include "gameWindow.h"
 #include "level.h"
+#include "player.h"
 
 using namespace sf;
 using namespace std;
@@ -24,6 +25,11 @@ class Engine
 
 	Level* level_;
 
+	int viewSizeX_;
+	int viewSizeY_;
+
+	Player* player_;
+
 public:
 	Engine();
 	~Engine();
@@ -35,7 +41,6 @@ public:
 	//key - resolution; value - 1) Size; 2) Position
 
 	void start();
-	void update();
 	void drawGameWindow(GameWindow* gameWindow);
 	void drawButton(Button* button);
 	void createRenderWindow(VideoMode videoMode, string title, string windowStyle);
@@ -47,10 +52,19 @@ public:
 	void setGameWindowInvisible(GameWindow* gameWindow);
 	void buildMap();
 	void createLevel(Level* level);
+	void setPlayer(string charName, float posX, float posY);
+	void playerMoveLeft();
+	void playerMoveRight();
+	void playerMoveUp();
+	void playerMoveDown();
+	void update();
+	void draw();
 
 	bool renderWindowIsOpen();
 	bool renderWindowPollEvent();
 	bool isRenderWindowFullscreen();
+
+	int input();
 
 	string getClickedButtonId(GameWindow* gameWindow);
 

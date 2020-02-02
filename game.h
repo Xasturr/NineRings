@@ -10,6 +10,8 @@ class Game
 {
 	Engine engine_;
 
+	int inputValue;
+
 public:
 	Game();
 	~Game();

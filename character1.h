@@ -30,20 +30,44 @@ class Character1 : public Character
 	Texture textureRun7_;
 	Texture textureRun8_;
 
+	Texture textureJump1_;
+	Texture textureJump2_;
+	Texture textureJump3_;
+	Texture textureJump4_;
+	Texture textureJump5_;
+	Texture textureJump6_;
+	Texture textureJump7_;
+
+	Texture textureFall1_;
+
 	Sprite sprite_;
 
 	bool life_;
+	bool jump_;
 
 	float maxMoveSpeed;
 	float currentIdleFrame_;
 	float currentRunFrame_;
+	float currentJumpFrame_;
+	float currentFallFrame_;
+	float gravity_;
+	float jumpForce_;
+	float currGravityAccel_;
+	float currJumpAccel_;
 
 	int numberOfIdleFrames_;
 	int numberOfRunFrames_;
+	int numberOfJumpFrames_;
+	int numberOfFallFrames_;
+	int lowerGap_;
+	int upperGap_;
+	int rightGap_;
+	int leftGap_;
 
 	float frameSpeed_;
 
 	string currSpriteSide_;
+	string state_;
 
 public:
 	Character1(float posX, float posY);
@@ -52,9 +76,17 @@ public:
 	Sprite getSprite();
 
 	float getMaxMoveSpeed();
+	float getGravity();
+	float getCurrGravityAccel();
 	float getFrameSpeed();
+	float getCurrJumpAccel();
+	float getJumpForce();
 
 	int getCurrIdleFrame();
+	int getUpperGap();
+	int getLowerGap();
+	int getLeftGap();
+	int getRightGap();
 
 	Vector2f getCurrPosition();
 
@@ -63,7 +95,20 @@ public:
 	void setPosition(float x, float y);
 	void setCurrIdleFrame(float increase);
 	void setCurrRunFrame(float increase);
+	void setCurrJumpFrame(float increase);
+	void setCurrFallFrame(float increase);
 	void spriteUpdateIdle();
 	void spriteUpdateRun(string spriteSide);
+	void spriteUpdateJump(string spriteSide);
+	void spriteUpdateFall(string spriteSide);
+	void setCurrGravityAccel(float value);
+	void setCurrJumpAccel(float value);
+	void setJumpState(bool flag);
+	void setState(string state);
+
+	bool getJumpState();
+
+	string getCurrSpriteSide();
+	string getCurrState();
 };
 

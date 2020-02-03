@@ -5,7 +5,7 @@
 
 class Level1 : public Level
 {
-	Map* map;
+	Map* map_;
 public:
 	Level1();
 	~Level1();
@@ -14,10 +14,17 @@ public:
 	const size_t getWidthMap();
 	const size_t getTileWidth();
 	const size_t getTileHeight();
-	//const size_t getMap();
+
+	string* getTileMapElse();
+
 	bool getValue(int i, int j, char c, string tileMap[]);
+
 	Texture getTexture();
+
+	Sprite getSprite(int i, int j, string tileMap);
+
 	size_t getTextureSizeX();
 	size_t getTextureSizeY();
+
 	void buildMap(RenderWindow* window);
 };

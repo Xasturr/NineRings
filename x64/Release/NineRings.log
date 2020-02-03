@@ -1,18 +1,27 @@
-﻿  character1.cpp
-D:\Repos\NineRings\character1.cpp(31,75): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
+﻿  engine.cpp
+D:\Repos\NineRings\windowStyle.h(18,2): warning C4091: static : пропускается слева от "WindowStyle", когда ни одна переменная не объявлена
+D:\Repos\NineRings\engine.cpp(296,131): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
-              T=unsigned int
+              T=float
           ]
-D:\Repos\NineRings\character1.cpp(31,45): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(296,124): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
-              T=unsigned int
+              T=float
           ]
-D:\Repos\NineRings\character1.cpp(40,19): warning C4305: =: усечение из "double" в "float"
-D:\Repos\NineRings\character1.cpp(63,9): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(302,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\engine.cpp(304,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
   Создание кода
-  3 of 350 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+  1 of 499 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено

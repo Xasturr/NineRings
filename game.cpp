@@ -38,10 +38,34 @@ void Game::start()
 	string clickedButtonId = "";
 	
 	engine_.createLevel(new Level1());
-	engine_.setPlayer("Character1", 200, 130);
+	engine_.setPlayer("Character1", 200, 200);
+
+	float time = 0;
+
+	Font bebasRegular;
+	bebasRegular.loadFromFile("./fonts/Bebas-Regular.otf");
+
+	Text timeText;
+	timeText.setString("0");
+	timeText.setFont(bebasRegular);
+	timeText.setFillColor(Color::Green);
+
+	int iter = 0;
+	char* intStr;
+
+	clock_.restart();
 
 	while (engine_.renderWindowIsOpen())
 	{
+		timeText.setPosition(engine_.getPlayerPosition().x - 600, engine_.getPlayerPosition().y - 340);
+
+		if (time >= 1)
+		{
+			timeText.setString(to_string(iter));
+			time = 0;
+			iter = 0;
+		}
+
 		while (engine_.renderWindowPollEvent())
 		{
 			Event event = *engine_.getEvent();
@@ -78,7 +102,9 @@ void Game::start()
 		}
 
 		inputValue = engine_.input();
-		engine_.update();
+		time += clock_.getElapsedTime().asSeconds();
+		engine_.update(clock_.restart().asSeconds());
+		engine_.setView(1280, 720);
 
 		//if (Keyboard::isKeyPressed(Keyboard::A))
 		//{
@@ -90,10 +116,12 @@ void Game::start()
 		//}
 
 		engine_.renderWindowClear();
-		//engine_.buildMap();
 		//engine_.drawGameWindow(win1);
 		engine_.draw();
+		engine_.drawText(timeText);
 		engine_.renderWindowDisplay();
+
+		iter++;
 	}
 }
 

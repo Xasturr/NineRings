@@ -15,8 +15,8 @@ Engine::Engine()
 
 Engine::~Engine() {}
 
-void Engine::start()
-{
+//void Engine::start()
+//{
 	/*window_.create(VideoMode(resolution_.x, resolution_.y),
 		"NineRings",
 		Style::Default);*/
@@ -24,54 +24,54 @@ void Engine::start()
 	//view_.reset(sf::FloatRect(0, 0, resolution_.x, resolution_.y));	
 	//window_.setView(view_);
 
-	RectangleShape rect;
-	rect.setSize(Vector2f(100, 100));
-	rect.setFillColor(Color::Black);
-	rect.setPosition(500, 400);
-
-	while (window_.isOpen())
-	{
-		Event event;
-
-		while (window_.pollEvent(event))
-		{
-			if (event.type == Event::Closed)
-			{
-				window_.close();
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::LAlt) && Keyboard::isKeyPressed(Keyboard::Enter) && isFullscreen_ == false)
-			{
-				window_.create(VideoMode::getDesktopMode(), "NineRings", Style::Fullscreen);
-				isFullscreen_ = true;
-			}
-
-			if (Keyboard::isKeyPressed(Keyboard::LAlt) && Keyboard::isKeyPressed(Keyboard::Enter) && isFullscreen_ == true)
-			{
-				window_.create(VideoMode::getDesktopMode(), "NineRings", Style::None);
-				isFullscreen_ = false;
-			}
-
-			if (IntRect(500, 400, 100, 100).contains(Mouse::getPosition(window_)))
-			{
-				//playText.setFillColor(Color::White);
-				//playText.setOutlineColor(Color::Black);
-				//menuState = 0;
-				rect.setFillColor(Color::Red);
-			}
-			else
-			{
-				rect.setFillColor(Color::Yellow);
-			}
-
-			window_.clear();
-
-			window_.draw(rect);
-
-			window_.display();
-		}
-	}
-}
+//	RectangleShape rect;
+//	rect.setSize(Vector2f(100, 100));
+//	rect.setFillColor(Color::Black);
+//	rect.setPosition(500, 400);
+//
+//	while (window_.isOpen())
+//	{
+//		Event event;
+//
+//		while (window_.pollEvent(event))
+//		{
+//			if (event.type == Event::Closed)
+//			{
+//				window_.close();
+//			}
+//
+//			if (Keyboard::isKeyPressed(Keyboard::LAlt) && Keyboard::isKeyPressed(Keyboard::Enter) && isFullscreen_ == false)
+//			{
+//				window_.create(VideoMode::getDesktopMode(), "NineRings", Style::Fullscreen);
+//				isFullscreen_ = true;
+//			}
+//
+//			if (Keyboard::isKeyPressed(Keyboard::LAlt) && Keyboard::isKeyPressed(Keyboard::Enter) && isFullscreen_ == true)
+//			{
+//				window_.create(VideoMode::getDesktopMode(), "NineRings", Style::None);
+//				isFullscreen_ = false;
+//			}
+//
+//			if (IntRect(500, 400, 100, 100).contains(Mouse::getPosition(window_)))
+//			{
+//				//playText.setFillColor(Color::White);
+//				//playText.setOutlineColor(Color::Black);
+//				//menuState = 0;
+//				rect.setFillColor(Color::Red);
+//			}
+//			else
+//			{
+//				rect.setFillColor(Color::Yellow);
+//			}
+//
+//			window_.clear();
+//
+//			window_.draw(rect);
+//
+//			window_.display();
+//		}
+//	}
+//}
 
 GameWindow* Engine::createGameWindow(map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string texturePath)
 {
@@ -83,6 +83,11 @@ Button* Engine::createButton(string id, map<pair<size_t, size_t>, pair<pair<size
 {
 	Button* button = new Button(id, sizePosMap, mouseContainsTexturePath, mouseNotContainsTexturePath, mouseClickedTexturePath, resolution_);
 	return button;
+}
+
+Vector2f Engine::getPlayerPosition()
+{
+	return player_->getSprite().getPosition();
 }
 
 void Engine::drawGameWindow(GameWindow* gameWindow)
@@ -202,7 +207,7 @@ void Engine::setGameWindowVisible(GameWindow* gameWindow)
 
 void Engine::setGameWindowInvisible(GameWindow* gameWindow)
 {
-	gameWindow->setInvisible();
+gameWindow->setInvisible();
 }
 
 string Engine::getClickedButtonId(GameWindow* gameWindow)
@@ -255,14 +260,88 @@ void Engine::playerMoveDown()
 	player_->moveDown();
 }
 
-void Engine::update()
+void Engine::update(float elapsedTime)
 {
-	player_->update();
+	Vector2f oldPlayerPosition = player_->getCharacterPosition();
+	player_->update(elapsedTime);
+	Vector2f newPlayerPosition = player_->getCharacterPosition();
+
+	interactionWithMap(oldPlayerPosition, newPlayerPosition, elapsedTime);
+	calculateVariables(elapsedTime);
+
 	view_.setCenter(player_->getCharacterPosition().x, player_->getCharacterPosition().y);
 }
 
 void Engine::draw()
 {
 	level_->buildMap(&window_);
+
+	Sprite sprite;
+	Texture texture;
+	CreateTextureAndBitmask(texture, "./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile4.png");
+	sprite.setTexture(texture);
+	sprite.setPosition(300, 128);
+
+	window_.draw(sprite);
 	window_.draw(player_->getSprite());
+}
+
+void Engine::drawText(Text text)
+{
+	window_.draw(text);
+}
+
+void Engine::setView(int sizeX, int sizeY)
+{
+	view_.reset(FloatRect(player_->getSprite().getPosition().x - sizeX / 2, player_->getSprite().getPosition().y - sizeY / 2, sizeX, sizeY));
+	window_.setView(view_);
+}
+
+void Engine::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPosition, float elapsedTime)
+{
+	for (int i = (newPlayerPosition.x - player_->getLeftGap()) / level_->getTileWidth(); i < (newPlayerPosition.x + player_->getRightGap()) / level_->getTileWidth(); i++)
+	{
+		for (int j = (newPlayerPosition.y - player_->getLowerGap()) / level_->getTileHeight(); j < (newPlayerPosition.y + player_->getUpperGap()) / level_->getTileHeight(); j++)
+		{
+			if (!level_->getValue(j, i, ' ', level_->getTileMapElse()))
+			{
+				//cout << "oldPos.x:" << oldPlayerPosition.x << endl;
+				//cout << "newPos.x:" << newPlayerPosition.x << endl;
+
+				if (j > (player_->getUpperGap()) / level_->getTileHeight() && oldPlayerPosition.x == newPlayerPosition.x)
+				{
+					player_->setState("staying");
+					player_->setPosition(oldPlayerPosition.x, oldPlayerPosition.y);
+				}
+				else if (j > (player_->getUpperGap()) / level_->getTileHeight() && oldPlayerPosition.x != newPlayerPosition.x)
+				{
+					player_->setState("staying");
+					player_->setPosition(newPlayerPosition.x, oldPlayerPosition.y);
+				}
+				player_->setCurrJumpAccel(player_->getJumpForce());
+				player_->setCurrGravityAccel(0);
+				//player_->setJumpState(false);
+				return;
+			}
+		}
+	}
+
+	if (player_->getCurrState() != "jumping" && player_->getCurrState() != "falling")
+	{
+		player_->setState("falling");
+		cout << "Falling" << endl;
+	}
+}
+
+void Engine::calculateVariables(float elapsedTime)
+{
+	if (player_->getCurrState() == "falling")
+	{
+		player_->setCurrGravityAccel(player_->getGravity() * elapsedTime + player_->getCurrGravityAccel());
+	}
+	else if (player_->getCurrState() == "jumping")
+	{
+		player_->setCurrGravityAccel(player_->getCurrGravityAccel() + player_->getGravity() * elapsedTime);
+		player_->setCurrJumpAccel(player_->getCurrJumpAccel() - player_->getCurrGravityAccel() * elapsedTime);
+	}
 }

@@ -2,7 +2,9 @@
 
 Map1::Map1()
 {
-	texture_.loadFromFile("./textures/tiles/map1.png");
+	//.loadFromFile("./textures/tiles/map1.png");
+	CreateTextureAndBitmask(texture_, "./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile5.png");
+
 	sprite_.setTexture(texture_);
 }
 
@@ -28,10 +30,10 @@ const size_t Map1::getTileHeight()
 	return TILE_HEIGHT;
 }
 
-//const size_t Map1::getMap()
-//{
-//
-//}
+string* Map1::getTileMapElse()
+{
+	return tileMapElse;
+}
 
 bool Map1::getValue(int i, int j, char c, string tileMap[])
 {
@@ -44,6 +46,30 @@ bool Map1::getValue(int i, int j, char c, string tileMap[])
 Texture Map1::getTexture()
 {
 	return texture_;
+}
+
+Sprite Map1::getSprite(int i, int j, string tileMap)
+{
+	Sprite sprite;
+	//Texture texture;
+	//CreateTextureAndBitmask(texture, "./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile4.png");
+	//sprite.setTexture(texture);
+	//sprite.setPosition(300, 128);
+
+	if (tileMap == "tileMapElse")
+	{
+		if (tileMapElse[i][j] == '1')	sprite.setTexture(texture_);
+		else if (tileMapElse[i][j] == '2')	sprite.setTexture(texture_);
+		else if (tileMapElse[i][j] == '3')	sprite.setTexture(texture_);
+		else if (tileMapElse[i][j] == '4')	sprite.setTexture(texture_);
+		else if (tileMapElse[i][j] == '0')	sprite.setTexture(texture_);
+
+		//cout << "Here" << endl;
+		sprite.setPosition(j * 64, i * 64);
+		//sprite.setOrigin(64, 64);
+	}
+
+	return sprite;
 }
 
 size_t Map1::getTextureSizeX()
@@ -62,19 +88,29 @@ void Map1::buildMap(RenderWindow* window)
 	{
 		for (int j = 0; j < WIDTH_MAP; j++)
 		{
-			if (tileMap[i][j] == ' ') sprite_.setTextureRect(IntRect(32 * 5, 0, 32, 32));
+			if (tileMapElse[i][j] == ' ')
+			{
+			}
+			else
+			{
+				//sprite_.setPosition(j * 32, i * 32);
+				//window->draw(sprite_);
 
-			sprite_.setPosition(j * 32, i * 32);
-			window->draw(sprite_);
+				//if (tileMapElse[i][j] == '1') sprite_.setTextureRect(IntRect(32, 0, 32, 32));
+				//else if (tileMapElse[i][j] == '2') sprite_.setTextureRect(IntRect(32 * 2, 0, 32, 32));
+				//else if (tileMapElse[i][j] == '3') sprite_.setTextureRect(IntRect(32 * 3, 0, 32, 32));
+				//else if (tileMapElse[i][j] == '4') sprite_.setTextureRect(IntRect(32 * 4, 0, 32, 32));
+				//else if (tileMapElse[i][j] == '0') sprite_.setTextureRect(IntRect(0, 0, 32, 32));
 
-			if (tileMapElse[i][j] == '1') sprite_.setTextureRect(IntRect(32, 0, 32, 32));
-			if (tileMapElse[i][j] == '2') sprite_.setTextureRect(IntRect(32 * 2, 0, 32, 32));
-			if (tileMapElse[i][j] == '3') sprite_.setTextureRect(IntRect(32 * 3, 0, 32, 32));
-			if (tileMapElse[i][j] == '4') sprite_.setTextureRect(IntRect(32 * 4, 0, 32, 32));
-			if (tileMapElse[i][j] == '0') sprite_.setTextureRect(IntRect(0, 0, 32, 32));
+				if (tileMapElse[i][j] == '1') sprite_.setTexture(texture_);
+				else if (tileMapElse[i][j] == '2')  sprite_.setTexture(texture_);
+				else if (tileMapElse[i][j] == '3')  sprite_.setTexture(texture_);
+				else if (tileMapElse[i][j] == '4')  sprite_.setTexture(texture_);
+				else if (tileMapElse[i][j] == '0')  sprite_.setTexture(texture_);
 
-			sprite_.setPosition(j * 32, i * 32);
-			window->draw(sprite_);
+				sprite_.setPosition(j * 64, i * 64);
+				window->draw(sprite_);
+			}
 		}
 	}
 }

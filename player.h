@@ -4,6 +4,7 @@
 
 #include "character.h"
 #include "character1.h"
+#include "map.h"
 
 using namespace sf;
 using namespace std;
@@ -46,11 +47,29 @@ public:
 	void stopUp();
 	void stopDown();
 
-	void update();
+	void update(float elapsedTime);
+	void setPosition(float posX, float posY);
+	void setCurrGravityAccel(float value);
+	void setCurrJumpAccel(float value);
+	void setJumpState(bool flag);
+	void setState(string state);
 
 	Vector2f getCharacterPosition();
 
 	Sprite getSprite();
+
+	int getUpperGap();
+	int getLowerGap();
+	int getRightGap();
+	int getLeftGap();
+
+	float getGravity();
+	float getJumpForce();
+	float getCurrGravityAccel();
+	float getCurrJumpAccel();
+
+
+	string getCurrState();
 
 	//void shoot();
 	//void interactionWithMap(float dx, float dy, Map* map, float oldBodyTurn);

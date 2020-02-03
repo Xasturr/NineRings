@@ -2,11 +2,13 @@
 
 #include <SFML/Graphics.hpp>
 #include <map>
+#include <math.h>
 #include "button.h"
 #include "windowStyle.h"
 #include "gameWindow.h"
 #include "level.h"
 #include "player.h"
+#include "collision.h"
 
 using namespace sf;
 using namespace std;
@@ -40,7 +42,9 @@ public:
 	Button* createButton(string id, map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string mouseContainsTexturePath, string mouseNotContainsTexturePath, string mouseClickedTexturePath);
 	//key - resolution; value - 1) Size; 2) Position
 
-	void start();
+	Vector2f getPlayerPosition();
+
+	//void start();
 	void drawGameWindow(GameWindow* gameWindow);
 	void drawButton(Button* button);
 	void createRenderWindow(VideoMode videoMode, string title, string windowStyle);
@@ -57,8 +61,12 @@ public:
 	void playerMoveRight();
 	void playerMoveUp();
 	void playerMoveDown();
-	void update();
+	void update(float elapsedTime);
 	void draw();
+	void drawText(Text text);
+	void setView(int sizeX, int sizeY);
+	void interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPosition, float elapsedTime); // move to private zone???
+	void calculateVariables(float elapsedTime);
 
 	bool renderWindowIsOpen();
 	bool renderWindowPollEvent();
@@ -71,6 +79,7 @@ public:
 	Vector2i getResolution();
 
 	Event* getEvent();
+
 
 	//Level* getLevel();
 	

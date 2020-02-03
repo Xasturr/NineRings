@@ -10,6 +10,8 @@ class Game
 {
 	Engine engine_;
 
+	Clock clock_;
+
 	int inputValue;
 
 public:

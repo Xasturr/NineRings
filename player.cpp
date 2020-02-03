@@ -60,25 +60,81 @@ void Player::stopDown()
 	downPressed_ = false;
 }
 
-void Player::update()
+void Player::update(float elapsedTime)
 {
 	if (leftPressed_)
 	{
-		character_->setPosition(character_->getCurrPosition().x - character_->getMaxMoveSpeed(), character_->getCurrPosition().y);
-		character_->setCurrRunFrame(character_->getFrameSpeed());
+		character_->setState("running");
+		character_->setPosition(character_->getCurrPosition().x - character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
+		character_->setCurrRunFrame(character_->getFrameSpeed() * elapsedTime);
 		character_->spriteUpdateRun("left");
+		cout << "Running" << endl;
 	}
 	else if (rightPressed_)
 	{
-		character_->setPosition(character_->getCurrPosition().x + character_->getMaxMoveSpeed(), character_->getCurrPosition().y);
-		character_->setCurrRunFrame(character_->getFrameSpeed());
+		character_->setState("running");
+		character_->setPosition(character_->getCurrPosition().x + character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
+		character_->setCurrRunFrame(character_->getFrameSpeed() * elapsedTime);
 		character_->spriteUpdateRun("right");
+		cout << "Running" << endl;
 	}
-	else
+	else if (upPressed_)
 	{
-		character_->setCurrIdleFrame(character_->getFrameSpeed());
+	//	if (character_->getCurrJumpAccel() == character_->getJumpForce())
+	//	{
+	//	}
+		//	character_->setCurrJumpAccel(character_->getJumpForce());
+		if (upPressed_ && character_->getCurrState() != "jumping")
+		{
+			character_->setState("jumping");
+			//character_->setJumpState(true);
+			character_->setCurrJumpAccel(character_->getJumpForce());
+			character_->setCurrGravityAccel(0);
+			cout << "Jumping" << endl;
+		}
+		//character_->setCurrJumpAccel(character_->getCurrJumpAccel() - (character_->getCurrGravityAccel() * elapsedTime));
+		//cout << character_->getCurrJumpAccel() << endl;
+		character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getCurrJumpAccel() * elapsedTime);
+		character_->setCurrJumpFrame(character_->getFrameSpeed() * elapsedTime);
+		character_->spriteUpdateJump(character_->getCurrSpriteSide());
+	}
+	else if (character_->getCurrState() == "staying")
+	{
+		character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
+		character_->setCurrIdleFrame(character_->getFrameSpeed() * elapsedTime);
 		character_->spriteUpdateIdle();
 	}
+	else if (character_->getCurrState() == "falling")
+	{
+		character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getCurrGravityAccel() * elapsedTime);
+		character_->setCurrFallFrame(character_->getFrameSpeed() * elapsedTime);
+		character_->spriteUpdateFall(character_->getCurrSpriteSide());
+	}
+}
+
+void Player::setPosition(float posX, float posY)
+{
+	character_->setPosition(posX, posY);
+}
+
+void Player::setCurrGravityAccel(float value)
+{
+	character_->setCurrGravityAccel(value);
+}
+
+void Player::setCurrJumpAccel(float value)
+{
+	character_->setCurrJumpAccel(value);
+}
+
+void Player::setJumpState(bool flag)
+{
+	character_->setJumpState(flag);
+}
+
+void Player::setState(string state)
+{
+	character_->setState(state);
 }
 
 Vector2f Player::getCharacterPosition()
@@ -89,4 +145,49 @@ Vector2f Player::getCharacterPosition()
 Sprite Player::getSprite()
 {
 	return character_->getSprite();
+}
+
+int Player::getUpperGap()
+{
+	return character_->getUpperGap();
+}
+
+int Player::getLowerGap()
+{
+	return character_->getLowerGap();
+}
+
+int Player::getLeftGap()
+{
+	return character_->getLeftGap();
+}
+
+int Player::getRightGap()
+{
+	return character_->getRightGap();
+}
+
+float Player::getGravity()
+{
+	return character_->getGravity();
+}
+
+float Player::getJumpForce()
+{
+	return character_->getJumpForce();
+}
+
+float Player::getCurrGravityAccel()
+{
+	return character_->getCurrGravityAccel();
+}
+
+float Player::getCurrJumpAccel()
+{
+	return character_->getCurrJumpAccel();
+}
+
+string Player::getCurrState()
+{
+	return character_->getCurrState();
 }

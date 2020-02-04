@@ -114,3 +114,64 @@ void Map1::buildMap(RenderWindow* window)
 		}
 	}
 }
+
+void Map1::buildMap(RenderWindow* window, Vector2f playerPos, int viewSizeX, int viewSizeY)
+{
+	int iMin = 0, jMin = 0, iMax = 0, jMax = 0;
+	if (playerPos.x / 64 - viewSizeX / 128 - 1 < 0)
+	{
+		iMin = 0;
+	}
+	else
+	{
+		iMin = playerPos.x / 64 - viewSizeX / 128 - 1;
+	}
+
+	if (playerPos.x / 64 + viewSizeX / 128 + 1 >= WIDTH_MAP)
+	{
+		iMax = WIDTH_MAP;
+	}
+	else
+	{
+		iMax = playerPos.x / 64 + viewSizeX / 128 + 1;
+	}
+
+	if (playerPos.y / 64 - viewSizeY / 128 - 1 < 0)
+	{
+		jMin = 0;
+	}
+	else
+	{
+		jMin = playerPos.y / 64 - viewSizeY / 128 - 1;
+	}
+
+	if (playerPos.y / 64 + viewSizeY / 128 + 1 >= HEIGHT_MAP)
+	{
+		jMax = HEIGHT_MAP;
+	}
+	else
+	{
+		jMax = playerPos.y / 64 + viewSizeY / 128 + 1;
+	}
+
+	for (int i = jMin; i < jMax; i++)
+	{
+		for (int j = iMin; j < iMax; j++)
+		{
+			if (tileMapElse[i][j] == ' ')
+			{
+			}
+			else
+			{
+				if (tileMapElse[i][j] == '1') sprite_.setTexture(texture_);
+				else if (tileMapElse[i][j] == '2')  sprite_.setTexture(texture_);
+				else if (tileMapElse[i][j] == '3')  sprite_.setTexture(texture_);
+				else if (tileMapElse[i][j] == '4')  sprite_.setTexture(texture_);
+				else if (tileMapElse[i][j] == '0')  sprite_.setTexture(texture_);
+									  
+				sprite_.setPosition(j * 64, i * 64);
+				window->draw(sprite_);
+			}
+		}
+	}
+}

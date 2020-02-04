@@ -64,3 +64,8 @@ void Level1::buildMap(RenderWindow* window)
 {
 	map_->buildMap(window);
 }
+
+void Level1::buildMap(RenderWindow* window, Vector2f playerPos, int viewSizeX, int viewSizeY)
+{
+	map_->buildMap(window, playerPos, viewSizeX, viewSizeY);
+}

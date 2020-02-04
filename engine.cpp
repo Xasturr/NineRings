@@ -274,7 +274,8 @@ void Engine::update(float elapsedTime)
 
 void Engine::draw()
 {
-	level_->buildMap(&window_);
+	level_->buildMap(&window_, player_->getSprite().getPosition(), view_.getSize().x, view_.getSize().y);
+	//level_->buildMap(&window_);
 
 	Sprite sprite;
 	Texture texture;
@@ -299,34 +300,44 @@ void Engine::setView(int sizeX, int sizeY)
 
 void Engine::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPosition, float elapsedTime)
 {
+	Vector2f position = newPlayerPosition;
 	for (int i = (newPlayerPosition.x - player_->getLeftGap()) / level_->getTileWidth(); i < (newPlayerPosition.x + player_->getRightGap()) / level_->getTileWidth(); i++)
 	{
-		for (int j = (newPlayerPosition.y - player_->getLowerGap()) / level_->getTileHeight(); j < (newPlayerPosition.y + player_->getUpperGap()) / level_->getTileHeight(); j++)
+		for (int j = (oldPlayerPosition.y - player_->getUpperGap()) / level_->getTileHeight(); j < (oldPlayerPosition.y + player_->getLowerGap()) / level_->getTileHeight(); j++)
 		{
 			if (!level_->getValue(j, i, ' ', level_->getTileMapElse()))
 			{
-				//cout << "oldPos.x:" << oldPlayerPosition.x << endl;
-				//cout << "newPos.x:" << newPlayerPosition.x << endl;
-
-				if (j > (player_->getUpperGap()) / level_->getTileHeight() && oldPlayerPosition.x == newPlayerPosition.x)
-				{
-					player_->setState("staying");
-					player_->setPosition(oldPlayerPosition.x, oldPlayerPosition.y);
-				}
-				else if (j > (player_->getUpperGap()) / level_->getTileHeight() && oldPlayerPosition.x != newPlayerPosition.x)
-				{
-					player_->setState("staying");
-					player_->setPosition(newPlayerPosition.x, oldPlayerPosition.y);
-				}
-				player_->setCurrJumpAccel(player_->getJumpForce());
-				player_->setCurrGravityAccel(0);
-				//player_->setJumpState(false);
-				return;
+				position.x = oldPlayerPosition.x;
+				player_->setState("staying");
+				break;
 			}
 		}
 	}
 
-	if (player_->getCurrState() != "jumping" && player_->getCurrState() != "falling")
+	for (int i = (oldPlayerPosition.x - player_->getLeftGap()) / level_->getTileWidth(); i < (oldPlayerPosition.x + player_->getRightGap()) / level_->getTileWidth(); i++)
+	{
+		for (int j = (newPlayerPosition.y - player_->getUpperGap()) / level_->getTileHeight(); j < (newPlayerPosition.y + player_->getLowerGap()) / level_->getTileHeight(); j++)
+		{
+			if (!level_->getValue(j, i, ' ', level_->getTileMapElse()))
+			{
+				position.y = oldPlayerPosition.y;
+				player_->setState("staying");
+				player_->setCurrJumpAccel(player_->getJumpForce());
+				player_->setCurrGravityAccel(0);
+				break;
+			}
+		}
+	}
+
+	//if (player_->getCurrState() == "jumping" || player_->getCurrState() == "jumpingRunning")
+	//{
+	//	player_->setCurrGravityAccel(player_->getCurrGravityAccel() + player_->getGravity() * elapsedTime);
+	//	player_->setCurrJumpAccel(player_->getCurrJumpAccel() - player_->getCurrGravityAccel() * elapsedTime);
+	//}
+
+	player_->setPosition(position.x, position.y);
+
+	if (player_->getCurrState() != "jumping" && player_->getCurrState() != "falling" && player_->getCurrState() != "jumpingRunning" && position == newPlayerPosition)
 	{
 		player_->setState("falling");
 		cout << "Falling" << endl;
@@ -338,6 +349,11 @@ void Engine::calculateVariables(float elapsedTime)
 	if (player_->getCurrState() == "falling")
 	{
 		player_->setCurrGravityAccel(player_->getGravity() * elapsedTime + player_->getCurrGravityAccel());
+	}
+	else if (player_->getCurrState() == "jumpingRunning")
+	{
+		player_->setCurrGravityAccel(player_->getCurrGravityAccel() + player_->getGravity() * elapsedTime);
+		player_->setCurrJumpAccel(player_->getCurrJumpAccel() - player_->getCurrGravityAccel() * elapsedTime);
 	}
 	else if (player_->getCurrState() == "jumping")
 	{

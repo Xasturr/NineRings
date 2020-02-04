@@ -65,7 +65,7 @@ Character1::Character1(float posX, float posY)
 	life_ = true;
 	jump_ = false;
 
-	maxMoveSpeed = 520;
+	maxMoveSpeed = 500;
 	currentIdleFrame_ = 1;
 	currentRunFrame_ = 1;
 	currentJumpFrame_ = 1;
@@ -75,13 +75,13 @@ Character1::Character1(float posX, float posY)
 	numberOfJumpFrames_ = 7;
 	numberOfFallFrames_ = 1;
 	frameSpeed_ = 10;
-	gravity_ = 500.f;
-	jumpForce_ = 20.f;
+	gravity_ = 850.f;
+	jumpForce_ = 500.f;
 	currJumpAccel_ = 0.f;
 	leftGap_ = 18;
 	rightGap_ = 18;
-	lowerGap_ = 5;
-	upperGap_ = 40;
+	lowerGap_ = 45;
+	upperGap_ = 5;
 	currGravityAccel_ = jumpForce_;
 
 	currSpriteSide_ = "right";

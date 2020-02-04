@@ -29,4 +29,5 @@ public:
 	virtual size_t getTextureSizeY() = 0;
 
 	virtual void buildMap(RenderWindow* window) = 0;
+	virtual void buildMap(RenderWindow* window, Vector2f playerPos, int viewSizeX, int viewSizeY) = 0;
 };

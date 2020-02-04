@@ -23,6 +23,8 @@ class Player
 	bool rightPressed_;
 	bool upPressed_;
 	bool downPressed_;
+	bool attack_;
+	bool runAttack_;
 	//bool shoot_;
 
 	//void setAimPosition(Vector2f pos);
@@ -41,11 +43,13 @@ public:
 	void moveRight();
 	void moveUp();
 	void moveDown();
+	void attack();
 
 	void stopLeft();
 	void stopRight();
 	void stopUp();
 	void stopDown();
+	void stopAttack();
 
 	void update(float elapsedTime);
 	void setPosition(float posX, float posY);
@@ -67,7 +71,6 @@ public:
 	float getJumpForce();
 	float getCurrGravityAccel();
 	float getCurrJumpAccel();
-
 
 	string getCurrState();
 

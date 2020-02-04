@@ -8,7 +8,6 @@ using namespace sf;
 
 class Level
 {
-	//Map* map_;
 public:
 	virtual const size_t getHeightMap() = 0;
 	virtual const size_t getWidthMap() = 0;
@@ -26,6 +25,5 @@ public:
 	virtual size_t getTextureSizeX() = 0;
 	virtual size_t getTextureSizeY() = 0;
 
-	virtual void buildMap(RenderWindow* window) = 0;
-	virtual void buildMap(RenderWindow* window, Vector2f playerPos, int viewSizeX, int viewSizeY) = 0;
+	virtual void buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize) = 0;
 };

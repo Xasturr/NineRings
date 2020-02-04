@@ -15,64 +15,6 @@ Engine::Engine()
 
 Engine::~Engine() {}
 
-//void Engine::start()
-//{
-	/*window_.create(VideoMode(resolution_.x, resolution_.y),
-		"NineRings",
-		Style::Default);*/
-
-	//view_.reset(sf::FloatRect(0, 0, resolution_.x, resolution_.y));	
-	//window_.setView(view_);
-
-//	RectangleShape rect;
-//	rect.setSize(Vector2f(100, 100));
-//	rect.setFillColor(Color::Black);
-//	rect.setPosition(500, 400);
-//
-//	while (window_.isOpen())
-//	{
-//		Event event;
-//
-//		while (window_.pollEvent(event))
-//		{
-//			if (event.type == Event::Closed)
-//			{
-//				window_.close();
-//			}
-//
-//			if (Keyboard::isKeyPressed(Keyboard::LAlt) && Keyboard::isKeyPressed(Keyboard::Enter) && isFullscreen_ == false)
-//			{
-//				window_.create(VideoMode::getDesktopMode(), "NineRings", Style::Fullscreen);
-//				isFullscreen_ = true;
-//			}
-//
-//			if (Keyboard::isKeyPressed(Keyboard::LAlt) && Keyboard::isKeyPressed(Keyboard::Enter) && isFullscreen_ == true)
-//			{
-//				window_.create(VideoMode::getDesktopMode(), "NineRings", Style::None);
-//				isFullscreen_ = false;
-//			}
-//
-//			if (IntRect(500, 400, 100, 100).contains(Mouse::getPosition(window_)))
-//			{
-//				//playText.setFillColor(Color::White);
-//				//playText.setOutlineColor(Color::Black);
-//				//menuState = 0;
-//				rect.setFillColor(Color::Red);
-//			}
-//			else
-//			{
-//				rect.setFillColor(Color::Yellow);
-//			}
-//
-//			window_.clear();
-//
-//			window_.draw(rect);
-//
-//			window_.display();
-//		}
-//	}
-//}
-
 GameWindow* Engine::createGameWindow(map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string texturePath)
 {
 	GameWindow* gameWindow = new GameWindow(sizePosMap, texturePath, resolution_);
@@ -179,6 +121,15 @@ int Engine::input()
 		player_->stopRight();
 	}
 
+	if (Keyboard::isKeyPressed(Keyboard::Space))
+	{
+		player_->attack();
+	}
+	else
+	{
+		player_->stopAttack();
+	}
+
 	return 0;
 }
 
@@ -225,10 +176,10 @@ Event* Engine::getEvent()
 //	return level_;
 //}
 
-void Engine::buildMap()
-{
-	level_->buildMap(&window_);
-}
+//void Engine::buildMap()
+//{
+//	level_->buildMap(&window_);
+//}
 
 void Engine::createLevel(Level* level)
 {
@@ -274,16 +225,9 @@ void Engine::update(float elapsedTime)
 
 void Engine::draw()
 {
-	level_->buildMap(&window_, player_->getSprite().getPosition(), view_.getSize().x, view_.getSize().y);
+	level_->buildMap(&window_, player_->getSprite().getPosition(), view_.getSize());
 	//level_->buildMap(&window_);
 
-	Sprite sprite;
-	Texture texture;
-	CreateTextureAndBitmask(texture, "./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile4.png");
-	sprite.setTexture(texture);
-	sprite.setPosition(300, 128);
-
-	window_.draw(sprite);
 	window_.draw(player_->getSprite());
 }
 
@@ -301,14 +245,14 @@ void Engine::setView(int sizeX, int sizeY)
 void Engine::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPosition, float elapsedTime)
 {
 	Vector2f position = newPlayerPosition;
+
 	for (int i = (newPlayerPosition.x - player_->getLeftGap()) / level_->getTileWidth(); i < (newPlayerPosition.x + player_->getRightGap()) / level_->getTileWidth(); i++)
 	{
 		for (int j = (oldPlayerPosition.y - player_->getUpperGap()) / level_->getTileHeight(); j < (oldPlayerPosition.y + player_->getLowerGap()) / level_->getTileHeight(); j++)
 		{
 			if (!level_->getValue(j, i, ' ', level_->getTileMapElse()))
-			{
+			{	
 				position.x = oldPlayerPosition.x;
-				player_->setState("staying");
 				break;
 			}
 		}
@@ -320,8 +264,30 @@ void Engine::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPo
 		{
 			if (!level_->getValue(j, i, ' ', level_->getTileMapElse()))
 			{
-				position.y = oldPlayerPosition.y;
-				player_->setState("staying");
+				if (player_->getCurrState() == "jumping")
+				{
+					if (newPlayerPosition.y > j * level_->getTileHeight())
+					{	
+						player_->setState("falling");
+						player_->setPosition(oldPlayerPosition.x, oldPlayerPosition.y);
+						player_->setCurrGravityAccel(0);
+						return;
+					}
+				}
+				else
+				{
+					if (position.x == newPlayerPosition.x && newPlayerPosition.x != oldPlayerPosition.x)
+					{
+						player_->setState("running");
+					}
+					else
+					{
+						player_->setState("staying");
+					}
+
+					position.y = j * level_->getTileHeight() - player_->getLowerGap();
+				}
+				
 				player_->setCurrJumpAccel(player_->getJumpForce());
 				player_->setCurrGravityAccel(0);
 				break;
@@ -329,18 +295,11 @@ void Engine::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPo
 		}
 	}
 
-	//if (player_->getCurrState() == "jumping" || player_->getCurrState() == "jumpingRunning")
-	//{
-	//	player_->setCurrGravityAccel(player_->getCurrGravityAccel() + player_->getGravity() * elapsedTime);
-	//	player_->setCurrJumpAccel(player_->getCurrJumpAccel() - player_->getCurrGravityAccel() * elapsedTime);
-	//}
-
 	player_->setPosition(position.x, position.y);
 
-	if (player_->getCurrState() != "jumping" && player_->getCurrState() != "falling" && player_->getCurrState() != "jumpingRunning" && position == newPlayerPosition)
+	if (player_->getCurrState() != "jumping" && player_->getCurrState() != "falling" && player_->getCurrState() != "staying" && position == newPlayerPosition)
 	{
 		player_->setState("falling");
-		cout << "Falling" << endl;
 	}
 }
 
@@ -348,12 +307,7 @@ void Engine::calculateVariables(float elapsedTime)
 {
 	if (player_->getCurrState() == "falling")
 	{
-		player_->setCurrGravityAccel(player_->getGravity() * elapsedTime + player_->getCurrGravityAccel());
-	}
-	else if (player_->getCurrState() == "jumpingRunning")
-	{
 		player_->setCurrGravityAccel(player_->getCurrGravityAccel() + player_->getGravity() * elapsedTime);
-		player_->setCurrJumpAccel(player_->getCurrJumpAccel() - player_->getCurrGravityAccel() * elapsedTime);
 	}
 	else if (player_->getCurrState() == "jumping")
 	{

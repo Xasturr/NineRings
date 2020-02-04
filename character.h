@@ -1,10 +1,9 @@
 #pragma once
 
-#include "collision.h"
+#include <SFML/Graphics.hpp>
 
 using namespace sf;
 using namespace std;
-using namespace Collision;
 
 class Character
 {
@@ -25,14 +24,20 @@ public:
 	virtual void setCurrRunFrame(float increase) = 0;
 	virtual void setCurrJumpFrame(float increase) = 0;
 	virtual void setCurrFallFrame(float increase) = 0;
+	virtual void setCurrAttackFrame(float increase) = 0;
+	virtual void setCurrRunAttackFrame(float increase) = 0;
 	virtual void spriteUpdateIdle() = 0;
 	virtual void spriteUpdateRun(string spriteSide) = 0;
 	virtual void spriteUpdateJump(string spriteSide) = 0;
 	virtual void spriteUpdateFall(string spriteSide) = 0;
+	virtual void spriteUpdateAttack(string spriteSide) = 0;
+	virtual void spriteUpdateRunAttack(string spriteSide) = 0;
 	virtual void setCurrGravityAccel(float value) = 0;
 	virtual void setCurrJumpAccel(float value) = 0;
 	virtual void setJumpState(bool flag) = 0;
 	virtual void setState(string state) = 0;
+	virtual void setAttackState(bool flag) = 0;
+	virtual void setRunAttackState(bool flag) = 0;
 
 	virtual int getUpperGap() = 0;
 	virtual int getLowerGap() = 0;
@@ -40,6 +45,8 @@ public:
 	virtual int getRightGap() = 0;
 
 	virtual bool getJumpState() = 0;
+	virtual bool getAttackState() = 0;
+	virtual bool getRunAttackState() = 0; // not needed
 
 	virtual string getCurrSpriteSide() = 0;
 	virtual string getCurrState() = 0;

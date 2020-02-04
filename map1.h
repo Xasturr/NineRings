@@ -4,7 +4,7 @@
 
 class Map1 : public Map
 {
-	static const int HEIGHT_MAP = 100136;
+	static const int HEIGHT_MAP = 36;
 	const int WIDTH_MAP = 60;
 
 	const int TILE_WIDTH = 64;
@@ -110,6 +110,5 @@ public:
 	size_t getTextureSizeX();
 	size_t getTextureSizeY();
 
-	void buildMap(RenderWindow* window);
-	void buildMap(RenderWindow* window, Vector2f playerPos, int viewSizeX, int viewSizeY);
+	void buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize);
 };

@@ -6,6 +6,8 @@ Player::Player(string charName, float posX, float posY)
 	rightPressed_ = false;
 	upPressed_ = false;
 	downPressed_ = false;
+	attack_ = false;
+	runAttack_ = false;
 
 	charName_ = charName;
 
@@ -40,6 +42,11 @@ void Player::moveDown()
 	downPressed_ = true;
 }
 
+void Player::attack()
+{
+	attack_ = true;
+}
+
 void Player::stopLeft()
 {
 	leftPressed_ = false;
@@ -60,12 +67,18 @@ void Player::stopDown()
 	downPressed_ = false;
 }
 
+void Player::stopAttack()
+{
+	attack_ = false;
+}
+
 void Player::update(float elapsedTime)
 {
 	cout << character_->getCurrState() << endl;
-	if (leftPressed_ && character_->getCurrState() != "jumping")
+
+	if (leftPressed_)
 	{
-		if (character_->getCurrState() == "falling")
+		if (character_->getCurrState() == "falling" || character_->getCurrState() == "jumping")
 		{
 			character_->setPosition(character_->getCurrPosition().x - character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
 			character_->spriteUpdateRun("left");
@@ -78,9 +91,9 @@ void Player::update(float elapsedTime)
 			character_->spriteUpdateRun("left");
 		}
 	}
-	else if (rightPressed_ && character_->getCurrState() != "jumping")
+	else if (rightPressed_)
 	{
-		if (character_->getCurrState() == "falling")
+		if (character_->getCurrState() == "falling" || character_->getCurrState() == "jumping")
 		{
 			character_->setPosition(character_->getCurrPosition().x + character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
 			character_->spriteUpdateRun("right");
@@ -93,48 +106,15 @@ void Player::update(float elapsedTime)
 			character_->spriteUpdateRun("right");
 		}
 	}
-	if ((upPressed_ || character_->getCurrState() == "jumping") && character_->getCurrState() != "falling" && character_->getCurrState() != "jumpingRunning")
+	if (((upPressed_ && character_->getCurrState() != "jumping") || character_->getCurrState() == "jumping") && character_->getCurrState() != "falling")
 	{
-		string oldState = character_->getCurrState();
-		if (upPressed_ && oldState != "jumping")
+		if (upPressed_ && character_->getCurrState() != "jumping")
 		{
-			if (oldState == "running")
-			{
-				character_->setState("jumpingRunning");
-				character_->setCurrJumpAccel(character_->getJumpForce());
-				character_->setCurrGravityAccel(0);
-				if (character_->getCurrSpriteSide() == "left")
-				{
-					character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getCurrJumpAccel() * elapsedTime);
-				}
-				else
-				{
-					character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getCurrJumpAccel() * elapsedTime);
-				}
-			}
-			else
-			{
-				character_->setState("jumping");
-				character_->setCurrJumpAccel(character_->getJumpForce());
-				character_->setCurrGravityAccel(0);
-				character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y - character_->getCurrJumpAccel() * elapsedTime);
-			}
+			character_->setState("jumping");
+			character_->setCurrJumpAccel(character_->getJumpForce());
+			character_->setCurrGravityAccel(0);
 		}
 		character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y - character_->getCurrJumpAccel() * elapsedTime);
-		character_->setCurrJumpFrame(character_->getFrameSpeed() * elapsedTime);
-		character_->spriteUpdateJump(character_->getCurrSpriteSide());
-	}
-	if (character_->getCurrState() == "jumpingRunning")
-	{
-		if (character_->getCurrSpriteSide() == "left")
-		{
-			character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y - character_->getCurrJumpAccel() * elapsedTime - character_->getGravity() * elapsedTime);
-		}
-		else
-		{
-			character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y - character_->getCurrJumpAccel() * elapsedTime - character_->getGravity() * elapsedTime);
-		}
-
 		character_->setCurrJumpFrame(character_->getFrameSpeed() * elapsedTime);
 		character_->spriteUpdateJump(character_->getCurrSpriteSide());
 	}
@@ -149,6 +129,24 @@ void Player::update(float elapsedTime)
 		character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getCurrGravityAccel() * elapsedTime);
 		character_->setCurrFallFrame(character_->getFrameSpeed() * elapsedTime);
 		character_->spriteUpdateFall(character_->getCurrSpriteSide());
+	}
+	if ((attack_ && !character_->getRunAttackState() || character_->getRunAttackState()))
+	{
+		if (character_->getCurrState() == "running")
+		{
+			character_->setRunAttackState(true);
+			character_->setCurrRunAttackFrame(character_->getFrameSpeed() * elapsedTime);
+			character_->spriteUpdateRunAttack(character_->getCurrSpriteSide());
+		}
+	}
+	if (attack_ && !character_->getAttackState() || character_->getAttackState())
+	{
+		if (character_->getCurrState() != "running")
+		{
+			character_->setAttackState(true);
+			character_->setCurrAttackFrame(character_->getFrameSpeed() * elapsedTime);
+			character_->spriteUpdateAttack(character_->getCurrSpriteSide());
+		}
 	}
 }
 

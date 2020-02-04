@@ -1,6 +1,5 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include <map>
 #include <math.h>
 #include "button.h"
@@ -32,6 +31,9 @@ class Engine
 
 	Player* player_;
 
+	void interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPosition, float elapsedTime);
+	void calculateVariables(float elapsedTime);
+
 public:
 	Engine();
 	~Engine();
@@ -44,7 +46,6 @@ public:
 
 	Vector2f getPlayerPosition();
 
-	//void start();
 	void drawGameWindow(GameWindow* gameWindow);
 	void drawButton(Button* button);
 	void createRenderWindow(VideoMode videoMode, string title, string windowStyle);
@@ -54,7 +55,7 @@ public:
 	void changeRenderWindowMode();
 	void setGameWindowVisible(GameWindow* gameWindow);
 	void setGameWindowInvisible(GameWindow* gameWindow);
-	void buildMap();
+	//void buildMap();
 	void createLevel(Level* level);
 	void setPlayer(string charName, float posX, float posY);
 	void playerMoveLeft();
@@ -65,8 +66,6 @@ public:
 	void draw();
 	void drawText(Text text);
 	void setView(int sizeX, int sizeY);
-	void interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPosition, float elapsedTime); // move to private zone???
-	void calculateVariables(float elapsedTime);
 
 	bool renderWindowIsOpen();
 	bool renderWindowPollEvent();
@@ -80,7 +79,5 @@ public:
 
 	Event* getEvent();
 
-
 	//Level* getLevel();
-	
 };

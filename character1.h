@@ -38,18 +38,36 @@ class Character1 : public Character
 	Texture textureJump6_;
 	Texture textureJump7_;
 
+	Texture textureAttack1_;
+	Texture textureAttack2_;
+	Texture textureAttack3_;
+	Texture textureAttack4_;
+
+	Texture textureRunAttack1_;
+	Texture textureRunAttack2_;
+	Texture textureRunAttack3_;
+	Texture textureRunAttack4_;
+	Texture textureRunAttack5_;
+	Texture textureRunAttack6_;
+	Texture textureRunAttack7_;
+	Texture textureRunAttack8_;
+
 	Texture textureFall1_;
 
 	Sprite sprite_;
 
 	bool life_;
 	bool jump_;
+	bool attack_;
+	bool runAttack_;
 
 	float maxMoveSpeed;
 	float currentIdleFrame_;
 	float currentRunFrame_;
 	float currentJumpFrame_;
 	float currentFallFrame_;
+	float currentAttackFrame_;
+	float currentRunAttackFrame_;
 	float gravity_;
 	float jumpForce_;
 	float currGravityAccel_;
@@ -59,6 +77,8 @@ class Character1 : public Character
 	int numberOfRunFrames_;
 	int numberOfJumpFrames_;
 	int numberOfFallFrames_;
+	int numberOfAttackFrames_;
+	int numberOfRunAttackFrames_;
 	int lowerGap_;
 	int upperGap_;
 	int rightGap_;
@@ -90,23 +110,30 @@ public:
 
 	Vector2f getCurrPosition();
 
-	bool getCharacterLife();
-
 	void setPosition(float x, float y);
 	void setCurrIdleFrame(float increase);
 	void setCurrRunFrame(float increase);
 	void setCurrJumpFrame(float increase);
 	void setCurrFallFrame(float increase);
+	void setCurrAttackFrame(float increase);
+	void setCurrRunAttackFrame(float increase);
 	void spriteUpdateIdle();
 	void spriteUpdateRun(string spriteSide);
 	void spriteUpdateJump(string spriteSide);
 	void spriteUpdateFall(string spriteSide);
+	void spriteUpdateAttack(string spriteSide);
+	void spriteUpdateRunAttack(string spriteSide);
 	void setCurrGravityAccel(float value);
 	void setCurrJumpAccel(float value);
 	void setJumpState(bool flag);
 	void setState(string state);
+	void setAttackState(bool flag);
+	void setRunAttackState(bool flag);
 
+	bool getCharacterLife();
+	bool getAttackState();
 	bool getJumpState();
+	bool getRunAttackState();
 
 	string getCurrSpriteSide();
 	string getCurrState();

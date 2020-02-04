@@ -60,12 +60,7 @@ size_t Level1::getTextureSizeY()
 	return map_->getTextureSizeY();
 }
 
-void Level1::buildMap(RenderWindow* window)
+void Level1::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize)
 {
-	map_->buildMap(window);
-}
-
-void Level1::buildMap(RenderWindow* window, Vector2f playerPos, int viewSizeX, int viewSizeY)
-{
-	map_->buildMap(window, playerPos, viewSizeX, viewSizeY);
+	map_->buildMap(window, playerPos, viewSize);
 }

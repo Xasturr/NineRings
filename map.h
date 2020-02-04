@@ -3,11 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
-#include "collision.h"
 
 using namespace std;
 using namespace sf;
-using namespace Collision;
 
 class Map
 {
@@ -28,6 +26,5 @@ public:
 	virtual size_t getTextureSizeX() = 0;
 	virtual size_t getTextureSizeY() = 0;
 
-	virtual void buildMap(RenderWindow* window) = 0;
-	virtual void buildMap(RenderWindow* window, Vector2f playerPos, int viewSizeX, int viewSizeY) = 0;
+	virtual void buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize) = 0;
 };

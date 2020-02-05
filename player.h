@@ -12,12 +12,8 @@ using namespace std;
 class Player
 {
 	Character* character_;
+
 	string charName_;
-
-	//Vector2i cursorPos_;
-
-	//Texture aimTexture_;
-	//Sprite aimSprite_;
 
 	bool leftPressed_;
 	bool rightPressed_;
@@ -25,19 +21,9 @@ class Player
 	bool downPressed_;
 	bool attack_;
 	bool runAttack_;
-	//bool shoot_;
-
-	//void setAimPosition(Vector2f pos);
-	//void setAimRotation(float angle);
 
 public:
 	Player(string charName, float posX, float posY);
-
-	//Tank* getTank();
-
-	//Sprite getAimSprite();
-
-	//bool getShootState();
 
 	void moveLeft();
 	void moveRight();
@@ -57,8 +43,11 @@ public:
 	void setCurrJumpAccel(float value);
 	void setJumpState(bool flag);
 	void setState(string state);
+	void interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPosition, Map* map, float elapsedTime);
+	void calculateVariables(float elapsedTime);
+	void setEnemyDamaged(bool flag);
 
-	Vector2f getCharacterPosition();
+	Vector2f getCurrPosition();
 
 	Sprite getSprite();
 
@@ -66,15 +55,20 @@ public:
 	int getLowerGap();
 	int getRightGap();
 	int getLeftGap();
+	int getAttackRange();
+	int getAttackDamage();
+	int getNumberOfAttackFrames();
 
 	float getGravity();
 	float getJumpForce();
 	float getCurrGravityAccel();
 	float getCurrJumpAccel();
+	float getCurrAttackFrame();
 
 	string getCurrState();
+	string getCurrSpriteSide();
 
-	//void shoot();
-	//void interactionWithMap(float dx, float dy, Map* map, float oldBodyTurn);
-	//void update(float elapsedTime, Map* map, RenderWindow* window);
+	bool getAttackState();
+	bool getEnemyDamaged();
+	bool getDamageDisabled();
 };

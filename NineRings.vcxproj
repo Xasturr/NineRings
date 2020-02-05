@@ -156,6 +156,7 @@
     <ClCompile Include="button.cpp" />
     <ClCompile Include="character1.cpp" />
     <ClCompile Include="collision.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameWindow.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="character.h" />
     <ClInclude Include="character1.h" />
     <ClInclude Include="collision.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameWindow.h" />

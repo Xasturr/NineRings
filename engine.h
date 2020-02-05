@@ -31,9 +31,6 @@ class Engine
 
 	Player* player_;
 
-	void interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPosition, float elapsedTime);
-	void calculateVariables(float elapsedTime);
-
 public:
 	Engine();
 	~Engine();

@@ -60,6 +60,8 @@ class Character1 : public Character
 	bool jump_;
 	bool attack_;
 	bool runAttack_;
+	bool enemyDamaged_;
+	bool damageDisabled_;
 
 	float maxMoveSpeed;
 	float currentIdleFrame_;
@@ -83,6 +85,9 @@ class Character1 : public Character
 	int upperGap_;
 	int rightGap_;
 	int leftGap_;
+	int healthPoints_;
+	int attackDamage_;
+	int attackRange_;
 
 	float frameSpeed_;
 
@@ -101,12 +106,17 @@ public:
 	float getFrameSpeed();
 	float getCurrJumpAccel();
 	float getJumpForce();
+	float getCurrAttackFrame();
 
 	int getCurrIdleFrame();
 	int getUpperGap();
 	int getLowerGap();
 	int getLeftGap();
 	int getRightGap();
+	int getAttackRange();
+	int getHealthPoints();
+	int getAttackDamage();
+	int getNumberOfAttackFrames();
 
 	Vector2f getCurrPosition();
 
@@ -129,11 +139,16 @@ public:
 	void setState(string state);
 	void setAttackState(bool flag);
 	void setRunAttackState(bool flag);
+	void setHealthPoints(int healthPoints);
+	void setEnemyDamaged(bool flag);
 
 	bool getCharacterLife();
 	bool getAttackState();
 	bool getJumpState();
 	bool getRunAttackState();
+	bool getLife();
+	bool getEnemyDamaged();
+	bool getDamageDisabled();
 
 	string getCurrSpriteSide();
 	string getCurrState();

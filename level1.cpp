@@ -3,6 +3,11 @@
 Level1::Level1()
 {
 	map_ = new Map1();
+
+	enemies_.push_back(new Enemy("Character1", 1400, 230));
+	enemies_.push_back(new Enemy("Character1", 100, 85));
+	enemies_.push_back(new Enemy("Character1", 1700, 930));
+	//enemies_.push_back(new Enemy("Character1", 2000, 1430));
 }
 
 Level1::~Level1() {}
@@ -63,4 +68,36 @@ size_t Level1::getTextureSizeY()
 void Level1::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize)
 {
 	map_->buildMap(window, playerPos, viewSize);
+}
+
+void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime)
+{
+	int eraseEnemy = -1;
+
+	for (int i = 0; i < enemies_.size(); i++)
+	{
+		if (enemies_[i]->getEnemyLife())
+		{
+			Vector2f oldEnemyPosition = enemies_[i]->getPosition();
+			enemies_[i]->updatePosition(elapsedTime);
+			enemies_[i]->calculateVariables(elapsedTime);
+			enemies_[i]->interactionWithMap(oldEnemyPosition, enemies_[i]->getPosition(), map_, elapsedTime);
+			enemies_[i]->decision();
+			enemies_[i]->draw(window, player, viewSize, elapsedTime);
+		}
+		else
+		{
+			eraseEnemy = i;
+		}
+	}
+
+	if (eraseEnemy != -1)
+	{
+		enemies_.erase(enemies_.begin() + eraseEnemy);
+	}
+}
+
+Map* Level1::getMap()
+{
+	return map_;
 }

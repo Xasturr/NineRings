@@ -38,7 +38,7 @@ void Game::start()
 	string clickedButtonId = "";
 	
 	engine_.createLevel(new Level1());
-	engine_.setPlayer("Character1", 200, 200);
+	engine_.setPlayer("Character1", 200, 85);
 
 	float time = 0;
 
@@ -54,6 +54,8 @@ void Game::start()
 	char* intStr;
 
 	clock_.restart();
+
+	bool start = true;
 
 	while (engine_.renderWindowIsOpen())
 	{
@@ -103,7 +105,6 @@ void Game::start()
 
 		inputValue = engine_.input();
 		time += clock_.getElapsedTime().asSeconds();
-		engine_.update(clock_.restart().asSeconds());
 		engine_.setView(1280, 720);
 
 		//if (Keyboard::isKeyPressed(Keyboard::A))
@@ -116,6 +117,12 @@ void Game::start()
 		//}
 
 		engine_.renderWindowClear();
+		if (start)
+		{
+			clock_.restart();
+			start = false;
+		}
+		engine_.update(clock_.restart().asSeconds());
 		//engine_.drawGameWindow(win1);
 		engine_.draw();
 		engine_.drawText(timeText);

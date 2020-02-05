@@ -90,6 +90,8 @@ Character1::Character1(float posX, float posY)
 	jump_ = false;
 	attack_ = false;
 	runAttack_ = false;
+	enemyDamaged_ = false;
+	damageDisabled_ = false;
 
 	maxMoveSpeed = 500;
 	currentIdleFrame_ = 1;
@@ -105,14 +107,17 @@ Character1::Character1(float posX, float posY)
 	numberOfAttackFrames_ = 4;
 	numberOfRunAttackFrames_ = 8;
 	frameSpeed_ = 10;
-	gravity_ = 1600.f;
-	jumpForce_ = 700.f;
+	gravity_ = 1700.f;
+	jumpForce_ = 900.f;
 	currJumpAccel_ = 0.f;
 	leftGap_ = 18;
 	rightGap_ = 18;
 	lowerGap_ = 45;
 	upperGap_ = 5;
 	currGravityAccel_ = jumpForce_;
+	healthPoints_ = 100;
+	attackDamage_ = 20;
+	attackRange_ = 90;
 
 	currSpriteSide_ = "right";
 	state_ = "falling";
@@ -154,6 +159,11 @@ float Character1::getJumpForce()
 	return jumpForce_;
 }
 
+float Character1::getCurrAttackFrame()
+{
+	return currentAttackFrame_;
+}
+
 int Character1::getCurrIdleFrame()
 {
 	return currentIdleFrame_;
@@ -179,6 +189,26 @@ int Character1::getRightGap()
 	return rightGap_;
 }
 
+int Character1::getAttackRange()
+{
+	return attackRange_;
+}
+
+int Character1::getHealthPoints()
+{
+	return healthPoints_;
+}
+
+int Character1::getAttackDamage()
+{
+	return attackDamage_;
+}
+
+int Character1::getNumberOfAttackFrames()
+{
+	return numberOfAttackFrames_;
+}
+
 Vector2f Character1::getCurrPosition()
 {
 	return position_;
@@ -191,7 +221,7 @@ bool Character1::getCharacterLife()
 
 bool Character1::getAttackState()
 {
-	return attack_;
+	return attack_ || runAttack_;
 }
 
 void Character1::setPosition(float x, float y)
@@ -271,10 +301,20 @@ void Character1::setCurrAttackFrame(float increase)
 
 	runAttack_ = false;
 
+	if (currentAttackFrame_ < 3)
+	{
+		damageDisabled_ = true;
+	}
+	else
+	{
+		damageDisabled_ = false;
+	}
+
 	if (currentAttackFrame_ >= numberOfAttackFrames_)
 	{
 		currentAttackFrame_ = 1;
 		attack_ = false;
+		enemyDamaged_ = false;
 	}
 }
 
@@ -282,10 +322,20 @@ void Character1::setCurrRunAttackFrame(float increase)
 {
 	currentRunAttackFrame_ += increase * 1.5;
 
+	if (currentRunAttackFrame_ < 3)
+	{
+		damageDisabled_ = true;
+	}
+	else
+	{
+		damageDisabled_ = false;
+	}
+
 	if (currentRunAttackFrame_ >= numberOfRunAttackFrames_)
 	{
 		currentRunAttackFrame_ = 1;
 		runAttack_ = false;
+		enemyDamaged_ = false;
 	}
 }
 
@@ -470,6 +520,21 @@ void Character1::setRunAttackState(bool flag)
 	runAttack_ = flag;
 }
 
+void Character1::setHealthPoints(int healthPoints)
+{
+	healthPoints_ = healthPoints;
+
+	if (healthPoints <= 0)
+	{
+		life_ = false;
+	}
+}
+
+void Character1::setEnemyDamaged(bool flag)
+{
+	enemyDamaged_ = flag;
+}
+
 void Character1::setState(string state)
 {
 	state_ = state;
@@ -483,6 +548,21 @@ bool Character1::getJumpState()
 bool Character1::getRunAttackState()
 {
 	return runAttack_;
+}
+
+bool Character1::getLife()
+{
+	return life_;
+}
+
+bool Character1::getEnemyDamaged()
+{
+	return enemyDamaged_;
+}
+
+bool Character1::getDamageDisabled()
+{
+	return damageDisabled_;
 }
 
 string Character1::getCurrSpriteSide()

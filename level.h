@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "map.h"
+#include "player.h"
 
 using namespace std;
 using namespace sf;
@@ -26,4 +27,9 @@ public:
 	virtual size_t getTextureSizeY() = 0;
 
 	virtual void buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize) = 0;
+	virtual void updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime) = 0;
+
+	virtual Map* getMap() = 0;
+
+	//virtual vector<Enemy*> getEnemies() = 0;
 };

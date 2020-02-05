@@ -16,6 +16,7 @@ public:
 	virtual float getFrameSpeed() = 0;
 	virtual float getCurrJumpAccel() = 0;
 	virtual float getJumpForce() = 0;
+	virtual float getCurrAttackFrame() = 0;
 	//virtual float getCurrentSpeed() = 0;
 
 	//virtual void spriteFrameUpdate(float currentFrame) = 0;
@@ -38,15 +39,24 @@ public:
 	virtual void setState(string state) = 0;
 	virtual void setAttackState(bool flag) = 0;
 	virtual void setRunAttackState(bool flag) = 0;
+	virtual void setHealthPoints(int healthPoints) = 0;
+	virtual void setEnemyDamaged(bool flag) = 0;
 
 	virtual int getUpperGap() = 0;
 	virtual int getLowerGap() = 0;
 	virtual int getLeftGap() = 0;
 	virtual int getRightGap() = 0;
+	virtual int getAttackRange() = 0;
+	virtual int getHealthPoints() = 0;
+	virtual int getAttackDamage() = 0;
+	virtual int getNumberOfAttackFrames() = 0;
 
 	virtual bool getJumpState() = 0;
 	virtual bool getAttackState() = 0;
-	virtual bool getRunAttackState() = 0; // not needed
+	virtual bool getRunAttackState() = 0;
+	virtual bool getLife() = 0;
+	virtual bool getEnemyDamaged() = 0;
+	virtual bool getDamageDisabled() = 0;
 
 	virtual string getCurrSpriteSide() = 0;
 	virtual string getCurrState() = 0;

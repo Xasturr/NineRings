@@ -14,9 +14,11 @@ Player::Player(string charName, float posX, float posY)
 	if (charName_ == "Character1")
 	{
 		character_ = new Character1(posX, posY);
-		//TankLight* tankLight = new TankLight;
-		//tank_ = tankLight;
-		//cout << "player: lightTank" << endl;
+	}
+	else
+	{
+		cout << "Wrong character" << endl;
+		exit(EXIT_FAILURE);
 	}
 
 	character_->setPosition(posX, posY);
@@ -74,7 +76,7 @@ void Player::stopAttack()
 
 void Player::update(float elapsedTime)
 {
-	cout << character_->getCurrState() << endl;
+	//cout << character_->getCurrState() << endl;
 
 	if (leftPressed_)
 	{
@@ -130,7 +132,7 @@ void Player::update(float elapsedTime)
 		character_->setCurrFallFrame(character_->getFrameSpeed() * elapsedTime);
 		character_->spriteUpdateFall(character_->getCurrSpriteSide());
 	}
-	if ((attack_ && !character_->getRunAttackState() || character_->getRunAttackState()))
+	if ((attack_ && !character_->getRunAttackState()) || character_->getRunAttackState())
 	{
 		if (character_->getCurrState() == "running")
 		{
@@ -139,7 +141,7 @@ void Player::update(float elapsedTime)
 			character_->spriteUpdateRunAttack(character_->getCurrSpriteSide());
 		}
 	}
-	if (attack_ && !character_->getAttackState() || character_->getAttackState())
+	if ((attack_ && !character_->getAttackState()) || character_->getAttackState())
 	{
 		if (character_->getCurrState() != "running")
 		{
@@ -175,7 +177,86 @@ void Player::setState(string state)
 	character_->setState(state);
 }
 
-Vector2f Player::getCharacterPosition()
+void Player::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPosition, Map* map, float elapsedTime)
+{
+	Vector2f position = newPlayerPosition;
+
+	for (int i = (newPlayerPosition.x - character_->getLeftGap()) / map->getTileWidth(); i < (newPlayerPosition.x + character_->getRightGap()) / map->getTileWidth(); i++)
+	{
+		for (int j = (oldPlayerPosition.y - character_->getUpperGap()) / map->getTileHeight(); j < (oldPlayerPosition.y + character_->getLowerGap()) / map->getTileHeight(); j++)
+		{
+			if (!map->getValue(j, i, ' ', map->getTileMapElse()))
+			{
+				position.x = oldPlayerPosition.x;
+				break;
+			}
+		}
+	}
+
+	for (int i = (oldPlayerPosition.x - character_->getLeftGap()) / map->getTileWidth(); i < (oldPlayerPosition.x + character_->getRightGap()) / map->getTileWidth(); i++)
+	{
+		for (int j = (newPlayerPosition.y - character_->getUpperGap()) / map->getTileHeight(); j < (newPlayerPosition.y + character_->getLowerGap()) / map->getTileHeight(); j++)
+		{
+			if (!map->getValue(j, i, ' ', map->getTileMapElse()))
+			{
+				if (character_->getCurrState() == "jumping")
+				{
+					if (newPlayerPosition.y > j* map->getTileHeight())
+					{
+						character_->setState("falling");
+						character_->setPosition(oldPlayerPosition.x, oldPlayerPosition.y);
+						character_->setCurrGravityAccel(0);
+						return;
+					}
+				}
+				else
+				{
+					if (position.x == newPlayerPosition.x && newPlayerPosition.x != oldPlayerPosition.x)
+					{
+						character_->setState("running");
+					}
+					else
+					{
+						character_->setState("staying");
+					}
+
+					position.y = j * map->getTileHeight() - character_->getLowerGap();
+				}
+
+				character_->setCurrJumpAccel(character_->getJumpForce());
+				character_->setCurrGravityAccel(0);
+				break;
+			}
+		}
+	}
+
+	character_->setPosition(position.x, position.y);
+
+	if (character_->getCurrState() != "jumping" && character_->getCurrState() != "falling" && character_->getCurrState() != "staying" && position == newPlayerPosition)
+	{
+		character_->setState("falling");
+	}
+}
+
+void Player::calculateVariables(float elapsedTime)
+{
+	if (character_->getCurrState() == "falling")
+	{
+		character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
+	}
+	else if (character_->getCurrState() == "jumping")
+	{
+		character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
+		character_->setCurrJumpAccel(character_->getCurrJumpAccel() - character_->getCurrGravityAccel() * elapsedTime);
+	}
+}
+
+void Player::setEnemyDamaged(bool flag)
+{
+	character_->setEnemyDamaged(flag);
+}
+
+Vector2f Player::getCurrPosition()
 {
 	return character_->getSprite().getPosition();
 }
@@ -205,6 +286,21 @@ int Player::getRightGap()
 	return character_->getRightGap();
 }
 
+int Player::getAttackRange()
+{
+	return character_->getAttackRange();
+}
+
+int Player::getAttackDamage()
+{
+	return character_->getAttackDamage();
+}
+
+int Player::getNumberOfAttackFrames()
+{
+	return character_->getNumberOfAttackFrames();
+}
+
 float Player::getGravity()
 {
 	return character_->getGravity();
@@ -225,7 +321,32 @@ float Player::getCurrJumpAccel()
 	return character_->getCurrJumpAccel();
 }
 
+float Player::getCurrAttackFrame()
+{
+	return character_->getCurrAttackFrame();
+}
+
 string Player::getCurrState()
 {
 	return character_->getCurrState();
+}
+
+string Player::getCurrSpriteSide()
+{
+	return character_->getCurrSpriteSide();
+}
+
+bool Player::getAttackState()
+{
+	return character_->getAttackState();
+}
+
+bool Player::getEnemyDamaged()
+{
+	return character_->getEnemyDamaged();
+}
+
+bool Player::getDamageDisabled()
+{
+	return character_->getDamageDisabled();
 }

@@ -4,10 +4,38 @@ Level1::Level1()
 {
 	map_ = new Map1();
 
-	enemies_.push_back(new Enemy("Character1", 1400, 230));
-	enemies_.push_back(new Enemy("Character1", 100, 85));
-	enemies_.push_back(new Enemy("Character1", 1700, 930));
-	//enemies_.push_back(new Enemy("Character1", 2000, 1430));
+	//enemies_.push_back(new Enemy("Character1", 100, 185));
+	//enemies_.push_back(new Enemy("Character1", 100, 185));
+	//enemies_.push_back(new Enemy("Character1", 100, 185));
+	//enemies_.push_back(new Enemy("Character1", 100, 185));
+	//enemies_.push_back(new Enemy("Character1", 100, 185));
+	//enemies_.push_back(new Enemy("Character1", 100, 185));
+	
+	enemies_.push_back(new Enemy("Character1", 1600, 300));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+
+
+	//enemies_.push_back(new Enemy("Character1", 1700, 930));
+	//enemies_.push_back(new Enemy("Character1", 2500, 930));
 }
 
 Level1::~Level1() {}
@@ -81,8 +109,8 @@ void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 			Vector2f oldEnemyPosition = enemies_[i]->getPosition();
 			enemies_[i]->updatePosition(elapsedTime);
 			enemies_[i]->calculateVariables(elapsedTime);
+			enemies_[i]->decision(elapsedTime, player);
 			enemies_[i]->interactionWithMap(oldEnemyPosition, enemies_[i]->getPosition(), map_, elapsedTime);
-			enemies_[i]->decision();
 			enemies_[i]->draw(window, player, viewSize, elapsedTime);
 		}
 		else

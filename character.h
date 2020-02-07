@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <ctime>
 
 using namespace sf;
 using namespace std;
@@ -41,6 +42,9 @@ public:
 	virtual void setRunAttackState(bool flag) = 0;
 	virtual void setHealthPoints(int healthPoints) = 0;
 	virtual void setEnemyDamaged(bool flag) = 0;
+	virtual void setName(string name) = 0;
+	virtual void setMaxMoveSpeed(float maxMoveSpeed) = 0;
+	virtual void setSpriteSide(string spriteSide) = 0;
 
 	virtual int getUpperGap() = 0;
 	virtual int getLowerGap() = 0;
@@ -50,16 +54,20 @@ public:
 	virtual int getHealthPoints() = 0;
 	virtual int getAttackDamage() = 0;
 	virtual int getNumberOfAttackFrames() = 0;
+	virtual int getHeight() = 0;
+	virtual int getWidth() = 0;
+	virtual int getOverview() = 0;
 
 	virtual bool getJumpState() = 0;
 	virtual bool getAttackState() = 0;
 	virtual bool getRunAttackState() = 0;
 	virtual bool getLife() = 0;
-	virtual bool getEnemyDamaged() = 0;
+	virtual bool getCharacterMadeDamage() = 0;
 	virtual bool getDamageDisabled() = 0;
 
 	virtual string getCurrSpriteSide() = 0;
 	virtual string getCurrState() = 0;
+	virtual string getName() = 0;
 
 	//virtual int getCurrFrame() = 0;
 

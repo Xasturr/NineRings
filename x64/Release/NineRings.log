@@ -1,22 +1,37 @@
-﻿  character1.cpp
-D:\Repos\NineRings\character1.cpp(87,79): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
+﻿  enemy.cpp
+D:\Repos\NineRings\enemy.cpp(175,28): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+D:\Repos\NineRings\enemy.cpp(180,28): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+D:\Repos\NineRings\enemy.cpp(188,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
           with
           [
-              T=unsigned int
+              T=float
           ]
-D:\Repos\NineRings\character1.cpp(87,49): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
+D:\Repos\NineRings\enemy.cpp(190,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
           with
           [
-              T=unsigned int
+              T=float
           ]
-D:\Repos\NineRings\character1.cpp(169,9): warning C4244: return: преобразование "float" в "int", возможна потеря данных
-D:\Repos\NineRings\character1.cpp(270,39): warning C4244: +=: преобразование "double" в "float", возможна потеря данных
-D:\Repos\NineRings\character1.cpp(293,23): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-D:\Repos\NineRings\character1.cpp(300,39): warning C4244: +=: преобразование "double" в "float", возможна потеря данных
-D:\Repos\NineRings\character1.cpp(323,42): warning C4244: +=: преобразование "double" в "float", возможна потеря данных
+D:\Repos\NineRings\enemy.cpp(214,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\enemy.cpp(216,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\enemy.cpp(241,21): warning C4244: =: преобразование "size_t" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\enemy.cpp(362,42): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+D:\Repos\NineRings\enemy.cpp(367,42): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+D:\Repos\NineRings\enemy.cpp(372,42): warning C4244: =: преобразование "int" в "float", возможна потеря данных
   Создание кода
-  1 of 476 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  2 of 491 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    4 functions had inline decision re-evaluated but remain unchanged
+    7 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   NineRings.vcxproj -> D:\Repos\NineRings\x64\Release\NineRings.exe

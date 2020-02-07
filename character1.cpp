@@ -84,16 +84,15 @@ Character1::Character1(float posX, float posY)
 	textureRunAttack8_.loadFromFile("./textures/tiles/characters/knight/Run_Attack/run_attack8.png");
 
 	sprite_.setTexture(textureIdle1_);
-	sprite_.setOrigin(textureRun1_.getSize().x / 2 - 0, textureRun1_.getSize().y / 2);
 
 	life_ = true;
 	jump_ = false;
 	attack_ = false;
 	runAttack_ = false;
-	enemyDamaged_ = false;
+	characterMadeDamage_ = false;
 	damageDisabled_ = false;
 
-	maxMoveSpeed = 500;
+	maxMoveSpeed_ = 500;
 	currentIdleFrame_ = 1;
 	currentRunFrame_ = 1;
 	currentJumpFrame_ = 1;
@@ -110,17 +109,24 @@ Character1::Character1(float posX, float posY)
 	gravity_ = 1700.f;
 	jumpForce_ = 900.f;
 	currJumpAccel_ = 0.f;
-	leftGap_ = 18;
-	rightGap_ = 18;
-	lowerGap_ = 45;
-	upperGap_ = 5;
+	leftGap_ = 20; //from center to left edge
+	rightGap_ = 20;//from center to right edge
+	//lowerGap_ = 23;
+	//upperGap_ = 52;
 	currGravityAccel_ = jumpForce_;
 	healthPoints_ = 100;
 	attackDamage_ = 20;
-	attackRange_ = 90;
+	attackRange_ = 60;
+	runAttackRange_ = 58;
+	height_ = 70; //height of character
+	width_ = 40; //width of caracter
+	overview_ = 330;
+
+	sprite_.setOrigin(textureRun1_.getSize().x / 2, 110);
 
 	currSpriteSide_ = "right";
 	state_ = "falling";
+	name_ = "Character1";
 }
 Character1::~Character1() {}
 
@@ -131,7 +137,7 @@ Sprite Character1::getSprite()
 
 float Character1::getMaxMoveSpeed()
 {
-	return maxMoveSpeed;
+	return maxMoveSpeed_;
 }
 
 float Character1::getGravity()
@@ -191,7 +197,14 @@ int Character1::getRightGap()
 
 int Character1::getAttackRange()
 {
-	return attackRange_;
+	if (attack_)
+	{
+		return attackRange_;
+	}
+	else
+	{
+		return runAttackRange_;
+	}
 }
 
 int Character1::getHealthPoints()
@@ -207,6 +220,21 @@ int Character1::getAttackDamage()
 int Character1::getNumberOfAttackFrames()
 {
 	return numberOfAttackFrames_;
+}
+
+int Character1::getHeight()
+{
+	return height_;
+}
+
+int Character1::getWidth()
+{
+	return width_;
+}
+
+int Character1::getOverview()
+{
+	return overview_;
 }
 
 Vector2f Character1::getCurrPosition()
@@ -314,7 +342,7 @@ void Character1::setCurrAttackFrame(float increase)
 	{
 		currentAttackFrame_ = 1;
 		attack_ = false;
-		enemyDamaged_ = false;
+		characterMadeDamage_ = false;
 	}
 }
 
@@ -322,7 +350,7 @@ void Character1::setCurrRunAttackFrame(float increase)
 {
 	currentRunAttackFrame_ += increase * 1.5;
 
-	if (currentRunAttackFrame_ < 3)
+	if (currentRunAttackFrame_ < 5)
 	{
 		damageDisabled_ = true;
 	}
@@ -335,7 +363,7 @@ void Character1::setCurrRunAttackFrame(float increase)
 	{
 		currentRunAttackFrame_ = 1;
 		runAttack_ = false;
-		enemyDamaged_ = false;
+		characterMadeDamage_ = false;
 	}
 }
 
@@ -532,12 +560,27 @@ void Character1::setHealthPoints(int healthPoints)
 
 void Character1::setEnemyDamaged(bool flag)
 {
-	enemyDamaged_ = flag;
+	characterMadeDamage_ = flag;
 }
 
 void Character1::setState(string state)
 {
 	state_ = state;
+}
+
+void Character1::setName(string name)
+{
+	name_ = name;
+}
+
+void Character1::setMaxMoveSpeed(float maxMoveSpeed)
+{
+	maxMoveSpeed_ = maxMoveSpeed;
+}
+
+void Character1::setSpriteSide(string spriteSide)
+{
+	currSpriteSide_ = spriteSide;
 }
 
 bool Character1::getJumpState()
@@ -555,9 +598,9 @@ bool Character1::getLife()
 	return life_;
 }
 
-bool Character1::getEnemyDamaged()
+bool Character1::getCharacterMadeDamage()
 {
-	return enemyDamaged_;
+	return characterMadeDamage_;
 }
 
 bool Character1::getDamageDisabled()
@@ -573,4 +616,9 @@ string Character1::getCurrSpriteSide()
 string Character1::getCurrState()
 {
 	return state_;
+}
+
+string Character1::getName()
+{
+	return name_;
 }

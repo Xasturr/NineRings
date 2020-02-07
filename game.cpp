@@ -2,7 +2,7 @@
 
 void Game::start()
 {
-	engine_.createRenderWindow(VideoMode(engine_.getResolution().x, engine_.getResolution().y), "NineRings", "Close");
+	engine_.createRenderWindow(VideoMode(engine_.getResolution().x, engine_.getResolution().y), "NineRings", "Fullscreen");
 
 	//1920x1080
 	pair<size_t, size_t> res1 = { 1920, 1080 };
@@ -38,7 +38,7 @@ void Game::start()
 	string clickedButtonId = "";
 	
 	engine_.createLevel(new Level1());
-	engine_.setPlayer("Character1", 200, 85);
+	engine_.setPlayer("Character1", 1800, 350);
 
 	float time = 0;
 
@@ -122,9 +122,13 @@ void Game::start()
 			clock_.restart();
 			start = false;
 		}
-		engine_.update(clock_.restart().asSeconds());
+		elapsedTime_ = clock_.restart().asSeconds();
+		if (elapsedTime_ * 25 >= 1)
+			elapsedTime_ = 0;
+		engine_.draw(elapsedTime_);
+		engine_.update(elapsedTime_);
+		//cout << elapsedTime_ << endl;
 		//engine_.drawGameWindow(win1);
-		engine_.draw();
 		engine_.drawText(timeText);
 		engine_.renderWindowDisplay();
 
@@ -135,6 +139,7 @@ void Game::start()
 Game::Game()
 {
 	inputValue = 0;
+	elapsedTime_ = 0;
 }
 
 Game::~Game()

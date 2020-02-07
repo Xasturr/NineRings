@@ -60,10 +60,10 @@ class Character1 : public Character
 	bool jump_;
 	bool attack_;
 	bool runAttack_;
-	bool enemyDamaged_;
+	bool characterMadeDamage_;
 	bool damageDisabled_;
 
-	float maxMoveSpeed;
+	float maxMoveSpeed_;
 	float currentIdleFrame_;
 	float currentRunFrame_;
 	float currentJumpFrame_;
@@ -88,11 +88,16 @@ class Character1 : public Character
 	int healthPoints_;
 	int attackDamage_;
 	int attackRange_;
+	int runAttackRange_;
+	int height_;
+	int width_;
+	int overview_;
 
 	float frameSpeed_;
 
 	string currSpriteSide_;
 	string state_;
+	string name_;
 
 public:
 	Character1(float posX, float posY);
@@ -117,6 +122,9 @@ public:
 	int getHealthPoints();
 	int getAttackDamage();
 	int getNumberOfAttackFrames();
+	int getHeight();
+	int getWidth();
+	int getOverview();
 
 	Vector2f getCurrPosition();
 
@@ -141,16 +149,21 @@ public:
 	void setRunAttackState(bool flag);
 	void setHealthPoints(int healthPoints);
 	void setEnemyDamaged(bool flag);
+	void setName(string name);
+	void setMaxMoveSpeed(float moveMaxSpeed);
+	void setSpriteSide(string spriteSide);
+//	void setAngryState(bool flag);
 
 	bool getCharacterLife();
 	bool getAttackState();
 	bool getJumpState();
 	bool getRunAttackState();
 	bool getLife();
-	bool getEnemyDamaged();
+	bool getCharacterMadeDamage();
 	bool getDamageDisabled();
 
 	string getCurrSpriteSide();
 	string getCurrState();
+	string getName();
 };
 

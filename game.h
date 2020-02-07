@@ -14,6 +14,8 @@ class Game
 
 	int inputValue;
 
+	float elapsedTime_;
+
 public:
 	Game();
 	~Game();

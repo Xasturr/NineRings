@@ -181,9 +181,9 @@ void Player::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPo
 {
 	Vector2f position = newPlayerPosition;
 
-	for (int i = (newPlayerPosition.x - character_->getLeftGap()) / map->getTileWidth(); i < (newPlayerPosition.x + character_->getRightGap()) / map->getTileWidth(); i++)
+	for (int i = (newPlayerPosition.x - character_->getWidth() / 2 + map->getTileWidth() / 2) / map->getTileWidth(); i < (newPlayerPosition.x + character_->getWidth() / 2 + map->getTileWidth() / 2) / map->getTileWidth(); i++)
 	{
-		for (int j = (oldPlayerPosition.y - character_->getUpperGap()) / map->getTileHeight(); j < (oldPlayerPosition.y + character_->getLowerGap()) / map->getTileHeight(); j++)
+		for (int j = (oldPlayerPosition.y - character_->getHeight()) / map->getTileHeight(); j < (oldPlayerPosition.y) / map->getTileHeight(); j++)
 		{
 			if (!map->getValue(j, i, ' ', map->getTileMapElse()))
 			{
@@ -193,16 +193,18 @@ void Player::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPo
 		}
 	}
 
-	for (int i = (oldPlayerPosition.x - character_->getLeftGap()) / map->getTileWidth(); i < (oldPlayerPosition.x + character_->getRightGap()) / map->getTileWidth(); i++)
+	for (int i = (oldPlayerPosition.x - character_->getWidth() / 2 + map->getTileWidth() / 2) / map->getTileWidth(); i < (oldPlayerPosition.x + character_->getWidth() / 2 + map->getTileWidth() / 2) / map->getTileWidth(); i++)
 	{
-		for (int j = (newPlayerPosition.y - character_->getUpperGap()) / map->getTileHeight(); j < (newPlayerPosition.y + character_->getLowerGap()) / map->getTileHeight(); j++)
+		for (int j = (newPlayerPosition.y - character_->getHeight()) / map->getTileHeight(); j < (newPlayerPosition.y) / map->getTileHeight(); j++)
 		{
 			if (!map->getValue(j, i, ' ', map->getTileMapElse()))
 			{
 				if (character_->getCurrState() == "jumping")
 				{
-					if (newPlayerPosition.y > j* map->getTileHeight())
+					if (newPlayerPosition.y > j * map->getTileHeight() + map->getTileHeight() / 2)
 					{
+						//cout << newPlayerPosition.y << endl;
+						//cout << j * map->getTileHeight() << endl << endl;
 						character_->setState("falling");
 						character_->setPosition(oldPlayerPosition.x, oldPlayerPosition.y);
 						character_->setCurrGravityAccel(0);
@@ -220,7 +222,9 @@ void Player::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPo
 						character_->setState("staying");
 					}
 
-					position.y = j * map->getTileHeight() - character_->getLowerGap();
+					//position.y = j * map->getTileHeight() - character_->getLowerGap();
+					//position.y = oldPlayerPosition.y;
+					position.y = j * map->getTileHeight();
 				}
 
 				character_->setCurrJumpAccel(character_->getJumpForce());
@@ -230,10 +234,13 @@ void Player::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPo
 		}
 	}
 
+	//cout << character_->getCurrState() << endl;
 	character_->setPosition(position.x, position.y);
 
 	if (character_->getCurrState() != "jumping" && character_->getCurrState() != "falling" && character_->getCurrState() != "staying" && position == newPlayerPosition)
 	{
+		//cout << character_->getCurrState() << endl;
+
 		character_->setState("falling");
 	}
 }
@@ -254,6 +261,11 @@ void Player::calculateVariables(float elapsedTime)
 void Player::setEnemyDamaged(bool flag)
 {
 	character_->setEnemyDamaged(flag);
+}
+
+void Player::setHealthPoints(int healthPoints)
+{
+	character_->setHealthPoints(healthPoints);
 }
 
 Vector2f Player::getCurrPosition()
@@ -301,6 +313,21 @@ int Player::getNumberOfAttackFrames()
 	return character_->getNumberOfAttackFrames();
 }
 
+int Player::getWidth()
+{
+	return character_->getWidth();
+}
+
+int Player::getHeight()
+{
+	return character_->getHeight();
+}
+
+int Player::getHealthPoints()
+{
+	return character_->getHealthPoints();
+}
+
 float Player::getGravity()
 {
 	return character_->getGravity();
@@ -341,9 +368,9 @@ bool Player::getAttackState()
 	return character_->getAttackState();
 }
 
-bool Player::getEnemyDamaged()
+bool Player::getCharacterMadeDamage()
 {
-	return character_->getEnemyDamaged();
+	return character_->getCharacterMadeDamage();
 }
 
 bool Player::getDamageDisabled()

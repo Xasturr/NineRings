@@ -46,6 +46,7 @@ public:
 	void interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPosition, Map* map, float elapsedTime);
 	void calculateVariables(float elapsedTime);
 	void setEnemyDamaged(bool flag);
+	void setHealthPoints(int healthPoints);
 
 	Vector2f getCurrPosition();
 
@@ -58,6 +59,9 @@ public:
 	int getAttackRange();
 	int getAttackDamage();
 	int getNumberOfAttackFrames();
+	int getWidth();
+	int getHeight();
+	int getHealthPoints();
 
 	float getGravity();
 	float getJumpForce();
@@ -69,6 +73,6 @@ public:
 	string getCurrSpriteSide();
 
 	bool getAttackState();
-	bool getEnemyDamaged();
+	bool getCharacterMadeDamage();
 	bool getDamageDisabled();
 };

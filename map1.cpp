@@ -3,9 +3,9 @@
 Map1::Map1()
 {
 	texture_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile5.png");
-	//CreateTextureAndBitmask(texture_, "./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile5.png");
 
 	sprite_.setTexture(texture_);
+	sprite_.setOrigin(32, 0); // 32 == half of texture width
 }
 
 Map1::~Map1() {}
@@ -94,13 +94,13 @@ void Map1::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize)
 		iMin = playerPos.x / TILE_WIDTH - viewSize.x / TILE_WIDTH / 2 - 1;
 	}
 
-	if (playerPos.x / TILE_WIDTH + viewSize.x / TILE_WIDTH / 2 + 1 >= WIDTH_MAP)
+	if (playerPos.x / TILE_WIDTH + viewSize.x / TILE_WIDTH / 2 + 2 >= WIDTH_MAP)
 	{
 		iMax = WIDTH_MAP;
 	}
 	else
 	{
-		iMax = playerPos.x / TILE_WIDTH + viewSize.x / TILE_WIDTH / 2 + 1;
+		iMax = playerPos.x / TILE_WIDTH + viewSize.x / TILE_WIDTH / 2 + 2;
 	}
 
 	if (playerPos.y / TILE_HEIGHT - viewSize.y / TILE_HEIGHT / 2 - 1 < 0)

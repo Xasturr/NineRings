@@ -11,6 +11,8 @@ Engine::Engine()
 
 	viewSizeX_ = 1280;
 	viewSizeY_ = 720;
+
+	srand(time(0));
 }
 
 Engine::~Engine() {}
@@ -213,20 +215,25 @@ void Engine::playerMoveDown()
 
 void Engine::update(float elapsedTime)
 {
+
 	Vector2f oldPlayerPosition = player_->getCurrPosition();
 	player_->update(elapsedTime);
 	player_->interactionWithMap(oldPlayerPosition, player_->getSprite().getPosition(), level_->getMap(), elapsedTime);
 	player_->calculateVariables(elapsedTime);
-
-	level_->updateAndDrawEnemies(&window_, player_, view_.getSize(), elapsedTime);
-	
 	view_.setCenter(player_->getCurrPosition().x, player_->getCurrPosition().y);
+
+	//RectangleShape rect;
+	//rect.setFillColor(Color::Green);
+	//rect.setSize(Vector2f(2, 2));
+	//rect.setPosition(player_->getCurrPosition());
+	//window_.draw(rect);
 }
 
-void Engine::draw()
+void Engine::draw(float elapsedTime)
 {
 	level_->buildMap(&window_, player_->getSprite().getPosition(), view_.getSize());
 	//level_->buildMap(&window_);
+	level_->updateAndDrawEnemies(&window_, player_, view_.getSize(), elapsedTime);
 
 	window_.draw(player_->getSprite());
 }

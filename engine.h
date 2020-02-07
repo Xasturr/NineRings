@@ -60,7 +60,7 @@ public:
 	void playerMoveUp();
 	void playerMoveDown();
 	void update(float elapsedTime);
-	void draw();
+	void draw(float elapsedTime);
 	void drawText(Text text);
 	void setView(int sizeX, int sizeY);
 

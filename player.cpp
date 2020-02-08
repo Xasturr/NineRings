@@ -76,79 +76,98 @@ void Player::stopAttack()
 
 void Player::update(float elapsedTime)
 {
-	//cout << character_->getCurrState() << endl;
+	if (character_->getHealthPoints() > 0)
+	{
+		if (character_->getHurt())
+		{
+			attack_ = false;
+			character_->setCurrHurtFrame(character_->getFrameSpeed() * elapsedTime);
+			character_->spriteUpdateHurt(character_->getCurrSpriteSide());
+			return;
+		}
 
-	if (leftPressed_)
-	{
-		if (character_->getCurrState() == "falling" || character_->getCurrState() == "jumping")
+		if (leftPressed_)
 		{
-			character_->setPosition(character_->getCurrPosition().x - character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
-			character_->spriteUpdateRun("left");
+			if (character_->getCurrState() == "falling" || character_->getCurrState() == "jumping")
+			{
+				character_->setPosition(character_->getCurrPosition().x - character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
+				character_->spriteUpdateRun("left");
+			}
+			else
+			{
+				character_->setState("running");
+				character_->setPosition(character_->getCurrPosition().x - character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
+				character_->setCurrRunFrame(character_->getFrameSpeed() * elapsedTime);
+				character_->spriteUpdateRun("left");
+			}
 		}
-		else
+		else if (rightPressed_)
 		{
-			character_->setState("running");
-			character_->setPosition(character_->getCurrPosition().x - character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
-			character_->setCurrRunFrame(character_->getFrameSpeed() * elapsedTime);
-			character_->spriteUpdateRun("left");
+			if (character_->getCurrState() == "falling" || character_->getCurrState() == "jumping")
+			{
+				character_->setPosition(character_->getCurrPosition().x + character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
+				character_->spriteUpdateRun("right");
+			}
+			else
+			{
+				character_->setState("running");
+				character_->setPosition(character_->getCurrPosition().x + character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
+				character_->setCurrRunFrame(character_->getFrameSpeed() * elapsedTime);
+				character_->spriteUpdateRun("right");
+			}
+		}
+		if (((upPressed_ && character_->getCurrState() != "jumping") || character_->getCurrState() == "jumping") && character_->getCurrState() != "falling")
+		{
+			if (upPressed_ && character_->getCurrState() != "jumping")
+			{
+				character_->setState("jumping");
+				character_->setCurrJumpAccel(character_->getJumpForce());
+				character_->setCurrGravityAccel(0);
+			}
+			character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y - character_->getCurrJumpAccel() * elapsedTime);
+			character_->setCurrJumpFrame(character_->getFrameSpeed() * elapsedTime);
+			character_->spriteUpdateJump(character_->getCurrSpriteSide());
+		}
+		if (character_->getCurrState() == "staying")
+		{
+			character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
+			character_->setCurrIdleFrame(character_->getFrameSpeed() * elapsedTime);
+			character_->spriteUpdateIdle();
+		}
+		if (character_->getCurrState() == "falling")
+		{
+			character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getCurrGravityAccel() * elapsedTime);
+			character_->setCurrFallFrame(character_->getFrameSpeed() * elapsedTime);
+			character_->spriteUpdateFall(character_->getCurrSpriteSide());
+		}
+		if ((attack_ && !character_->getRunAttackState()) || character_->getRunAttackState())
+		{
+			if (character_->getCurrState() == "running")
+			{
+				character_->setRunAttackState(true);
+				character_->setCurrRunAttackFrame(character_->getFrameSpeed() * elapsedTime);
+				character_->spriteUpdateRunAttack(character_->getCurrSpriteSide());
+			}
+		}
+		if ((attack_ && !character_->getAttackState()) || character_->getAttackState())
+		{
+			if (character_->getCurrState() != "running")
+			{
+				character_->setAttackState(true);
+				character_->setCurrAttackFrame(character_->getFrameSpeed() * elapsedTime);
+				character_->spriteUpdateAttack(character_->getCurrSpriteSide());
+			}
 		}
 	}
-	else if (rightPressed_)
+	else if (character_->getLife())
 	{
-		if (character_->getCurrState() == "falling" || character_->getCurrState() == "jumping")
-		{
-			character_->setPosition(character_->getCurrPosition().x + character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
-			character_->spriteUpdateRun("right");
-		}
-		else
-		{
-			character_->setState("running");
-			character_->setPosition(character_->getCurrPosition().x + character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
-			character_->setCurrRunFrame(character_->getFrameSpeed() * elapsedTime);
-			character_->spriteUpdateRun("right");
-		}
+		character_->setCurrDeathFrame(character_->getFrameSpeed() * elapsedTime);
+		character_->spriteUpdateDeath(character_->getCurrSpriteSide());
 	}
-	if (((upPressed_ && character_->getCurrState() != "jumping") || character_->getCurrState() == "jumping") && character_->getCurrState() != "falling")
+	else
 	{
-		if (upPressed_ && character_->getCurrState() != "jumping")
-		{
-			character_->setState("jumping");
-			character_->setCurrJumpAccel(character_->getJumpForce());
-			character_->setCurrGravityAccel(0);
-		}
-		character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y - character_->getCurrJumpAccel() * elapsedTime);
-		character_->setCurrJumpFrame(character_->getFrameSpeed() * elapsedTime);
-		character_->spriteUpdateJump(character_->getCurrSpriteSide());
-	}
-	if (character_->getCurrState() == "staying")
-	{
-		character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
-		character_->setCurrIdleFrame(character_->getFrameSpeed() * elapsedTime);
-		character_->spriteUpdateIdle();
-	}
-	if (character_->getCurrState() == "falling")
-	{
-		character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getCurrGravityAccel() * elapsedTime);
-		character_->setCurrFallFrame(character_->getFrameSpeed() * elapsedTime);
-		character_->spriteUpdateFall(character_->getCurrSpriteSide());
-	}
-	if ((attack_ && !character_->getRunAttackState()) || character_->getRunAttackState())
-	{
-		if (character_->getCurrState() == "running")
-		{
-			character_->setRunAttackState(true);
-			character_->setCurrRunAttackFrame(character_->getFrameSpeed() * elapsedTime);
-			character_->spriteUpdateRunAttack(character_->getCurrSpriteSide());
-		}
-	}
-	if ((attack_ && !character_->getAttackState()) || character_->getAttackState())
-	{
-		if (character_->getCurrState() != "running")
-		{
-			character_->setAttackState(true);
-			character_->setCurrAttackFrame(character_->getFrameSpeed() * elapsedTime);
-			character_->spriteUpdateAttack(character_->getCurrSpriteSide());
-		}
+		cout << "You are dead" << endl;
+		exit(0);
 	}
 }
 
@@ -268,6 +287,16 @@ void Player::setHealthPoints(int healthPoints)
 	character_->setHealthPoints(healthPoints);
 }
 
+void Player::setLife(bool flag)
+{
+	character_->setLife(flag);
+}
+
+void Player::setHurt(bool flag)
+{
+	character_->setHurt(flag);
+}
+
 Vector2f Player::getCurrPosition()
 {
 	return character_->getSprite().getPosition();
@@ -376,4 +405,9 @@ bool Player::getCharacterMadeDamage()
 bool Player::getDamageDisabled()
 {
 	return character_->getDamageDisabled();
+}
+
+bool Player::getHurt()
+{
+	return character_->getHurt();
 }

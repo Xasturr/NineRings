@@ -47,6 +47,8 @@ public:
 	void calculateVariables(float elapsedTime);
 	void setEnemyDamaged(bool flag);
 	void setHealthPoints(int healthPoints);
+	void setLife(bool flag);
+	void setHurt(bool flag);
 
 	Vector2f getCurrPosition();
 
@@ -75,4 +77,5 @@ public:
 	bool getAttackState();
 	bool getCharacterMadeDamage();
 	bool getDamageDisabled();
+	bool getHurt();
 };

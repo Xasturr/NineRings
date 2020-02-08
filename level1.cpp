@@ -11,13 +11,13 @@ Level1::Level1()
 	//enemies_.push_back(new Enemy("Character1", 100, 185));
 	//enemies_.push_back(new Enemy("Character1", 100, 185));
 	
-	enemies_.push_back(new Enemy("Character1", 1600, 300));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
+	enemies_.push_back(new Enemy("Character1", 1600, 576));
+	//enemies_.push_back(new Enemy("Character1", 1600, 576));
+	//enemies_.push_back(new Enemy("Character1", 1600, 576));
+	//enemies_.push_back(new Enemy("Character1", 1600, 576));
+	//enemies_.push_back(new Enemy("Character1", 1600, 576));
+	//enemies_.push_back(new Enemy("Character1", 1600, 576));
+	//enemies_.push_back(new Enemy("Character1", 1600, 576));
 	//enemies_.push_back(new Enemy("Character1", 1600, 330));
 	//enemies_.push_back(new Enemy("Character1", 1600, 330));
 	//enemies_.push_back(new Enemy("Character1", 1600, 330));

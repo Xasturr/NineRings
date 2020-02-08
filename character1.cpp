@@ -5,19 +5,6 @@ Character1::Character1(float posX, float posY)
 	position_.x = posX;
 	position_.y = posY;
 
-	//CreateTextureAndBitmask(textureIdle1_, "./textures/tiles/characters/knight/Idle/idle1.png");
-	//CreateTextureAndBitmask(textureIdle2_, "./textures/tiles/characters/knight/Idle/idle2.png");
-	//CreateTextureAndBitmask(textureIdle3_, "./textures/tiles/characters/knight/Idle/idle3.png");
-	//CreateTextureAndBitmask(textureIdle4_, "./textures/tiles/characters/knight/Idle/idle4.png");
-	//CreateTextureAndBitmask(textureIdle5_, "./textures/tiles/characters/knight/Idle/idle5.png");
-	//CreateTextureAndBitmask(textureIdle6_, "./textures/tiles/characters/knight/Idle/idle6.png");
-	//CreateTextureAndBitmask(textureIdle7_, "./textures/tiles/characters/knight/Idle/idle7.png");
-	//CreateTextureAndBitmask(textureIdle8_, "./textures/tiles/characters/knight/Idle/idle8.png");
-	//CreateTextureAndBitmask(textureIdle9_, "./textures/tiles/characters/knight/Idle/idle9.png");
-	//CreateTextureAndBitmask(textureIdle10_, "./textures/tiles/characters/knight/Idle/idle10.png");
-	//CreateTextureAndBitmask(textureIdle11_, "./textures/tiles/characters/knight/Idle/idle11.png");
-	//CreateTextureAndBitmask(textureIdle12_, "./textures/tiles/characters/knight/Idle/idle12.png");
-
 	textureIdle1_.loadFromFile("./textures/tiles/characters/knight/Idle/idle1.png");
 	textureIdle2_.loadFromFile("./textures/tiles/characters/knight/Idle/idle2.png");
 	textureIdle3_.loadFromFile("./textures/tiles/characters/knight/Idle/idle3.png");
@@ -31,15 +18,6 @@ Character1::Character1(float posX, float posY)
 	textureIdle11_.loadFromFile("./textures/tiles/characters/knight/Idle/idle11.png");
 	textureIdle12_.loadFromFile("./textures/tiles/characters/knight/Idle/idle12.png");
 
-	//CreateTextureAndBitmask(textureRun1_, "./textures/tiles/characters/knight/Run/run1.png");
-	//CreateTextureAndBitmask(textureRun2_, "./textures/tiles/characters/knight/Run/run2.png");
-	//CreateTextureAndBitmask(textureRun3_, "./textures/tiles/characters/knight/Run/run3.png");
-	//CreateTextureAndBitmask(textureRun4_, "./textures/tiles/characters/knight/Run/run4.png");
-	//CreateTextureAndBitmask(textureRun5_, "./textures/tiles/characters/knight/Run/run5.png");
-	//CreateTextureAndBitmask(textureRun6_, "./textures/tiles/characters/knight/Run/run6.png");
-	//CreateTextureAndBitmask(textureRun7_, "./textures/tiles/characters/knight/Run/run7.png");
-	//CreateTextureAndBitmask(textureRun8_, "./textures/tiles/characters/knight/Run/run8.png");
-
 	textureRun1_.loadFromFile("./textures/tiles/characters/knight/Run/run1.png");
 	textureRun2_.loadFromFile("./textures/tiles/characters/knight/Run/run2.png");
 	textureRun3_.loadFromFile("./textures/tiles/characters/knight/Run/run3.png");
@@ -49,14 +27,6 @@ Character1::Character1(float posX, float posY)
 	textureRun7_.loadFromFile("./textures/tiles/characters/knight/Run/run7.png");
 	textureRun8_.loadFromFile("./textures/tiles/characters/knight/Run/run8.png");
 
-	//CreateTextureAndBitmask(textureJump1_, "./textures/tiles/characters/knight/Jump/jump1.png");
-	//CreateTextureAndBitmask(textureJump2_, "./textures/tiles/characters/knight/Jump/jump2.png");
-	//CreateTextureAndBitmask(textureJump3_, "./textures/tiles/characters/knight/Jump/jump3.png");
-	//CreateTextureAndBitmask(textureJump4_, "./textures/tiles/characters/knight/Jump/jump4.png");
-	//CreateTextureAndBitmask(textureJump5_, "./textures/tiles/characters/knight/Jump/jump5.png");
-	//CreateTextureAndBitmask(textureJump6_, "./textures/tiles/characters/knight/Jump/jump6.png");
-	//CreateTextureAndBitmask(textureJump7_, "./textures/tiles/characters/knight/Jump/jump7.png");
-
 	textureJump1_.loadFromFile("./textures/tiles/characters/knight/Jump/jump1.png");
 	textureJump2_.loadFromFile("./textures/tiles/characters/knight/Jump/jump2.png");
 	textureJump3_.loadFromFile("./textures/tiles/characters/knight/Jump/jump3.png");
@@ -64,8 +34,6 @@ Character1::Character1(float posX, float posY)
 	textureJump5_.loadFromFile("./textures/tiles/characters/knight/Jump/jump5.png");
 	textureJump6_.loadFromFile("./textures/tiles/characters/knight/Jump/jump6.png");
 	textureJump7_.loadFromFile("./textures/tiles/characters/knight/Jump/jump7.png");
-
-	//CreateTextureAndBitmask(textureFall1_, "./textures/tiles/characters/knight/Jump/jump6.png");
 
 	textureFall1_.loadFromFile("./textures/tiles/characters/knight/Jump/jump6.png");
 
@@ -83,6 +51,22 @@ Character1::Character1(float posX, float posY)
 	textureRunAttack7_.loadFromFile("./textures/tiles/characters/knight/Run_Attack/run_attack7.png");
 	textureRunAttack8_.loadFromFile("./textures/tiles/characters/knight/Run_Attack/run_attack8.png");
 
+	textureDeath1_.loadFromFile("./textures/tiles/characters/knight/Death/death1.png");
+	textureDeath2_.loadFromFile("./textures/tiles/characters/knight/Death/death2.png");
+	textureDeath3_.loadFromFile("./textures/tiles/characters/knight/Death/death3.png");
+	textureDeath4_.loadFromFile("./textures/tiles/characters/knight/Death/death4.png");
+	textureDeath5_.loadFromFile("./textures/tiles/characters/knight/Death/death5.png");
+	textureDeath6_.loadFromFile("./textures/tiles/characters/knight/Death/death6.png");
+	textureDeath7_.loadFromFile("./textures/tiles/characters/knight/Death/death7.png");
+	textureDeath8_.loadFromFile("./textures/tiles/characters/knight/Death/death8.png");
+	textureDeath9_.loadFromFile("./textures/tiles/characters/knight/Death/death9.png");
+	textureDeath10_.loadFromFile("./textures/tiles/characters/knight/Death/death10.png");
+
+	textureHurt1_.loadFromFile("./textures/tiles/characters/knight/Hurt/hurt1.png");
+	textureHurt2_.loadFromFile("./textures/tiles/characters/knight/Hurt/hurt2.png");
+	textureHurt3_.loadFromFile("./textures/tiles/characters/knight/Hurt/hurt3.png");
+	textureHurt4_.loadFromFile("./textures/tiles/characters/knight/Hurt/hurt4.png");
+
 	sprite_.setTexture(textureIdle1_);
 
 	life_ = true;
@@ -91,6 +75,7 @@ Character1::Character1(float posX, float posY)
 	runAttack_ = false;
 	characterMadeDamage_ = false;
 	damageDisabled_ = false;
+	hurt_ = false;
 
 	maxMoveSpeed_ = 500;
 	currentIdleFrame_ = 1;
@@ -99,12 +84,16 @@ Character1::Character1(float posX, float posY)
 	currentFallFrame_ = 1;
 	currentAttackFrame_ = 1;
 	currentRunAttackFrame_ = 1;
+	currentDeathFrame_ = 1;
+	currentHurtFrame_ = 1;
 	numberOfIdleFrames_ = 12;
 	numberOfRunFrames_ = 8;
 	numberOfJumpFrames_ = 6;
 	numberOfFallFrames_ = 1;
 	numberOfAttackFrames_ = 4;
 	numberOfRunAttackFrames_ = 8;
+	numberOfDeathFrames_ = 10;
+	numberOfHurtFrames_ = 4;
 	frameSpeed_ = 10;
 	gravity_ = 1700.f;
 	jumpForce_ = 900.f;
@@ -115,7 +104,7 @@ Character1::Character1(float posX, float posY)
 	//upperGap_ = 52;
 	currGravityAccel_ = jumpForce_;
 	healthPoints_ = 100;
-	attackDamage_ = 20;
+	attackDamage_ = 10;
 	attackRange_ = 60;
 	runAttackRange_ = 58;
 	height_ = 70; //height of character
@@ -367,6 +356,35 @@ void Character1::setCurrRunAttackFrame(float increase)
 	}
 }
 
+void Character1::setCurrDeathFrame(float increase)
+{
+	currentDeathFrame_ += increase / 1.4;
+
+	if (currentDeathFrame_ > numberOfDeathFrames_)
+	{
+		life_ = false;
+	}
+}
+
+void Character1::setCurrHurtFrame(float increase)
+{
+	currentIdleFrame_ = 1;
+	currentRunFrame_ = 1;
+	currentJumpFrame_ = 1;
+	currentRunAttackFrame_ = 1;
+
+	currentHurtFrame_ += increase / 2;
+	//damageDisabled_ = true;
+	//hurt_ = true;
+
+	if (currentHurtFrame_ > numberOfHurtFrames_)
+	{
+		hurt_ = false;
+		currentHurtFrame_ = 1;
+		//damageDisabled_ = false;
+	}
+}
+
 void Character1::spriteUpdateIdle()
 {
 	if (int(currentIdleFrame_) == 1)
@@ -523,6 +541,62 @@ void Character1::spriteUpdateRunAttack(string spriteSide)
 	}
 }
 
+void Character1::spriteUpdateDeath(string spriteSide)
+{
+	if (int(currentDeathFrame_) == 1)
+		sprite_.setTexture(textureDeath1_);
+	else if (int(currentDeathFrame_) == 2)
+		sprite_.setTexture(textureDeath2_);
+	else if (int(currentDeathFrame_) == 3)
+		sprite_.setTexture(textureDeath3_);
+	else if (int(currentDeathFrame_) == 4)
+		sprite_.setTexture(textureDeath4_);
+	else if (int(currentDeathFrame_) == 5)
+		sprite_.setTexture(textureDeath5_);
+	else if (int(currentDeathFrame_) == 6)
+		sprite_.setTexture(textureDeath6_);
+	else if (int(currentDeathFrame_) == 7)
+		sprite_.setTexture(textureDeath7_);
+	else if (int(currentDeathFrame_) == 8)
+		sprite_.setTexture(textureDeath8_);
+	else if (int(currentDeathFrame_) == 9)
+		sprite_.setTexture(textureDeath9_);
+	else
+		sprite_.setTexture(textureDeath10_);
+
+	if (currSpriteSide_ != spriteSide)
+	{
+		if (spriteSide == "left")
+			sprite_.setScale(-1.f, 1.f);
+		else
+			sprite_.setScale(1.f, 1.f);
+
+		currSpriteSide_ = spriteSide;
+	}
+}
+
+void Character1::spriteUpdateHurt(string spriteSide)
+{
+	if (int(currentHurtFrame_) == 1)
+		sprite_.setTexture(textureHurt1_);
+	else if (int(currentHurtFrame_) == 2)
+		sprite_.setTexture(textureHurt2_);
+	else if (int(currentHurtFrame_) == 3)
+		sprite_.setTexture(textureHurt3_);
+	else
+		sprite_.setTexture(textureHurt4_);
+
+	if (currSpriteSide_ != spriteSide)
+	{
+		if (spriteSide == "left")
+			sprite_.setScale(-1.f, 1.f);
+		else
+			sprite_.setScale(1.f, 1.f);
+
+		currSpriteSide_ = spriteSide;
+	}
+}
+
 void Character1::setCurrGravityAccel(float value)
 {
 	currGravityAccel_ = value;
@@ -551,11 +625,6 @@ void Character1::setRunAttackState(bool flag)
 void Character1::setHealthPoints(int healthPoints)
 {
 	healthPoints_ = healthPoints;
-
-	if (healthPoints <= 0)
-	{
-		life_ = false;
-	}
 }
 
 void Character1::setEnemyDamaged(bool flag)
@@ -583,6 +652,16 @@ void Character1::setSpriteSide(string spriteSide)
 	currSpriteSide_ = spriteSide;
 }
 
+void Character1::setLife(float flag)
+{
+	life_ = flag;
+}
+
+void Character1::setHurt(bool flag)
+{
+	hurt_ = flag;
+}
+
 bool Character1::getJumpState()
 {
 	return jump_;
@@ -606,6 +685,11 @@ bool Character1::getCharacterMadeDamage()
 bool Character1::getDamageDisabled()
 {
 	return damageDisabled_;
+}
+
+bool Character1::getHurt()
+{
+	return hurt_;
 }
 
 string Character1::getCurrSpriteSide()

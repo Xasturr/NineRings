@@ -28,12 +28,16 @@ public:
 	virtual void setCurrFallFrame(float increase) = 0;
 	virtual void setCurrAttackFrame(float increase) = 0;
 	virtual void setCurrRunAttackFrame(float increase) = 0;
+	virtual void setCurrDeathFrame(float increase) = 0;
+	virtual void setCurrHurtFrame(float increase) = 0;
 	virtual void spriteUpdateIdle() = 0;
 	virtual void spriteUpdateRun(string spriteSide) = 0;
 	virtual void spriteUpdateJump(string spriteSide) = 0;
 	virtual void spriteUpdateFall(string spriteSide) = 0;
 	virtual void spriteUpdateAttack(string spriteSide) = 0;
 	virtual void spriteUpdateRunAttack(string spriteSide) = 0;
+	virtual void spriteUpdateDeath(string spriteSide) = 0;
+	virtual void spriteUpdateHurt(string spriteSide) = 0;
 	virtual void setCurrGravityAccel(float value) = 0;
 	virtual void setCurrJumpAccel(float value) = 0;
 	virtual void setJumpState(bool flag) = 0;
@@ -45,6 +49,8 @@ public:
 	virtual void setName(string name) = 0;
 	virtual void setMaxMoveSpeed(float maxMoveSpeed) = 0;
 	virtual void setSpriteSide(string spriteSide) = 0;
+	virtual void setLife(float flag) = 0;
+	virtual void setHurt(bool flag) = 0;
 
 	virtual int getUpperGap() = 0;
 	virtual int getLowerGap() = 0;
@@ -64,6 +70,7 @@ public:
 	virtual bool getLife() = 0;
 	virtual bool getCharacterMadeDamage() = 0;
 	virtual bool getDamageDisabled() = 0;
+	virtual bool getHurt() = 0;
 
 	virtual string getCurrSpriteSide() = 0;
 	virtual string getCurrState() = 0;

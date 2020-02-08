@@ -46,87 +46,101 @@ bool Enemy::getEnemyLife()
 
 void Enemy::updatePosition(float elapsedTime)
 {
-	cout << character_->getCurrPosition().x << endl;
-	if (leftPressed_)
+	//if (character_->getCurrState() == "falling")
+	//cout << character_->getCurrState() << endl;
+
+
+	if (character_->getHealthPoints() > 0)
 	{
-		//if (onEdge_)
-		//{
-		//	//cout << "LEFTTTTTTTTTTTTTTT" << endl
-		//	character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y);
-		//	character_->spriteUpdateIdle();
-		//	character_->setCurrIdleFrame(character_->getFrameSpeed() * elapsedTime);
-		//	character_->setState("staying");
-		//	return;
-		//}
-		if (character_->getCurrState() == "falling" || character_->getCurrState() == "jumping")
+		if (character_->getHurt())
 		{
-			character_->setPosition(character_->getCurrPosition().x - character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
+			attack_ = false;
+			character_->setCurrHurtFrame(character_->getFrameSpeed() * elapsedTime);
+			character_->spriteUpdateHurt(character_->getCurrSpriteSide());
+			return;
 		}
-		else
+
+		if (leftPressed_)
 		{
-			character_->setState("running");
-			character_->setPosition(character_->getCurrPosition().x - character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
-			character_->setCurrRunFrame(character_->getFrameSpeed() * elapsedTime);
+			if (character_->getCurrState() == "falling" || character_->getCurrState() == "jumping")
+			{
+				character_->setPosition(character_->getCurrPosition().x - character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
+			}
+			else
+			{
+				character_->setState("running");
+				character_->setPosition(character_->getCurrPosition().x - character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
+				character_->setCurrRunFrame(character_->getFrameSpeed() * elapsedTime);
+			}
+			character_->spriteUpdateRun("left");
 		}
-		character_->spriteUpdateRun("left");
+		else if (rightPressed_)
+		{
+			if (character_->getCurrState() == "falling" || character_->getCurrState() == "jumping")
+			{
+				character_->setPosition(character_->getCurrPosition().x + character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
+			}
+			else
+			{
+				character_->setState("running");
+				character_->setPosition(character_->getCurrPosition().x + character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
+				character_->setCurrRunFrame(character_->getFrameSpeed() * elapsedTime);
+			}
+			character_->spriteUpdateRun("right");
+		}
+		if (((upPressed_ && character_->getCurrState() != "jumping") || character_->getCurrState() == "jumping") && character_->getCurrState() != "falling")
+		{
+			if (upPressed_ && character_->getCurrState() != "jumping")
+			{
+				character_->setState("jumping");
+				character_->setCurrJumpAccel(character_->getJumpForce());
+				character_->setCurrGravityAccel(0);
+			}
+			character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y);
+			character_->setCurrJumpFrame(character_->getFrameSpeed() * elapsedTime);
+			character_->spriteUpdateJump(character_->getCurrSpriteSide());
+		}
+		if (character_->getCurrState() == "staying")
+		{
+			character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y);
+			character_->setCurrIdleFrame(character_->getFrameSpeed() * elapsedTime);
+			character_->spriteUpdateIdle();
+		}
+		if (character_->getCurrState() == "falling")
+		{
+			character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y);
+			character_->setCurrFallFrame(character_->getFrameSpeed() * elapsedTime);
+			character_->spriteUpdateFall(character_->getCurrSpriteSide());
+		}
+		if ((attack_ && !character_->getRunAttackState() || character_->getRunAttackState()))
+		{
+			if (character_->getCurrState() == "running")
+			{
+				character_->setRunAttackState(true);
+				character_->setCurrRunAttackFrame(character_->getFrameSpeed() * elapsedTime);
+				character_->spriteUpdateRunAttack(character_->getCurrSpriteSide());
+			}
+		}
+		if (attack_ && !character_->getAttackState() || character_->getAttackState())
+		{
+			if (character_->getCurrState() != "running")
+			{
+				character_->setAttackState(true);
+				character_->setCurrAttackFrame(character_->getFrameSpeed() * elapsedTime);
+				character_->spriteUpdateAttack(character_->getCurrSpriteSide());
+			}
+		}
+		//if (character_->getCurrState() == "hurt")
 	}
-	else if (rightPressed_)
+	else if (character_->getLife())
 	{
-		if (character_->getCurrState() == "falling" || character_->getCurrState() == "jumping")
-		{
-			character_->setPosition(character_->getCurrPosition().x + character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y);
-		}
-		else
-		{
-			character_->setState("running");
-			character_->setPosition(character_->getCurrPosition().x + character_->getMaxMoveSpeed() * elapsedTime, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
-			character_->setCurrRunFrame(character_->getFrameSpeed() * elapsedTime);
-		}
-		character_->spriteUpdateRun("right");
+		character_->setCurrDeathFrame(character_->getFrameSpeed() * elapsedTime);
+		character_->spriteUpdateDeath(character_->getCurrSpriteSide());
 	}
-	if (((upPressed_ && character_->getCurrState() != "jumping") || character_->getCurrState() == "jumping") && character_->getCurrState() != "falling")
+	else
 	{
-		if (upPressed_ && character_->getCurrState() != "jumping")
-		{
-			character_->setState("jumping");
-			character_->setCurrJumpAccel(character_->getJumpForce());
-			character_->setCurrGravityAccel(0);
-		}
-		character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y - character_->getCurrJumpAccel() * elapsedTime);
-		character_->setCurrJumpFrame(character_->getFrameSpeed() * elapsedTime);
-		character_->spriteUpdateJump(character_->getCurrSpriteSide());
-	}
-	if (character_->getCurrState() == "staying")
-	{
-		cout << "adsd" << endl;
-		character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
-		character_->setCurrIdleFrame(character_->getFrameSpeed() * elapsedTime);
-		character_->spriteUpdateIdle();
-	}
-	if (character_->getCurrState() == "falling")
-	{
-		//cout << "WWWWWWWWWWWWWWWWW" << endl;
-		character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + (character_->getCurrGravityAccel()) * elapsedTime);
-		character_->setCurrFallFrame(character_->getFrameSpeed() * elapsedTime);
-		character_->spriteUpdateFall(character_->getCurrSpriteSide());
-	}
-	if ((attack_ && !character_->getRunAttackState() || character_->getRunAttackState()))
-	{
-		if (character_->getCurrState() == "running")
-		{
-			character_->setRunAttackState(true);
-			character_->setCurrRunAttackFrame(character_->getFrameSpeed() * elapsedTime);
-			character_->spriteUpdateRunAttack(character_->getCurrSpriteSide());
-		}
-	}
-	if (attack_ && !character_->getAttackState() || character_->getAttackState())
-	{
-		if (character_->getCurrState() != "running")
-		{
-			character_->setAttackState(true);
-			character_->setCurrAttackFrame(character_->getFrameSpeed() * elapsedTime);
-			character_->spriteUpdateAttack(character_->getCurrSpriteSide());
-		}
+		cout << "You are dead" << endl;
+		exit(0);
 	}
 }
 
@@ -136,7 +150,8 @@ void Enemy::draw(RenderWindow* window, Player* player, Vector2f viewSize, float 
 	{
 		if (player->getCurrPosition().y + viewSize.y / 2 + 50 >= character_->getCurrPosition().y && player->getCurrPosition().y - viewSize.y / 2 - 50 <= character_->getCurrPosition().y)
 		{
-			if (abs(player->getCurrPosition().x - character_->getCurrPosition().x) <= character_->getOverview() && abs(player->getCurrPosition().y - character_->getCurrPosition().y) <= character_->getHeight())
+			//if (abs(player->getCurrPosition().x - character_->getCurrPosition().x) <= character_->getOverview() && abs(player->getCurrPosition().y - character_->getCurrPosition().y) <= character_->getHeight())
+			if (abs(player->getCurrPosition().x - character_->getCurrPosition().x) <= character_->getOverview() && player->getCurrPosition().y == character_->getCurrPosition().y)
 			{
 				angryState_ = true;
 				character_->setMaxMoveSpeed(400);
@@ -162,9 +177,12 @@ void Enemy::draw(RenderWindow* window, Player* player, Vector2f viewSize, float 
 void Enemy::interactionWithMap(Vector2f oldEnemyPosition, Vector2f newEnemyPosition, Map* map, float elapsedTime)
 {
 	Vector2f position = newEnemyPosition;
+	
+	character_->setCurrGravityAccel(0);
+
+	onEdge_ = false;
 
 	bool changedDirection = false;
-	onEdge_ = false;
 
 	float pos = 0;
 
@@ -172,24 +190,24 @@ void Enemy::interactionWithMap(Vector2f oldEnemyPosition, Vector2f newEnemyPosit
 
 	if (leftPressed_)
 	{
-		gap = map->getTileWidth();
+		gap = map->getTileWidth() / 2;
 		gap = -gap;
 	}
 	else
 	{
-		gap = map->getTileWidth();
+		gap = map->getTileWidth() / 2;
 	}
 	
-	if (attack_)
+	if (angryState_)
 	{
-		gap /= 1;
+		//gap *= 2;
 	}
 
-	for (int i = (newEnemyPosition.x - character_->getLeftGap() + map->getTileWidth() / 2 + gap) / map->getTileWidth(); i < (newEnemyPosition.x + character_->getRightGap() + map->getTileWidth() / 2 + gap) / map->getTileWidth() && !changedDirection; i++)
+	for (int i = (newEnemyPosition.x - character_->getLeftGap()*0 + map->getTileWidth() / 2 + gap) / map->getTileWidth(); i < (newEnemyPosition.x + character_->getRightGap()*0 + map->getTileWidth() / 2 + gap) / map->getTileWidth() && !changedDirection; i++)
 	{
-		for (int j = (oldEnemyPosition.y - character_->getHeight()) / map->getTileHeight(); j < (oldEnemyPosition.y) / map->getTileHeight(); j++)
+		for (int j = (oldEnemyPosition.y) / map->getTileHeight(); j < (oldEnemyPosition.y + character_->getWidth()) / map->getTileHeight(); j++)
 		{
-			if (!map->getValue(j, i, ' ', map->getTileMapElse()))
+			if (map->getValue(j, i, ' ', map->getTileMapElse()))
 			{
 				position.x = oldEnemyPosition.x;
 				if (leftPressed_)
@@ -205,91 +223,85 @@ void Enemy::interactionWithMap(Vector2f oldEnemyPosition, Vector2f newEnemyPosit
 				changedDirection = true;
 
 				character_->setPosition(position.x, oldEnemyPosition.y);
-
-				return;	
+				//return;	
 			}
 		}
 	}
 
-	for (int i = (oldEnemyPosition.x - character_->getLeftGap() + map->getTileWidth() / 2 + gap) / map->getTileWidth(); i < (oldEnemyPosition.x + character_->getRightGap() + map->getTileWidth() / 2 + gap) / map->getTileWidth(); i++)
+	//cout << "bbbbb" << endl;
+
+	for (int i = (oldEnemyPosition.x - character_->getLeftGap()*0 + map->getTileWidth() / 2 + gap) / map->getTileWidth(); i < (oldEnemyPosition.x + character_->getRightGap()*0 + map->getTileWidth() / 2 + gap) / map->getTileWidth(); i++)
 	{
-		for (int j = (newEnemyPosition.y - character_->getHeight()) / map->getTileHeight(); j < (newEnemyPosition.y) / map->getTileHeight(); j++)
+		for (int j = (newEnemyPosition.y) / map->getTileHeight(); j < (newEnemyPosition.y + character_->getHeight()) / map->getTileHeight(); j++)
 		{
-			if (!map->getValue(j, i, ' ', map->getTileMapElse()))
+			if (map->getValue(j, i, ' ', map->getTileMapElse()))
 			{
-				if (character_->getCurrState() == "jumping")
+				cout << j << endl;
+				if (position.x == newEnemyPosition.x && newEnemyPosition.x != oldEnemyPosition.x)
 				{
-					if (newEnemyPosition.y > j * map->getTileHeight() + map->getTileHeight() / 2)
-					{
-						character_->setState("falling");
-						character_->setPosition(oldEnemyPosition.x, oldEnemyPosition.y);
-						character_->setCurrGravityAccel(0);
-						return;
-					}
+					character_->setState("running");
 				}
 				else
 				{
-					if (position.x == newEnemyPosition.x && newEnemyPosition.x != oldEnemyPosition.x)
-					{
-						character_->setState("running");
-					}
-					else
-					{
-						character_->setState("staying");
-					}
-
-					position.y = j * map->getTileHeight();
-					//cout << position.y << endl;
+					character_->setState("staying");
 				}
-
-				//onEdge_ = true;
+	
+				onEdge_ = true;
 				character_->setCurrJumpAccel(character_->getJumpForce());
 				character_->setCurrGravityAccel(0);
-				break;
+			//	break;
 			}
 		}
 	}
-
+	
+	//if (character_->getCurrState() != "jumping" && character_->getCurrState() != "falling" && character_->getCurrState() != "staying" && onEdge_)
+	//{
+	//	if (angryState_)
+	//	{
+	//		cout << "aaaaaaaa" << endl;
+	//		//onEdge_ = true;
+	//		character_->setState("staying");
+	//		leftPressed_ = false;
+	//		rightPressed_ = false;
+	//		character_->setPosition(oldEnemyPosition.x, oldEnemyPosition.y);
+	//		character_->spriteUpdateIdle();
+	//		character_->setCurrIdleFrame(elapsedTime);
+	//	}
+	//	else
+	//	{
+	//		cout << "bbbbbbbbb" << endl;
+	//		if (leftPressed_)
+	//		{
+	//			leftPressed_ = false;
+	//			rightPressed_ = true;
+	//			character_->setPosition(oldEnemyPosition.x + (oldEnemyPosition.x - newEnemyPosition.x), oldEnemyPosition.y);
+	//		}
+	//		else if (rightPressed_)
+	//		{
+	//			rightPressed_ = false;
+	//			leftPressed_ = true;
+	//			character_->setPosition(oldEnemyPosition.x - (newEnemyPosition.x - oldEnemyPosition.x), oldEnemyPosition.y);
+	//		}
+	//		else
+	//		{
+	//			character_->setPosition(oldEnemyPosition.x, oldEnemyPosition.y);
+	//		}
+	//		//cout << "HERE" << endl;
+	//		//character_->setState("falling");
+	//	}
+	//	//attack_ = false;
+	//}
+	//else
+	//{
+	//	onEdge_ = false;
 	character_->setPosition(position.x, position.y);
-
-	if (character_->getCurrState() != "jumping" && character_->getCurrState() != "falling" && character_->getCurrState() != "staying" && position == newEnemyPosition)
-	{
-		//cout << "here" << endl;
-		if (angryState_)
-		{
-			onEdge_ = true;
-			//character_->setState("staying");
-			//leftPressed_ = false;
-			//rightPressed_ = false;
-			character_->setPosition(oldEnemyPosition.x, oldEnemyPosition.y);
-			//character_->spriteUpdateIdle();
-			//character_->setCurrIdleFrame(elapsedTime);
-		}
-		else
-		{
-			if (leftPressed_)
-			{
-				leftPressed_ = false;
-				rightPressed_ = true;
-				character_->setPosition(oldEnemyPosition.x + (oldEnemyPosition.x - newEnemyPosition.x), oldEnemyPosition.y);
-			}
-			else if (rightPressed_)
-			{
-				rightPressed_ = false;
-				leftPressed_ = true;
-				character_->setPosition(oldEnemyPosition.x - (newEnemyPosition.x - oldEnemyPosition.x), oldEnemyPosition.y);
-			}
-			//character_->setState("falling");
-		}
-		//attack_ = false;
-	}
+	//}
 }
-
+	
 void Enemy::decision(float elapsedTime, Player* player)
 {
-	if (character_->getName() == "Character1")
+	if (character_->getName() == "Character1" && !character_->getHurt())
 	{
-		//cout << onEdge_ << endl;
 		if (character_->getCurrState() == "falling")
 		{
 			leftPressed_ = false;
@@ -297,7 +309,7 @@ void Enemy::decision(float elapsedTime, Player* player)
 			stayingTime_ = 0;
 			runningTime_ = 0;
 		}
-		else if (angryState_ && !onEdge_)
+		else if (angryState_)
 		{
 			leftPressed_ = false;
 			rightPressed_ = false;
@@ -307,29 +319,24 @@ void Enemy::decision(float elapsedTime, Player* player)
 		
 			if (character_->getCurrSpriteSide() == "left")
 			{
-				if (character_->getCurrPosition().x - character_->getAttackRange() <= player->getCurrPosition().x + player->getWidth() / 2 && character_->getCurrPosition().x >= player->getCurrPosition().x)
+				if (character_->getCurrPosition().x - character_->getAttackRange() <= player->getCurrPosition().x + player->getWidth() / 2 && character_->getCurrPosition().x >= player->getCurrPosition().x && !player->getHurt())
 				{
 					attack_ = true;
 				}
 			}
 			else
 			{
-				if (character_->getCurrPosition().x + character_->getAttackRange() >= player->getCurrPosition().x - player->getWidth() / 2 && character_->getCurrPosition().x <= player->getCurrPosition().x)
+				if (character_->getCurrPosition().x + character_->getAttackRange() >= player->getCurrPosition().x - player->getWidth() / 2 && character_->getCurrPosition().x <= player->getCurrPosition().x && !player->getHurt())
 				{
 					attack_ = true;
 				}
 			}
-
-			//if (abs(player->getCurrPosition().x - character_->getCurrPosition().x) < character_->getAttackRange())
-			//{
-			//	attack_ = true;
-			//}
 		
-			if (player->getCurrPosition().x - character_->getCurrPosition().x <= character_->getOverview() && player->getCurrPosition().x - player->getWidth() / 2 - character_->getCurrPosition().x > character_->getAttackRange() / 2)
+			if (player->getCurrPosition().x - character_->getCurrPosition().x <= character_->getOverview() && player->getCurrPosition().x - player->getWidth() / 1 - character_->getCurrPosition().x > character_->getAttackRange() / 2)
 			{
 				rightPressed_ = true;
 			}
-			else if (character_->getCurrPosition().x - player->getCurrPosition().x <= character_->getOverview() && character_->getCurrPosition().x - player->getWidth() / 2 - player->getCurrPosition().x > character_->getAttackRange() / 2)
+			else if (character_->getCurrPosition().x - player->getCurrPosition().x <= character_->getOverview() && character_->getCurrPosition().x - player->getWidth() / 1 - player->getCurrPosition().x > character_->getAttackRange() / 2)
 			{
 				leftPressed_ = true;
 			}
@@ -350,7 +357,7 @@ void Enemy::decision(float elapsedTime, Player* player)
 				character_->setState("staying");
 			}
 		}
-		else if (!onEdge_)
+		else 
 		{
 			if (!leftPressed_ && !rightPressed_ && stayingTime_ == 0 && runningTime_ == 0)
 			{
@@ -423,7 +430,7 @@ Sprite Enemy::getSprite()
 
 void Enemy::checkDamage(Player* player)
 {
-	if (player->getAttackState() && !player->getCharacterMadeDamage() && !player->getDamageDisabled())
+	if (player->getAttackState() && !player->getCharacterMadeDamage() && !player->getDamageDisabled() && character_->getHealthPoints() > 0 && !character_->getHurt())
 	{
 		if (player->getCurrPosition().y - player->getHeight() < character_->getCurrPosition().y && player->getCurrPosition().y > character_->getCurrPosition().y - character_->getHeight())
 		{
@@ -434,6 +441,7 @@ void Enemy::checkDamage(Player* player)
 					player->setEnemyDamaged(true);
 					character_->setHealthPoints(character_->getHealthPoints() - player->getAttackDamage());
 					cout << "Enemy health: " << character_->getHealthPoints() << endl;
+					character_->setHurt(true);
 				}
 			}
 			else
@@ -443,14 +451,14 @@ void Enemy::checkDamage(Player* player)
 					player->setEnemyDamaged(true);
 					character_->setHealthPoints(character_->getHealthPoints() - player->getAttackDamage());
 					cout << "Enemy health: " << character_->getHealthPoints() << endl;
+					character_->setHurt(true);
 				}
 			}
 		}
 	}
 
-	if (character_->getAttackState() && !character_->getCharacterMadeDamage() && !character_->getDamageDisabled())
+	if (character_->getAttackState() && !character_->getCharacterMadeDamage() && !character_->getDamageDisabled() && player->getHealthPoints() > 0 && !player->getHurt())
 	{
-		//if (player->getCurrPosition().y - player->getHeight() < character_->getCurrPosition().y && player->getCurrPosition().y > character_->getCurrPosition().y - character_->getHeight())
 		if (character_->getCurrPosition().y - character_->getHeight() < player->getCurrPosition().y && character_->getCurrPosition().y > player->getCurrPosition().y - player->getHeight())
 		{
 			if (character_->getCurrSpriteSide() == "left")
@@ -460,6 +468,7 @@ void Enemy::checkDamage(Player* player)
 					character_->setEnemyDamaged(true);
 					player->setHealthPoints(player->getHealthPoints() - character_->getAttackDamage());
 					cout << "Player health: " << player->getHealthPoints() << endl;
+					player->setHurt(true);
 				}
 			}
 			else
@@ -469,12 +478,9 @@ void Enemy::checkDamage(Player* player)
 					character_->setEnemyDamaged(true);
 					player->setHealthPoints(player->getHealthPoints() - character_->getAttackDamage());
 					cout << "Player health: " << player->getHealthPoints() << endl;
+					player->setHurt(true);
 				}
 			}
-			//if (abs(player->getCurrPosition().x - character_->getCurrPosition().x) <= character_->getAttackRange())
-			//{
-			//
-			//}
 		}
 	}
 }

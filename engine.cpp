@@ -34,6 +34,11 @@ Vector2f Engine::getPlayerPosition()
 	return player_->getSprite().getPosition();
 }
 
+Vector2f Engine::getViewCenter()
+{
+	return view_.getCenter();
+}
+
 void Engine::drawGameWindow(GameWindow* gameWindow)
 {
 	gameWindow->draw(&window_);
@@ -132,7 +137,61 @@ int Engine::input()
 		player_->stopAttack();
 	}
 
+	if (Keyboard::isKeyPressed(Keyboard::P) && !player_->getAttackState())
+	{
+		player_->shoot();
+	}
+	else
+	{
+		player_->stopShoot();
+	}
+
 	return 0;
+}
+
+int Engine::getCurrPlayerHealthPoints()
+{
+	return player_->getCurrHealthPoints();
+}
+
+int Engine::getCurrPlayerMana()
+{
+	return player_->getCurrMana();
+}
+
+int Engine::getCurrPlayerStamina()
+{
+	return player_->getCurrStamina();
+}
+
+int Engine::getMaxPlayerHealthPoints()
+{
+	return player_->getMaxHealthPoints();
+}
+
+int Engine::getMaxPlayerMana()
+{
+	return player_->getMaxMana();
+}
+
+int Engine::getMaxPlayerStamina()
+{
+	return player_->getMaxStamina();
+}
+
+int Engine::getCurrPlayerShellAmount()
+{
+	return player_->getCurrShellAmount();
+}
+
+int Engine::getCurrPlayerPosX()
+{
+	return player_->getCurrPosition().x / level_->getTileWidth();
+}
+
+int Engine::getCurrPlayerPosY()
+{
+	return player_->getCurrPosition().y / level_->getTileHeight();
 }
 
 void Engine::changeRenderWindowMode()
@@ -166,6 +225,11 @@ gameWindow->setInvisible();
 string Engine::getClickedButtonId(GameWindow* gameWindow)
 {
 	return gameWindow->getClickedButtonId(&window_);
+}
+
+string Engine::getCurrPlayerShellName()
+{
+	return player_->getCurrShellName();
 }
 
 Event* Engine::getEvent()
@@ -215,7 +279,6 @@ void Engine::playerMoveDown()
 
 void Engine::update(float elapsedTime)
 {
-
 	Vector2f oldPlayerPosition = player_->getCurrPosition();
 	player_->update(elapsedTime);
 	player_->interactionWithMap(oldPlayerPosition, player_->getSprite().getPosition(), level_->getMap(), elapsedTime);
@@ -234,6 +297,7 @@ void Engine::draw(float elapsedTime)
 	level_->buildMap(&window_, player_->getSprite().getPosition(), view_.getSize());
 	//level_->buildMap(&window_);
 	level_->updateAndDrawEnemies(&window_, player_, view_.getSize(), elapsedTime);
+	player_->flyingShellsUpdateAndDraw(elapsedTime, level_->getMap(), &window_);
 
 	window_.draw(player_->getSprite());
 }

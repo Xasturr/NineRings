@@ -59,7 +59,7 @@ class Map1 : public Map
 		"0                                                          0",
 		"0                                                00000000000",
 	    "0       1                         4000002        00000000000",
-		"011111111                                                  0",
+		"011111111            0      0                              0",
 		"0                000 40000002                              0",
 		"0                    30000001                              0",
 		"0                                                          0",
@@ -102,6 +102,7 @@ public:
 	string* getTileMapElse();
 
 	bool getValue(int i, int j, char c, string tileMap[]);
+	bool getCollision(int i, int j, char c);
 
 	Texture getTexture();
 

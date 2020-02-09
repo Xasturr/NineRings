@@ -1,5 +1,36 @@
 #include "game.h"
 
+Game::Game()
+{
+	inputValue = 0;
+	elapsedTime_ = 0;
+
+	showInfo_ = false;
+
+	bebasRegular_.loadFromFile("./fonts/Bebas-Regular.otf");
+
+	textFPS_.setFont(bebasRegular_);
+	textHP_.setFont(bebasRegular_);
+	textMana_.setFont(bebasRegular_);
+	textStamina_.setFont(bebasRegular_);
+	textShellsAmount_.setFont(bebasRegular_);
+	textPosX_.setFont(bebasRegular_);
+	textPosY_.setFont(bebasRegular_);
+
+	textFPS_.setFillColor(Color::White);
+	textHP_.setFillColor(Color::White);
+	textMana_.setFillColor(Color::White);
+	textStamina_.setFillColor(Color::White);
+	textShellsAmount_.setFillColor(Color::White);
+	textPosX_.setFillColor(Color::White);
+	textPosY_.setFillColor(Color::White);
+}
+
+Game::~Game()
+{
+
+}
+
 void Game::start()
 {
 	engine_.createRenderWindow(VideoMode(engine_.getResolution().x, engine_.getResolution().y), "NineRings", "Fullscreen");
@@ -59,11 +90,10 @@ void Game::start()
 
 	while (engine_.renderWindowIsOpen())
 	{
-		timeText.setPosition(engine_.getPlayerPosition().x - 600, engine_.getPlayerPosition().y - 340);
-
 		if (time >= 1)
 		{
-			timeText.setString(to_string(iter));
+			//timeText.setString(to_string(iter));
+			textFPS_.setString("FPS: " + to_string(iter));
 			time = 0;
 			iter = 0;
 		}
@@ -103,6 +133,18 @@ void Game::start()
 			engine_.changeRenderWindowMode();
 		}
 
+		if (Keyboard::isKeyPressed(Keyboard::I))
+		{
+			if (showInfo_)
+			{
+				showInfo_ = false;
+			}
+			else
+			{
+				showInfo_ = true;
+			}
+		}
+
 		inputValue = engine_.input();
 		time += clock_.getElapsedTime().asSeconds();
 		engine_.setView(1280, 720);
@@ -122,27 +164,45 @@ void Game::start()
 			clock_.restart();
 			start = false;
 		}
+
 		elapsedTime_ = clock_.restart().asSeconds();
+
 		if (elapsedTime_ * 25 >= 1)
+		{
 			elapsedTime_ = 0;
+		}
+
 		engine_.draw(elapsedTime_);
 		engine_.update(elapsedTime_);
-		//cout << elapsedTime_ << endl;
 		//engine_.drawGameWindow(win1);
-		engine_.drawText(timeText);
+		//engine_.drawText(timeText);
+		if (showInfo_)
+		{
+			textFPS_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 335);
+			textHP_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 305);
+			textStamina_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 275);
+			textMana_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 245);
+			textShellsAmount_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 215);
+			textPosX_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 185);
+			textPosY_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 155);
+
+			textHP_.setString("HP: " + to_string(engine_.getCurrPlayerHealthPoints()) + " of " + to_string(engine_.getMaxPlayerHealthPoints()));
+			textStamina_.setString("Stamina: " + to_string(engine_.getCurrPlayerStamina()) + " of " + to_string(engine_.getMaxPlayerStamina()));
+			textMana_.setString("Mana: " + to_string(engine_.getCurrPlayerMana()) + " of " + to_string(engine_.getMaxPlayerMana()));
+			textShellsAmount_.setString(engine_.getCurrPlayerShellName() + ": " + to_string(engine_.getCurrPlayerShellAmount()));
+			textPosX_.setString("PosX:" + to_string(engine_.getCurrPlayerPosX()));
+			textPosY_.setString("PosY:" + to_string(engine_.getCurrPlayerPosY()));
+
+			engine_.drawText(textFPS_);
+			engine_.drawText(textHP_);
+			engine_.drawText(textStamina_);
+			engine_.drawText(textMana_);
+			engine_.drawText(textShellsAmount_);
+			engine_.drawText(textPosX_);
+			engine_.drawText(textPosY_);
+		}
 		engine_.renderWindowDisplay();
 
 		iter++;
 	}
-}
-
-Game::Game()
-{
-	inputValue = 0;
-	elapsedTime_ = 0;
-}
-
-Game::~Game()
-{
-
 }

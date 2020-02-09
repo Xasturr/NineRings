@@ -4,12 +4,11 @@ Level1::Level1()
 {
 	map_ = new Map1();
 
-	//enemies_.push_back(new Enemy("Character1", 100, 185));
-	//enemies_.push_back(new Enemy("Character1", 100, 185));
-	//enemies_.push_back(new Enemy("Character1", 100, 185));
-	//enemies_.push_back(new Enemy("Character1", 100, 185));
-	//enemies_.push_back(new Enemy("Character1", 100, 185));
-	//enemies_.push_back(new Enemy("Character1", 100, 185));
+	enemies_.push_back(new Enemy("Character1", 256, 512));
+	enemies_.push_back(new Enemy("Character1", 640, 960));
+	enemies_.push_back(new Enemy("Character1", 2560, 1664));
+	enemies_.push_back(new Enemy("Character1", 448, 2176));
+	enemies_.push_back(new Enemy("Character1", 666, 2176));
 	
 	enemies_.push_back(new Enemy("Character1", 1600, 576));
 	//enemies_.push_back(new Enemy("Character1", 1600, 576));
@@ -68,7 +67,19 @@ string* Level1::getTileMapElse()
 bool Level1::getValue(int i, int j, char c, string tileMap[])
 {
 	if (tileMap[i][j] == c)
+	{
 		return true;
+	}
+
+	return false;
+}
+
+bool Level1::getCollision(int i, int j, char c)
+{
+	if (map_->getCollision(i, j, c))
+	{
+		return true;
+	}
 
 	return false;
 }
@@ -112,6 +123,12 @@ void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 			enemies_[i]->decision(elapsedTime, player);
 			enemies_[i]->interactionWithMap(oldEnemyPosition, enemies_[i]->getPosition(), map_, elapsedTime);
 			enemies_[i]->draw(window, player, viewSize, elapsedTime);
+			int damage = player->flyingShellsMakeDamage(enemies_[i]->getPosition(), enemies_[i]->getWidth(), enemies_[i]->getHeight());
+			if (damage > 0)
+			{
+				enemies_[i]->setCurrHealthPoints(enemies_[i]->getCurrHealthPoints() - damage);
+				enemies_[i]->setHurt(true);
+			}
 		}
 		else
 		{

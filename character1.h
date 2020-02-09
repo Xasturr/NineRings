@@ -1,6 +1,7 @@
 #pragma once
 
 #include "character.h"
+#include "shellFireBall.h"
 #include <iostream>
 
 using namespace std;
@@ -79,6 +80,7 @@ class Character1 : public Character
 	bool characterMadeDamage_;
 	bool damageDisabled_;
 	bool hurt_;
+	bool shoot_;
 
 	float maxMoveSpeed_;
 	float currentIdleFrame_;
@@ -93,6 +95,13 @@ class Character1 : public Character
 	float jumpForce_;
 	float currGravityAccel_;
 	float currJumpAccel_;
+	float currHealthPoints_;
+	float currMana_;
+	float currStamina_;
+	float currAngle_;
+	float frameSpeed_;
+	float currShotCoolDown_;
+	float maxShotCoolDown_;
 
 	int numberOfIdleFrames_;
 	int numberOfRunFrames_;
@@ -106,19 +115,26 @@ class Character1 : public Character
 	int upperGap_;
 	int rightGap_;
 	int leftGap_;
-	int healthPoints_;
+	int maxHealthPoints_;
+	int maxMana_;
+	int maxStamina_;
 	int attackDamage_;
 	int attackRange_;
 	int runAttackRange_;
 	int height_;
 	int width_;
 	int overview_;
-
-	float frameSpeed_;
+	int currFireBallAmount_;
 
 	string currSpriteSide_;
 	string state_;
 	string name_;
+	string currShellName_;
+
+	//vector<Shell*> shells_;
+	vector<Shell*> flyingShells_;
+
+	void updateSpriteSide(string spriteSide);
 
 public:
 	Character1(float posX, float posY);
@@ -133,6 +149,8 @@ public:
 	float getCurrJumpAccel();
 	float getJumpForce();
 	float getCurrAttackFrame();
+	float getCurrShotCoolDown();
+	float getMaxShotCoolDown();
 
 	int getCurrIdleFrame();
 	int getUpperGap();
@@ -140,12 +158,20 @@ public:
 	int getLeftGap();
 	int getRightGap();
 	int getAttackRange();
-	int getHealthPoints();
+	int getCurrHealthPoints();
+	int getCurrMana();
+	int getCurrStamina();
 	int getAttackDamage();
 	int getNumberOfAttackFrames();
 	int getHeight();
 	int getWidth();
 	int getOverview();
+	int getMaxMana();
+	int getMaxStamina();
+	int getMaxHealthPoints();
+	int getCurrFlyingShellAmount();
+	int getCurrShellAmount();
+	int flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight);
 
 	Vector2f getCurrPosition();
 
@@ -172,13 +198,18 @@ public:
 	void setState(string state);
 	void setAttackState(bool flag);
 	void setRunAttackState(bool flag);
-	void setHealthPoints(int healthPoints);
 	void setEnemyDamaged(bool flag);
 	void setName(string name);
 	void setMaxMoveSpeed(float moveMaxSpeed);
 	void setSpriteSide(string spriteSide);
 	void setLife(float flag);
 	void setHurt(bool flag);
+	void setCurrHealthPoints(int currHealthPoints);
+	void setCurrStamina(int currStamina);
+	void setCurrMana(int currMana);
+	void addFlyingShell(string shellName);
+	void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window);
+	void setCurrShotCoolDown(float currShotCoolDown);
 
 	bool getCharacterLife();
 	bool getAttackState();
@@ -192,5 +223,6 @@ public:
 	string getCurrSpriteSide();
 	string getCurrState();
 	string getName();
+	string getCurrShellName();
 };
 

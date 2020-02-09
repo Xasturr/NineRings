@@ -21,6 +21,7 @@ public:
 	string* getTileMapElse();
 
 	bool getValue(int i, int j, char c, string tileMap[]);
+	bool getCollision(int i, int j, char c);
 
 	Texture getTexture();
 

@@ -42,6 +42,7 @@ public:
 	//key - resolution; value - 1) Size; 2) Position
 
 	Vector2f getPlayerPosition();
+	Vector2f getViewCenter();
 
 	void drawGameWindow(GameWindow* gameWindow);
 	void drawButton(Button* button);
@@ -69,8 +70,18 @@ public:
 	bool isRenderWindowFullscreen();
 
 	int input();
+	int getCurrPlayerHealthPoints();
+	int getCurrPlayerMana();
+	int getCurrPlayerStamina();
+	int getMaxPlayerHealthPoints();
+	int getMaxPlayerMana();
+	int getMaxPlayerStamina();
+	int getCurrPlayerShellAmount();
+	int getCurrPlayerPosX();
+	int getCurrPlayerPosY();
 
 	string getClickedButtonId(GameWindow* gameWindow);
+	string getCurrPlayerShellName();
 
 	Vector2i getResolution();
 

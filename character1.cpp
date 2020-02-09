@@ -76,8 +76,9 @@ Character1::Character1(float posX, float posY)
 	characterMadeDamage_ = false;
 	damageDisabled_ = false;
 	hurt_ = false;
+	shoot_ = false;
 
-	maxMoveSpeed_ = 500;
+	maxMoveSpeed_ = 450;
 	currentIdleFrame_ = 1;
 	currentRunFrame_ = 1;
 	currentJumpFrame_ = 1;
@@ -103,19 +104,31 @@ Character1::Character1(float posX, float posY)
 	//lowerGap_ = 23;
 	//upperGap_ = 52;
 	currGravityAccel_ = jumpForce_;
-	healthPoints_ = 100;
+	maxHealthPoints_ = currHealthPoints_ =  100;
+	maxStamina_ = currStamina_ = 100;
+	maxMana_ = currMana_ = 100;
 	attackDamage_ = 10;
 	attackRange_ = 60;
 	runAttackRange_ = 58;
 	height_ = 70; //height of character
 	width_ = 40; //width of caracter
 	overview_ = 330;
+	currFireBallAmount_ = 100;
+	currAngle_ = 90;
+	maxShotCoolDown_ = 2;
+	currShotCoolDown_ = 0;
 
 	sprite_.setOrigin(textureRun1_.getSize().x / 2, 110);
 
 	currSpriteSide_ = "right";
 	state_ = "falling";
 	name_ = "Character1";
+	currShellName_ = "FireBall";
+
+	//for (int i = 0; i < currFireBallAmount_; i++)
+	//{
+	//	shells_[i] = new ShellFireBall();
+	//}
 }
 Character1::~Character1() {}
 
@@ -159,6 +172,16 @@ float Character1::getCurrAttackFrame()
 	return currentAttackFrame_;
 }
 
+float Character1::getCurrShotCoolDown()
+{
+	return currShotCoolDown_;
+}
+
+float Character1::getMaxShotCoolDown()
+{
+	return maxShotCoolDown_;
+}
+
 int Character1::getCurrIdleFrame()
 {
 	return currentIdleFrame_;
@@ -196,9 +219,34 @@ int Character1::getAttackRange()
 	}
 }
 
-int Character1::getHealthPoints()
+int Character1::getCurrHealthPoints()
 {
-	return healthPoints_;
+	return int(currHealthPoints_);
+}
+
+int Character1::getCurrMana()
+{
+	return int(currMana_);
+}
+
+int Character1::getCurrStamina()
+{
+	return int(currStamina_);
+}
+
+int Character1::getMaxHealthPoints()
+{
+	return maxHealthPoints_;
+}
+
+int Character1::getMaxMana()
+{
+	return maxMana_;
+}
+
+int Character1::getMaxStamina()
+{
+	return maxStamina_;
 }
 
 int Character1::getAttackDamage()
@@ -224,6 +272,44 @@ int Character1::getWidth()
 int Character1::getOverview()
 {
 	return overview_;
+}
+
+int Character1::getCurrFlyingShellAmount()
+{
+	return flyingShells_.size();
+}
+
+int Character1::getCurrShellAmount()
+{
+	if (currShellName_ == "FireBall")
+	{
+		return currFireBallAmount_;
+	}
+
+	return 0;
+}
+
+int Character1::flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight)
+{
+	for (int i = 0; i < flyingShells_.size(); i++)
+	{
+		if (!flyingShells_[i]->getExplosed())
+		{
+			if (enemyPos.x - enemyWidth / 2 <= flyingShells_[i]->getPosition().x
+				&& enemyPos.x + enemyWidth / 2 >= flyingShells_[i]->getPosition().x
+				&& enemyPos.y - enemyHeight <= flyingShells_[i]->getPosition().y
+				&& enemyPos.y >= flyingShells_[i]->getPosition().y)
+			{
+				cout << "DAMAGED ENEMY" << endl;
+				//flyingShells_[i]->setLife(false);
+				flyingShells_[i]->setExplosed(true);
+				//hurt_ = true;
+				return flyingShells_[i]->getAlphaStrike();
+			}
+		}
+	}
+
+	return 0;
 }
 
 Vector2f Character1::getCurrPosition()
@@ -385,6 +471,25 @@ void Character1::setCurrHurtFrame(float increase)
 	}
 }
 
+void Character1::updateSpriteSide(string spriteSide)
+{
+	if (currSpriteSide_ != spriteSide)
+	{
+		if (spriteSide == "left")
+		{
+			sprite_.setScale(-1.f, 1.f);
+			currAngle_ = -90;
+		}
+		else
+		{
+			sprite_.setScale(1.f, 1.f);
+			currAngle_ = 90;
+		}
+
+		currSpriteSide_ = spriteSide;
+	}
+}
+
 void Character1::spriteUpdateIdle()
 {
 	if (int(currentIdleFrame_) == 1)
@@ -432,15 +537,7 @@ void Character1::spriteUpdateRun(string spriteSide)
 	else
 		sprite_.setTexture(textureRun8_);
 
-	if (currSpriteSide_ != spriteSide)
-	{
-		if (spriteSide == "left")
-			sprite_.setScale(-1.f, 1.f);
-		else
-			sprite_.setScale(1.f, 1.f);
-
-		currSpriteSide_ = spriteSide;
-	}
+	updateSpriteSide(spriteSide);
 }
 
 void Character1::spriteUpdateJump(string spriteSide)
@@ -460,15 +557,7 @@ void Character1::spriteUpdateJump(string spriteSide)
 	else 
 		sprite_.setTexture(textureJump7_);
 
-	if (currSpriteSide_ != spriteSide)
-	{
-		if (spriteSide == "left")
-			sprite_.setScale(-1.f, 1.f);
-		else
-			sprite_.setScale(1.f, 1.f);
-
-		currSpriteSide_ = spriteSide;
-	}
+	updateSpriteSide(spriteSide);
 }
 
 void Character1::spriteUpdateFall(string spriteSide)
@@ -478,15 +567,7 @@ void Character1::spriteUpdateFall(string spriteSide)
 		sprite_.setTexture(textureFall1_);
 	}
 
-	if (currSpriteSide_ != spriteSide)
-	{
-		if (spriteSide == "left")
-			sprite_.setScale(-1.f, 1.f);
-		else
-			sprite_.setScale(1.f, 1.f);
-
-		currSpriteSide_ = spriteSide;
-	}
+	updateSpriteSide(spriteSide);
 }
 
 void Character1::spriteUpdateAttack(string spriteSide)
@@ -500,15 +581,7 @@ void Character1::spriteUpdateAttack(string spriteSide)
 	else
 		sprite_.setTexture(textureAttack4_);
 
-	if (currSpriteSide_ != spriteSide)
-	{
-		if (spriteSide == "left")
-			sprite_.setScale(-1.f, 1.f);
-		else
-			sprite_.setScale(1.f, 1.f);
-
-		currSpriteSide_ = spriteSide;
-	}
+	updateSpriteSide(spriteSide);
 }
 
 void Character1::spriteUpdateRunAttack(string spriteSide)
@@ -530,15 +603,7 @@ void Character1::spriteUpdateRunAttack(string spriteSide)
 	else
 		sprite_.setTexture(textureRunAttack8_);
 
-	if (currSpriteSide_ != spriteSide)
-	{
-		if (spriteSide == "left")
-			sprite_.setScale(-1.f, 1.f);
-		else
-			sprite_.setScale(1.f, 1.f);
-
-		currSpriteSide_ = spriteSide;
-	}
+	updateSpriteSide(spriteSide);
 }
 
 void Character1::spriteUpdateDeath(string spriteSide)
@@ -564,15 +629,7 @@ void Character1::spriteUpdateDeath(string spriteSide)
 	else
 		sprite_.setTexture(textureDeath10_);
 
-	if (currSpriteSide_ != spriteSide)
-	{
-		if (spriteSide == "left")
-			sprite_.setScale(-1.f, 1.f);
-		else
-			sprite_.setScale(1.f, 1.f);
-
-		currSpriteSide_ = spriteSide;
-	}
+	updateSpriteSide(spriteSide);
 }
 
 void Character1::spriteUpdateHurt(string spriteSide)
@@ -586,15 +643,7 @@ void Character1::spriteUpdateHurt(string spriteSide)
 	else
 		sprite_.setTexture(textureHurt4_);
 
-	if (currSpriteSide_ != spriteSide)
-	{
-		if (spriteSide == "left")
-			sprite_.setScale(-1.f, 1.f);
-		else
-			sprite_.setScale(1.f, 1.f);
-
-		currSpriteSide_ = spriteSide;
-	}
+	updateSpriteSide(spriteSide);
 }
 
 void Character1::setCurrGravityAccel(float value)
@@ -622,10 +671,65 @@ void Character1::setRunAttackState(bool flag)
 	runAttack_ = flag;
 }
 
-void Character1::setHealthPoints(int healthPoints)
+void Character1::setCurrHealthPoints(int currHealthPoints)
 {
-	healthPoints_ = healthPoints;
+	currHealthPoints_ = currHealthPoints;
 }
+
+void Character1::setCurrStamina(int currStamina)
+{
+	currStamina_ = currStamina;
+}
+
+void Character1::setCurrMana(int currMana)
+{
+	currMana_ = currMana;
+}
+
+void Character1::addFlyingShell(string shellName)
+{
+	if (shellName == "FireBall" && currFireBallAmount_ > 0)
+	{
+		currFireBallAmount_ -= 1;
+		flyingShells_.push_back(new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, currAngle_, currSpriteSide_));
+	}
+}
+
+void Character1::flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window)
+{
+	int eraseShell = -1;
+
+	for (int i = 0; i < flyingShells_.size(); i++)
+	{
+		if (flyingShells_[i]->getLife())
+		{
+			flyingShells_[i]->updateAndDraw(elapsedTime, map, window);
+		}
+		else
+		{
+			eraseShell = i;
+		}
+	}
+
+	if (eraseShell != -1)
+	{
+		flyingShells_.erase(flyingShells_.begin() + eraseShell);
+	}
+}
+
+void Character1::setCurrShotCoolDown(float currShotCoolDown)
+{
+	currShotCoolDown_ = currShotCoolDown;
+}
+
+//void Character1::eraseShell(string shellName)
+//{
+//	if (shellName == "FireBall" && currFireBallAmount_ > 0)
+//	{
+//		//shells_.erase(shells_.begin());
+//		currFireBallAmount_ -= 1;
+//	}
+//}
 
 void Character1::setEnemyDamaged(bool flag)
 {
@@ -705,4 +809,9 @@ string Character1::getCurrState()
 string Character1::getName()
 {
 	return name_;
+}
+
+string Character1::getCurrShellName()
+{
+	return currShellName_;
 }

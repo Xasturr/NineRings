@@ -8,8 +8,10 @@ Player::Player(string charName, float posX, float posY)
 	downPressed_ = false;
 	attack_ = false;
 	runAttack_ = false;
+	shoot_ = false;
 
 	charName_ = charName;
+	currShellName_ = "FireBall";
 
 	if (charName_ == "Character1")
 	{
@@ -49,6 +51,11 @@ void Player::attack()
 	attack_ = true;
 }
 
+void Player::shoot()
+{
+	shoot_ = true;
+}
+
 void Player::stopLeft()
 {
 	leftPressed_ = false;
@@ -74,9 +81,19 @@ void Player::stopAttack()
 	attack_ = false;
 }
 
+void Player::stopShoot()
+{
+	shoot_ = false;
+}
+
 void Player::update(float elapsedTime)
 {
-	if (character_->getHealthPoints() > 0)
+	//if (character_->getCurrFlyingShellAmount() > 0)
+	//{
+	//	//character_->she
+	//}
+
+	if (character_->getCurrHealthPoints() > 0)
 	{
 		if (character_->getHurt())
 		{
@@ -84,6 +101,23 @@ void Player::update(float elapsedTime)
 			character_->setCurrHurtFrame(character_->getFrameSpeed() * elapsedTime);
 			character_->spriteUpdateHurt(character_->getCurrSpriteSide());
 			return;
+		}
+
+		if (character_->getCurrShotCoolDown() > 0)
+		{
+			character_->setCurrShotCoolDown(character_->getCurrShotCoolDown() - elapsedTime);
+			
+			if (character_->getCurrShotCoolDown() < 0)
+			{
+				character_->setCurrShotCoolDown(0);
+			}
+		}
+
+		if (shoot_ && character_->getCurrShotCoolDown() == 0 && character_->getCurrShellAmount() > 0)
+		{
+			character_->addFlyingShell(currShellName_);
+			cout << "SHOOT" << endl;
+			character_->setCurrShotCoolDown(character_->getMaxShotCoolDown());
 		}
 
 		if (leftPressed_)
@@ -282,9 +316,9 @@ void Player::setEnemyDamaged(bool flag)
 	character_->setEnemyDamaged(flag);
 }
 
-void Player::setHealthPoints(int healthPoints)
+void Player::setCurrHealthPoints(int healthPoints)
 {
-	character_->setHealthPoints(healthPoints);
+	character_->setCurrHealthPoints(healthPoints);
 }
 
 void Player::setLife(bool flag)
@@ -295,6 +329,11 @@ void Player::setLife(bool flag)
 void Player::setHurt(bool flag)
 {
 	character_->setHurt(flag);
+}
+
+void Player::flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window)
+{
+	character_->flyingShellsUpdateAndDraw(elapsedTime, map, window);
 }
 
 Vector2f Player::getCurrPosition()
@@ -352,9 +391,44 @@ int Player::getHeight()
 	return character_->getHeight();
 }
 
-int Player::getHealthPoints()
+int Player::getCurrHealthPoints()
 {
-	return character_->getHealthPoints();
+	return character_->getCurrHealthPoints();
+}
+
+int Player::getCurrStamina()
+{
+	return character_->getCurrStamina();
+}
+
+int Player::getCurrMana()
+{
+	return character_->getCurrMana();
+}
+
+int Player::getMaxHealthPoints()
+{
+	return character_->getMaxHealthPoints();
+}
+
+int Player::getMaxStamina()
+{
+	return character_->getMaxStamina();
+}
+
+int Player::getMaxMana()
+{
+	return character_->getMaxMana();
+}
+
+int Player::flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight)
+{
+	return character_->flyingShellsMakeDamage(enemyPos, enemyWidth, enemyHeight);
+}
+
+int Player::getCurrShellAmount()
+{
+	return character_->getCurrShellAmount();
 }
 
 float Player::getGravity()
@@ -390,6 +464,11 @@ string Player::getCurrState()
 string Player::getCurrSpriteSide()
 {
 	return character_->getCurrSpriteSide();
+}
+
+string Player::getCurrShellName()
+{
+	return character_->getCurrShellName();
 }
 
 bool Player::getAttackState()

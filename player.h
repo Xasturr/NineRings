@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "character.h"
 #include "character1.h"
 #include "map.h"
 
@@ -21,6 +20,9 @@ class Player
 	bool downPressed_;
 	bool attack_;
 	bool runAttack_;
+	bool shoot_;
+
+	string currShellName_;
 
 public:
 	Player(string charName, float posX, float posY);
@@ -30,12 +32,14 @@ public:
 	void moveUp();
 	void moveDown();
 	void attack();
+	void shoot();
 
 	void stopLeft();
 	void stopRight();
 	void stopUp();
 	void stopDown();
 	void stopAttack();
+	void stopShoot();
 
 	void update(float elapsedTime);
 	void setPosition(float posX, float posY);
@@ -46,9 +50,10 @@ public:
 	void interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPosition, Map* map, float elapsedTime);
 	void calculateVariables(float elapsedTime);
 	void setEnemyDamaged(bool flag);
-	void setHealthPoints(int healthPoints);
+	void setCurrHealthPoints(int healthPoints);
 	void setLife(bool flag);
 	void setHurt(bool flag);
+	void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window);
 
 	Vector2f getCurrPosition();
 
@@ -63,7 +68,14 @@ public:
 	int getNumberOfAttackFrames();
 	int getWidth();
 	int getHeight();
-	int getHealthPoints();
+	int getCurrHealthPoints();
+	int getCurrStamina();
+	int getCurrMana();
+	int getMaxHealthPoints();
+	int getMaxStamina();
+	int getMaxMana();
+	int flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight);
+	int getCurrShellAmount();
 
 	float getGravity();
 	float getJumpForce();
@@ -73,6 +85,7 @@ public:
 
 	string getCurrState();
 	string getCurrSpriteSide();
+	string getCurrShellName();
 
 	bool getAttackState();
 	bool getCharacterMadeDamage();

@@ -38,7 +38,19 @@ string* Map1::getTileMapElse()
 bool Map1::getValue(int i, int j, char c, string tileMap[])
 {
 	if (tileMap[i][j] == c)
+	{
 		return true;
+	}
+
+	return false;
+}
+
+bool Map1::getCollision(int i, int j, char c)
+{
+	if (tileMapElse[i][j] == c)
+	{
+		return true;
+	}
 
 	return false;
 }

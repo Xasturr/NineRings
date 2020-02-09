@@ -18,6 +18,7 @@ public:
 	virtual string* getTileMapElse() = 0;
 
 	virtual bool getValue(int i, int j, char c, string tileMap[]) = 0;
+	virtual bool getCollision(int i, int j, char c) = 0;
 
 	virtual Texture getTexture() = 0;
 

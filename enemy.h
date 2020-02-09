@@ -37,6 +37,12 @@ public:
 	void interactionWithMap(Vector2f oldEnPosition, Vector2f newPlayerPosition, Map* map, float elapsedTime);
 	void decision(float elapsedTime, Player* player);
 	void calculateVariables(float elapsedTime);
+	void setCurrHealthPoints(int healthPoints);
+	void setHurt(bool flag);
+
+	int getWidth();
+	int getHeight();
+	int getCurrHealthPoints();
 
 	Vector2f getPosition();
 

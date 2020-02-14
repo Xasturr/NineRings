@@ -2,6 +2,7 @@
 
 #include "engine.h"
 #include "level1.h"
+#include "level2.h"
 
 using namespace sf;
 using namespace std;
@@ -17,6 +18,7 @@ class Game
 	int inputValue;
 
 	float elapsedTime_;
+	float clickTime_;
 
 	bool showInfo_;
 
@@ -27,6 +29,20 @@ class Game
 	Text textShellsAmount_;
 	Text textPosX_;
 	Text textPosY_;
+	Text textPlay, textSettings, textExit;
+	
+	//chooseLevelMenu
+	Text textLevel1_;
+	Text textLevel2_;
+	Text textBack_;
+
+	Texture textureMainMenu_;
+
+	Sprite spriteMainMenu_;
+
+	void mainMenu();
+	void play(Level* level);
+	void chooseLevelMenu();
 
 public:
 	Game();

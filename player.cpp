@@ -88,11 +88,6 @@ void Player::stopShoot()
 
 void Player::update(float elapsedTime)
 {
-	//if (character_->getCurrFlyingShellAmount() > 0)
-	//{
-	//	//character_->she
-	//}
-
 	if (character_->getCurrHealthPoints() > 0)
 	{
 		if (character_->getHurt())
@@ -113,10 +108,11 @@ void Player::update(float elapsedTime)
 			}
 		}
 
-		if (shoot_ && character_->getCurrShotCoolDown() == 0 && character_->getCurrShellAmount() > 0)
+		if (shoot_ && character_->getCurrShotCoolDown() == 0 && character_->getCurrShellAmount() > 0 && getCurrMana() >= 40)
 		{
+			setCurrMana(getCurrMana() - 40);
 			character_->addFlyingShell(currShellName_);
-			cout << "SHOOT" << endl;
+			//cout << "SHOOT" << endl;
 			character_->setCurrShotCoolDown(character_->getMaxShotCoolDown());
 		}
 
@@ -150,13 +146,14 @@ void Player::update(float elapsedTime)
 				character_->spriteUpdateRun("right");
 			}
 		}
-		if (((upPressed_ && character_->getCurrState() != "jumping") || character_->getCurrState() == "jumping") && character_->getCurrState() != "falling")
+		if (((upPressed_ && character_->getCurrState() != "jumping" && getCurrStamina() >= getJumpStaminaCost()) || character_->getCurrState() == "jumping") && character_->getCurrState() != "falling")
 		{
 			if (upPressed_ && character_->getCurrState() != "jumping")
 			{
 				character_->setState("jumping");
 				character_->setCurrJumpAccel(character_->getJumpForce());
 				character_->setCurrGravityAccel(0);
+				character_->setCurrStamina(character_->getCurrStamina() - getJumpStaminaCost());
 			}
 			character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y - character_->getCurrJumpAccel() * elapsedTime);
 			character_->setCurrJumpFrame(character_->getFrameSpeed() * elapsedTime);
@@ -174,19 +171,27 @@ void Player::update(float elapsedTime)
 			character_->setCurrFallFrame(character_->getFrameSpeed() * elapsedTime);
 			character_->spriteUpdateFall(character_->getCurrSpriteSide());
 		}
-		if ((attack_ && !character_->getRunAttackState()) || character_->getRunAttackState())
+		if ((attack_ && !character_->getRunAttackState() && getCurrStamina() >= getAttackStaminaCost()) || character_->getRunAttackState())
 		{
 			if (character_->getCurrState() == "running")
 			{
+				if (!character_->getRunAttackState())
+				{
+					setCurrStamina(getCurrStamina() - getAttackStaminaCost());
+				}
 				character_->setRunAttackState(true);
 				character_->setCurrRunAttackFrame(character_->getFrameSpeed() * elapsedTime);
 				character_->spriteUpdateRunAttack(character_->getCurrSpriteSide());
 			}
 		}
-		if ((attack_ && !character_->getAttackState()) || character_->getAttackState())
+		if ((attack_ && !character_->getAttackState() && getCurrStamina() >= getAttackStaminaCost()) || character_->getAttackState())
 		{
 			if (character_->getCurrState() != "running")
 			{
+				if (!character_->getAttackState())
+				{
+					setCurrStamina(getCurrStamina() - getAttackStaminaCost());
+				}
 				character_->setAttackState(true);
 				character_->setCurrAttackFrame(character_->getFrameSpeed() * elapsedTime);
 				character_->spriteUpdateAttack(character_->getCurrSpriteSide());
@@ -300,6 +305,26 @@ void Player::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPo
 
 void Player::calculateVariables(float elapsedTime)
 {
+	if (character_->getCurrMana() < character_->getMaxMana())
+	{
+		character_->setCurrMana(character_->getCurrMana() + elapsedTime * character_->getManaRegen());
+
+		if (character_->getCurrMana() > character_->getMaxMana())
+		{
+			character_->setCurrMana(character_->getMaxMana());
+		}
+	}
+
+	if (character_->getCurrStamina() < character_->getMaxStamina())
+	{
+		character_->setCurrStamina(character_->getCurrStamina() + elapsedTime * character_->getStaminaRegen());
+
+		if (character_->getCurrStamina() > character_->getMaxStamina())
+		{
+			character_->setCurrStamina(character_->getMaxStamina());
+		}
+	}
+
 	if (character_->getCurrState() == "falling")
 	{
 		character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
@@ -334,6 +359,16 @@ void Player::setHurt(bool flag)
 void Player::flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window)
 {
 	character_->flyingShellsUpdateAndDraw(elapsedTime, map, window);
+}
+
+void Player::setCurrStamina(float currStamina)
+{
+	character_->setCurrStamina(currStamina);
+}
+
+void Player::setCurrMana(float currMana)
+{
+	return character_->setCurrMana(currMana);
 }
 
 Vector2f Player::getCurrPosition()
@@ -396,29 +431,9 @@ int Player::getCurrHealthPoints()
 	return character_->getCurrHealthPoints();
 }
 
-int Player::getCurrStamina()
-{
-	return character_->getCurrStamina();
-}
-
-int Player::getCurrMana()
-{
-	return character_->getCurrMana();
-}
-
 int Player::getMaxHealthPoints()
 {
 	return character_->getMaxHealthPoints();
-}
-
-int Player::getMaxStamina()
-{
-	return character_->getMaxStamina();
-}
-
-int Player::getMaxMana()
-{
-	return character_->getMaxMana();
 }
 
 int Player::flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight)
@@ -429,6 +444,16 @@ int Player::flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyH
 int Player::getCurrShellAmount()
 {
 	return character_->getCurrShellAmount();
+}
+
+int Player::getJumpStaminaCost()
+{
+	return character_->getJumpStaminaCost();
+}
+
+int Player::getAttackStaminaCost()
+{
+	return character_->getAttackStaminaCost();
 }
 
 float Player::getGravity()
@@ -454,6 +479,26 @@ float Player::getCurrJumpAccel()
 float Player::getCurrAttackFrame()
 {
 	return character_->getCurrAttackFrame();
+}
+
+float Player::getCurrMana()
+{
+	return character_->getCurrMana();
+}
+
+float Player::getCurrStamina()
+{
+	return character_->getCurrStamina();
+}
+
+float Player::getMaxMana()
+{
+	return character_->getMaxMana();
+}
+
+float Player::getMaxStamina()
+{
+	return character_->getMaxStamina();
 }
 
 string Player::getCurrState()

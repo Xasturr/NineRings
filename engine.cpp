@@ -90,9 +90,14 @@ bool Engine::isRenderWindowFullscreen()
 	return isFullscreen_;
 }
 
+bool Engine::mouseContains(int rectLeft, int rectTop, int rectWidth, int rectHeight)
+{
+	return IntRect(rectLeft, rectTop, rectWidth, rectHeight).contains(Mouse::getPosition(window_));
+}
+
 int Engine::input()
 {
-	if (Keyboard::isKeyPressed(Keyboard::A))
+	if (Keyboard::isKeyPressed(Keyboard::Key(settings_.getMoveLeft())))
 	{
 		player_->moveLeft();
 	}
@@ -101,7 +106,7 @@ int Engine::input()
 		player_->stopLeft();
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::W)) 
+	if (Keyboard::isKeyPressed(Keyboard::Key(settings_.getMoveUp())))
 	{
 		player_->moveUp();
 	}
@@ -110,16 +115,7 @@ int Engine::input()
 		player_->stopUp();
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::S)) 
-	{
-		player_->moveDown();
-	}
-	else
-	{
-		player_->stopDown();
-	}
-
-	if (Keyboard::isKeyPressed(Keyboard::D)) 
+	if (Keyboard::isKeyPressed(Keyboard::Key(settings_.getMoveRight())))
 	{
 		player_->moveRight();
 	}
@@ -128,7 +124,7 @@ int Engine::input()
 		player_->stopRight();
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::Space) && !player_->getAttackState())
+	if (Keyboard::isKeyPressed(Keyboard::Key(settings_.getAttack())) && !player_->getAttackState())
 	{
 		player_->attack();
 	}
@@ -137,7 +133,7 @@ int Engine::input()
 		player_->stopAttack();
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::P) && !player_->getAttackState())
+	if (Keyboard::isKeyPressed(Keyboard::Key(settings_.getShoot())) && !player_->getAttackState())
 	{
 		player_->shoot();
 	}
@@ -305,6 +301,11 @@ void Engine::draw(float elapsedTime)
 void Engine::drawText(Text text)
 {
 	window_.draw(text);
+}
+
+void Engine::drawSprite(Sprite sprite)
+{
+	window_.draw(sprite);
 }
 
 void Engine::setView(int sizeX, int sizeY)

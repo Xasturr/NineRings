@@ -105,8 +105,8 @@ Character1::Character1(float posX, float posY)
 	//upperGap_ = 52;
 	currGravityAccel_ = jumpForce_;
 	maxHealthPoints_ = currHealthPoints_ =  100;
-	maxStamina_ = currStamina_ = 100;
-	maxMana_ = currMana_ = 100;
+	maxStamina_ = currentStamina_ = 100;
+	maxMana_ = currentMana_ = 100;
 	attackDamage_ = 10;
 	attackRange_ = 60;
 	runAttackRange_ = 58;
@@ -117,6 +117,10 @@ Character1::Character1(float posX, float posY)
 	currAngle_ = 90;
 	maxShotCoolDown_ = 2;
 	currShotCoolDown_ = 0;
+	manaRegen_ = 10;
+	staminaRegen_ = 15;
+	jumpStaminaCost_ = 15;
+	attackStaminaCost_ = 30;
 
 	sprite_.setOrigin(textureRun1_.getSize().x / 2, 110);
 
@@ -182,6 +186,26 @@ float Character1::getMaxShotCoolDown()
 	return maxShotCoolDown_;
 }
 
+float Character1::getCurrStamina()
+{
+	return currentStamina_;
+}
+
+float Character1::getCurrMana()
+{
+	return currentMana_;
+}
+
+float Character1::getMaxStamina()
+{
+	return maxStamina_;
+}
+
+float Character1::getMaxMana()
+{
+	return maxMana_;
+}
+
 int Character1::getCurrIdleFrame()
 {
 	return currentIdleFrame_;
@@ -224,29 +248,9 @@ int Character1::getCurrHealthPoints()
 	return int(currHealthPoints_);
 }
 
-int Character1::getCurrMana()
-{
-	return int(currMana_);
-}
-
-int Character1::getCurrStamina()
-{
-	return int(currStamina_);
-}
-
 int Character1::getMaxHealthPoints()
 {
 	return maxHealthPoints_;
-}
-
-int Character1::getMaxMana()
-{
-	return maxMana_;
-}
-
-int Character1::getMaxStamina()
-{
-	return maxStamina_;
 }
 
 int Character1::getAttackDamage()
@@ -310,6 +314,26 @@ int Character1::flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int en
 	}
 
 	return 0;
+}
+
+int Character1::getManaRegen()
+{
+	return manaRegen_;
+}
+
+int Character1::getStaminaRegen()
+{
+	return staminaRegen_;
+}
+
+int Character1::getJumpStaminaCost()
+{
+	return jumpStaminaCost_;
+}
+
+int Character1::getAttackStaminaCost()
+{
+	return attackStaminaCost_;
 }
 
 Vector2f Character1::getCurrPosition()
@@ -676,14 +700,14 @@ void Character1::setCurrHealthPoints(int currHealthPoints)
 	currHealthPoints_ = currHealthPoints;
 }
 
-void Character1::setCurrStamina(int currStamina)
+void Character1::setCurrStamina(float currStamina)
 {
-	currStamina_ = currStamina;
+	currentStamina_ = currStamina;
 }
 
-void Character1::setCurrMana(int currMana)
+void Character1::setCurrMana(float currMana)
 {
-	currMana_ = currMana;
+	currentMana_ = currMana;
 }
 
 void Character1::addFlyingShell(string shellName)

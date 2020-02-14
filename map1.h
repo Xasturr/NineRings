@@ -4,7 +4,7 @@
 
 class Map1 : public Map
 {
-	static const int HEIGHT_MAP = 36;
+	static const int HEIGHT_MAP = 37;
 	const int WIDTH_MAP = 61;
 
 	const int TILE_WIDTH = 64;
@@ -85,6 +85,7 @@ class Map1 : public Map
 		"0                                                          0",
 		"002                                                        0",
 		"000                                                        0",
+		"000000000000000000000000000000000000000000000000000000000000",
 		"000000000000000000000000000000000000000000000000000000000000",
 	};
 

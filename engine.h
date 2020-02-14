@@ -2,12 +2,14 @@
 
 #include <map>
 #include <math.h>
+#include <fstream>
 #include "button.h"
 #include "windowStyle.h"
 #include "gameWindow.h"
 #include "level.h"
 #include "player.h"
 #include "collision.h"
+#include "settings.h"
 
 using namespace sf;
 using namespace std;
@@ -30,6 +32,8 @@ class Engine
 	int viewSizeY_;
 
 	Player* player_;
+
+	Settings settings_;
 
 public:
 	Engine();
@@ -63,11 +67,13 @@ public:
 	void update(float elapsedTime);
 	void draw(float elapsedTime);
 	void drawText(Text text);
+	void drawSprite(Sprite sprite);
 	void setView(int sizeX, int sizeY);
 
 	bool renderWindowIsOpen();
 	bool renderWindowPollEvent();
 	bool isRenderWindowFullscreen();
+	bool mouseContains(int rectLeft, int rectTop, int rectWidth, int rectHeight);
 
 	int input();
 	int getCurrPlayerHealthPoints();

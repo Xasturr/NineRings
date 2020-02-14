@@ -160,11 +160,12 @@
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameWindow.cpp" />
-    <ClCompile Include="level.cpp" />
     <ClCompile Include="level1.cpp" />
+    <ClCompile Include="level2.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map1.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="settings.cpp" />
     <ClCompile Include="shellFireBall.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -178,9 +179,11 @@
     <ClInclude Include="gameWindow.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="level1.h" />
+    <ClInclude Include="level2.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="map1.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="settings.h" />
     <ClInclude Include="shell.h" />
     <ClInclude Include="shellFireBall.h" />
   </ItemGroup>

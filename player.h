@@ -24,6 +24,9 @@ class Player
 
 	string currShellName_;
 
+	int getJumpStaminaCost();
+	int getAttackStaminaCost();
+
 public:
 	Player(string charName, float posX, float posY);
 
@@ -54,6 +57,8 @@ public:
 	void setLife(bool flag);
 	void setHurt(bool flag);
 	void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window);
+	void setCurrStamina(float currStamina);
+	void setCurrMana(float currMana);
 
 	Vector2f getCurrPosition();
 
@@ -69,11 +74,7 @@ public:
 	int getWidth();
 	int getHeight();
 	int getCurrHealthPoints();
-	int getCurrStamina();
-	int getCurrMana();
 	int getMaxHealthPoints();
-	int getMaxStamina();
-	int getMaxMana();
 	int flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight);
 	int getCurrShellAmount();
 
@@ -82,6 +83,10 @@ public:
 	float getCurrGravityAccel();
 	float getCurrJumpAccel();
 	float getCurrAttackFrame();
+	float getCurrMana();
+	float getCurrStamina();
+	float getMaxMana();
+	float getMaxStamina();
 
 	string getCurrState();
 	string getCurrSpriteSide();

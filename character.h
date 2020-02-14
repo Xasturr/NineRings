@@ -21,6 +21,10 @@ public:
 	virtual float getCurrAttackFrame() = 0;
 	virtual float getCurrShotCoolDown() = 0;
 	virtual float getMaxShotCoolDown() = 0;
+	virtual float getCurrStamina() = 0;
+	virtual float getCurrMana() = 0;
+	virtual float getMaxStamina() = 0;
+	virtual float getMaxMana() = 0;
 	//virtual float getCurrentSpeed() = 0;
 
 	//virtual void spriteFrameUpdate(float currentFrame) = 0;
@@ -54,8 +58,8 @@ public:
 	virtual void setLife(float flag) = 0;
 	virtual void setHurt(bool flag) = 0;
 	virtual void setCurrHealthPoints(int currHealthPoints) = 0;
-	virtual void setCurrStamina(int currStamina) = 0;
-	virtual void setCurrMana(int currMana) = 0;
+	virtual void setCurrStamina(float currStamina) = 0;
+	virtual void setCurrMana(float currMana) = 0;
 	virtual void addFlyingShell(string shellName) = 0;
 	virtual void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window) = 0;
 	virtual void setCurrShotCoolDown(float currCoolDown) = 0;
@@ -66,19 +70,19 @@ public:
 	virtual int getRightGap() = 0;
 	virtual int getAttackRange() = 0;
 	virtual int getCurrHealthPoints() = 0;
-	virtual int getCurrMana() = 0;
-	virtual int getCurrStamina() = 0;
 	virtual int getAttackDamage() = 0;
 	virtual int getNumberOfAttackFrames() = 0;
 	virtual int getHeight() = 0;
 	virtual int getWidth() = 0;
 	virtual int getOverview() = 0;
 	virtual int getMaxHealthPoints() = 0;
-	virtual int getMaxStamina() = 0;
-	virtual int getMaxMana() = 0;
 	virtual int getCurrFlyingShellAmount() = 0;
 	virtual int getCurrShellAmount() = 0;
 	virtual int flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight) = 0;
+	virtual int getStaminaRegen() = 0;
+	virtual int getManaRegen() = 0;
+	virtual int getJumpStaminaCost() = 0;
+	virtual int getAttackStaminaCost() = 0;
 
 	virtual bool getJumpState() = 0;
 	virtual bool getAttackState() = 0;

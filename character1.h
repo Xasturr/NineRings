@@ -83,6 +83,8 @@ class Character1 : public Character
 	bool shoot_;
 
 	float maxMoveSpeed_;
+	float maxStamina_;
+	float maxMana_;
 	float currentIdleFrame_;
 	float currentRunFrame_;
 	float currentJumpFrame_;
@@ -91,13 +93,13 @@ class Character1 : public Character
 	float currentRunAttackFrame_;
 	float currentDeathFrame_;
 	float currentHurtFrame_;
+	float currentMana_;
+	float currentStamina_;
 	float gravity_;
 	float jumpForce_;
 	float currGravityAccel_;
 	float currJumpAccel_;
 	float currHealthPoints_;
-	float currMana_;
-	float currStamina_;
 	float currAngle_;
 	float frameSpeed_;
 	float currShotCoolDown_;
@@ -116,8 +118,6 @@ class Character1 : public Character
 	int rightGap_;
 	int leftGap_;
 	int maxHealthPoints_;
-	int maxMana_;
-	int maxStamina_;
 	int attackDamage_;
 	int attackRange_;
 	int runAttackRange_;
@@ -125,6 +125,10 @@ class Character1 : public Character
 	int width_;
 	int overview_;
 	int currFireBallAmount_;
+	int manaRegen_;
+	int staminaRegen_;
+	int jumpStaminaCost_;
+	int attackStaminaCost_;
 
 	string currSpriteSide_;
 	string state_;
@@ -151,6 +155,10 @@ public:
 	float getCurrAttackFrame();
 	float getCurrShotCoolDown();
 	float getMaxShotCoolDown();
+	float getCurrStamina();
+	float getCurrMana();
+	float getMaxStamina();
+	float getMaxMana();
 
 	int getCurrIdleFrame();
 	int getUpperGap();
@@ -159,19 +167,19 @@ public:
 	int getRightGap();
 	int getAttackRange();
 	int getCurrHealthPoints();
-	int getCurrMana();
-	int getCurrStamina();
 	int getAttackDamage();
 	int getNumberOfAttackFrames();
 	int getHeight();
 	int getWidth();
 	int getOverview();
-	int getMaxMana();
-	int getMaxStamina();
 	int getMaxHealthPoints();
 	int getCurrFlyingShellAmount();
 	int getCurrShellAmount();
 	int flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight);
+	int getManaRegen();
+	int getStaminaRegen();
+	int getJumpStaminaCost();
+	int getAttackStaminaCost();
 
 	Vector2f getCurrPosition();
 
@@ -205,8 +213,8 @@ public:
 	void setLife(float flag);
 	void setHurt(bool flag);
 	void setCurrHealthPoints(int currHealthPoints);
-	void setCurrStamina(int currStamina);
-	void setCurrMana(int currMana);
+	void setCurrStamina(float currStamina);
+	void setCurrMana(float currMana);
 	void addFlyingShell(string shellName);
 	void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window);
 	void setCurrShotCoolDown(float currShotCoolDown);

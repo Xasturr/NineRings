@@ -85,6 +85,7 @@ public:
 	int getCurrPlayerShellAmount();
 	int getCurrPlayerPosX();
 	int getCurrPlayerPosY();
+	int getDDTimer();
 
 	string getClickedButtonId(GameWindow* gameWindow);
 	string getCurrPlayerShellName();

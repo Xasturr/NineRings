@@ -19,6 +19,7 @@ Game::Game()
 	textShellsAmount_.setFont(bebasRegular_);
 	textPosX_.setFont(bebasRegular_);
 	textPosY_.setFont(bebasRegular_);
+	textDDTimer_.setFont(bebasRegular_);
 
 	textFPS_.setFillColor(Color::White);
 	textHP_.setFillColor(Color::White);
@@ -27,6 +28,7 @@ Game::Game()
 	textShellsAmount_.setFillColor(Color::White);
 	textPosX_.setFillColor(Color::White);
 	textPosY_.setFillColor(Color::White);
+	textDDTimer_.setFillColor(Color::White);
 
 	textPlay.setFont(bebasRegular_);
 	textPlay.setCharacterSize(90);
@@ -393,6 +395,7 @@ void Game::play(Level* level)
 			textShellsAmount_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 215);
 			textPosX_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 185);
 			textPosY_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 155);
+			textDDTimer_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 125);
 
 			textHP_.setString("HP: " + to_string(engine_.getCurrPlayerHealthPoints()) + " of " + to_string(engine_.getMaxPlayerHealthPoints()));
 			textStamina_.setString("Stamina: " + to_string(engine_.getCurrPlayerStamina()) + " of " + to_string(engine_.getMaxPlayerStamina()));
@@ -400,6 +403,7 @@ void Game::play(Level* level)
 			textShellsAmount_.setString(engine_.getCurrPlayerShellName() + ": " + to_string(engine_.getCurrPlayerShellAmount()));
 			textPosX_.setString("PosX:" + to_string(engine_.getCurrPlayerPosX()));
 			textPosY_.setString("PosY:" + to_string(engine_.getCurrPlayerPosY()));
+			textDDTimer_.setString("DDTimer: " + to_string(engine_.getDDTimer()));
 
 			engine_.drawText(textFPS_);
 			engine_.drawText(textHP_);
@@ -408,6 +412,7 @@ void Game::play(Level* level)
 			engine_.drawText(textShellsAmount_);
 			engine_.drawText(textPosX_);
 			engine_.drawText(textPosY_);
+			engine_.drawText(textDDTimer_);
 		}
 		engine_.renderWindowDisplay();
 

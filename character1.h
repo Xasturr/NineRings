@@ -2,6 +2,8 @@
 
 #include "character.h"
 #include "shellFireBall.h"
+#include "ddMagicDecorator.h"
+
 #include <iostream>
 
 using namespace std;
@@ -216,6 +218,7 @@ public:
 	void setCurrStamina(float currStamina);
 	void setCurrMana(float currMana);
 	void addFlyingShell(string shellName);
+	void addFlyingShell(string shellName, bool doubleDamage);
 	void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window);
 	void setCurrShotCoolDown(float currShotCoolDown);
 

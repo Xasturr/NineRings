@@ -126,6 +126,7 @@ void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 			{
 				enemies_[i]->setCurrHealthPoints(enemies_[i]->getCurrHealthPoints() - damage);
 				enemies_[i]->setHurt(true);
+				cout << "Enemy " << i << " health: " << enemies_[i]->getCurrHealthPoints() << endl;
 			}
 		}
 		else
@@ -136,7 +137,9 @@ void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 
 	if (eraseEnemy != -1)
 	{
+		Enemy* en = enemies_.at(eraseEnemy);
 		enemies_.erase(enemies_.begin() + eraseEnemy);
+		delete en;
 	}
 }
 

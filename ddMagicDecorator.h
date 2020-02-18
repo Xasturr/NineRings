@@ -1,0 +1,28 @@
+#pragma once
+
+#include "magicDecorator.h"
+
+class DDMagicDecorator: public MagicDecorator
+{
+public:
+	DDMagicDecorator(Shell* shell);
+	~DDMagicDecorator();
+
+	void setLife(bool flag);
+	void setPosition(float posX, float posY);
+	void setAngle(float angle);
+	void updateAndDraw(float elapsedTime, Map* map, RenderWindow* window);
+	void spriteUpdate();
+	void setCurrFrame(float increase);
+	void setExplosed(bool flag);
+
+	bool getLife();
+	bool getExplosed();
+
+	Vector2f getPosition();
+
+	int getAlphaStrike();
+
+	string getSpriteSide();
+};
+

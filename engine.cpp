@@ -142,6 +142,11 @@ int Engine::input()
 		player_->stopShoot();
 	}
 
+	if (Keyboard::isKeyPressed(Keyboard::Key::O)) // for example
+	{
+		player_->setDoubleDamage();
+	}
+
 	return 0;
 }
 
@@ -188,6 +193,11 @@ int Engine::getCurrPlayerPosX()
 int Engine::getCurrPlayerPosY()
 {
 	return player_->getCurrPosition().y / level_->getTileHeight();
+}
+
+int Engine::getDDTimer()
+{
+	return player_->getDDTimer();
 }
 
 void Engine::changeRenderWindowMode()

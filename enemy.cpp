@@ -31,7 +31,8 @@ Enemy::Enemy(string charName, float posX, float posY)
 
 Enemy::~Enemy()
 {
-
+	cout << "In Enemy destructor" << endl;
+	delete character_;
 }
 
 bool Enemy::getEnemyLife()
@@ -39,17 +40,8 @@ bool Enemy::getEnemyLife()
 	return character_->getLife();
 }
 
-//bool Enemy::getAngryState()
-//{
-//	return angryState_;
-//}
-
 void Enemy::updatePosition(float elapsedTime)
 {
-	//if (character_->getCurrState() == "falling")
-	//cout << character_->getCurrState() << endl;
-
-
 	if (character_->getCurrHealthPoints() > 0)
 	{
 		if (character_->getHurt())
@@ -137,11 +129,11 @@ void Enemy::updatePosition(float elapsedTime)
 		character_->setCurrDeathFrame(character_->getFrameSpeed() * elapsedTime);
 		character_->spriteUpdateDeath(character_->getCurrSpriteSide());
 	}
-	else
-	{
-		cout << "You are dead" << endl;
-		exit(0);
-	}
+	//else
+	//{
+	//	cout << "You are dead" << endl;
+	//	exit(0);
+	//}
 }
 
 void Enemy::draw(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime)
@@ -218,8 +210,6 @@ void Enemy::interactionWithMap(Vector2f oldEnemyPosition, Vector2f newEnemyPosit
 					rightPressed_ = false;
 					leftPressed_ = true;
 				}
-				//changedDirection = true;
-				//cout << "AAAAAAAAAAAAAAAAAAAAAAAA" << endl;
 				character_->setPosition(oldEnemyPosition.x, oldEnemyPosition.y);
 				return;	
 			}
@@ -243,8 +233,6 @@ void Enemy::interactionWithMap(Vector2f oldEnemyPosition, Vector2f newEnemyPosit
 				rightPressed_ = false;
 				leftPressed_ = true;
 			}
-			//changedDirection = true;
-			//cout << "AAAAAAAAAAAAAAAAAAAAAAAA" << endl;
 			character_->setPosition(oldEnemyPosition.x, oldEnemyPosition.y);
 			return;
 		}
@@ -512,7 +500,7 @@ void Enemy::checkDamage(Player* player)
 				{
 					character_->setEnemyDamaged(true);
 					player->setCurrHealthPoints(player->getCurrHealthPoints() - character_->getAttackDamage());
-					cout << "Player health: " << player->getCurrHealthPoints() << endl;
+					//cout << "Player health: " << player->getCurrHealthPoints() << endl;
 					player->setHurt(true);
 				}
 			}
@@ -522,7 +510,7 @@ void Enemy::checkDamage(Player* player)
 				{
 					character_->setEnemyDamaged(true);
 					player->setCurrHealthPoints(player->getCurrHealthPoints() - character_->getAttackDamage());
-					cout << "Player health: " << player->getCurrHealthPoints() << endl;
+					//cout << "Player health: " << player->getCurrHealthPoints() << endl;
 					player->setHurt(true);
 				}
 			}

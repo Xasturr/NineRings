@@ -9,9 +9,13 @@ Player::Player(string charName, float posX, float posY)
 	attack_ = false;
 	runAttack_ = false;
 	shoot_ = false;
+	doubleDamage_ = false;
 
 	charName_ = charName;
 	currShellName_ = "FireBall";
+
+	ddTimer_ = 0;
+	ddDuration_ = 5;
 
 	if (charName_ == "Character1")
 	{
@@ -24,6 +28,12 @@ Player::Player(string charName, float posX, float posY)
 	}
 
 	character_->setPosition(posX, posY);
+}
+
+Player::~Player()
+{
+	cout << "In Player destructor" << endl;
+	delete character_;
 }
 
 void Player::moveLeft()
@@ -111,8 +121,15 @@ void Player::update(float elapsedTime)
 		if (shoot_ && character_->getCurrShotCoolDown() == 0 && character_->getCurrShellAmount() > 0 && getCurrMana() >= 40)
 		{
 			setCurrMana(getCurrMana() - 40);
-			character_->addFlyingShell(currShellName_);
-			//cout << "SHOOT" << endl;
+
+			if (ddTimer_ > 0)
+			{
+				character_->addFlyingShell(currShellName_, true);
+			}
+			else
+			{
+				character_->addFlyingShell(currShellName_);
+			}
 			character_->setCurrShotCoolDown(character_->getMaxShotCoolDown());
 		}
 
@@ -206,6 +223,7 @@ void Player::update(float elapsedTime)
 	else
 	{
 		cout << "You are dead" << endl;
+		delete this;
 		exit(0);
 	}
 }
@@ -261,8 +279,6 @@ void Player::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPo
 				{
 					if (newPlayerPosition.y > j * map->getTileHeight() + map->getTileHeight() / 2)
 					{
-						//cout << newPlayerPosition.y << endl;
-						//cout << j * map->getTileHeight() << endl << endl;
 						character_->setState("falling");
 						character_->setPosition(oldPlayerPosition.x, oldPlayerPosition.y);
 						character_->setCurrGravityAccel(0);
@@ -292,13 +308,10 @@ void Player::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPo
 		}
 	}
 
-	//cout << character_->getCurrState() << endl;
 	character_->setPosition(position.x, position.y);
 
 	if (character_->getCurrState() != "jumping" && character_->getCurrState() != "falling" && character_->getCurrState() != "staying" && position == newPlayerPosition)
 	{
-		//cout << character_->getCurrState() << endl;
-
 		character_->setState("falling");
 	}
 }
@@ -333,6 +346,11 @@ void Player::calculateVariables(float elapsedTime)
 	{
 		character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
 		character_->setCurrJumpAccel(character_->getCurrJumpAccel() - character_->getCurrGravityAccel() * elapsedTime);
+	}
+
+	if (ddTimer_ > 0)
+	{
+		updateDoubleDamage(elapsedTime);
 	}
 }
 
@@ -369,6 +387,27 @@ void Player::setCurrStamina(float currStamina)
 void Player::setCurrMana(float currMana)
 {
 	return character_->setCurrMana(currMana);
+}
+
+void Player::setDoubleDamage()
+{
+	if (ddTimer_ == 0)
+	{
+		ddTimer_ = ddDuration_;
+	}
+}
+
+void Player::updateDoubleDamage(float elapsedTime)
+{
+	if (ddTimer_ > 0)
+	{
+		ddTimer_ -= elapsedTime;
+
+		if (ddTimer_ < 0)
+		{
+			ddTimer_ = 0;
+		}
+	}
 }
 
 Vector2f Player::getCurrPosition()
@@ -444,6 +483,11 @@ int Player::flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyH
 int Player::getCurrShellAmount()
 {
 	return character_->getCurrShellAmount();
+}
+
+int Player::getDDTimer()
+{
+	return (int)ddTimer_;
 }
 
 int Player::getJumpStaminaCost()

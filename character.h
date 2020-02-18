@@ -10,6 +10,7 @@ using namespace std;
 class Character
 {
 public:
+	virtual ~Character() {};
 	virtual Sprite getSprite() = 0;
 
 	virtual float getMaxMoveSpeed() = 0;
@@ -61,6 +62,7 @@ public:
 	virtual void setCurrStamina(float currStamina) = 0;
 	virtual void setCurrMana(float currMana) = 0;
 	virtual void addFlyingShell(string shellName) = 0;
+	virtual void addFlyingShell(string shellName, bool doubleDamage) = 0;
 	virtual void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window) = 0;
 	virtual void setCurrShotCoolDown(float currCoolDown) = 0;
 

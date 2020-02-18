@@ -21,14 +21,19 @@ class Player
 	bool attack_;
 	bool runAttack_;
 	bool shoot_;
+	bool doubleDamage_;
 
 	string currShellName_;
 
 	int getJumpStaminaCost();
 	int getAttackStaminaCost();
 
+	float ddTimer_;
+	float ddDuration_;
+
 public:
 	Player(string charName, float posX, float posY);
+	~Player();
 
 	void moveLeft();
 	void moveRight();
@@ -59,6 +64,8 @@ public:
 	void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window);
 	void setCurrStamina(float currStamina);
 	void setCurrMana(float currMana);
+	void setDoubleDamage();
+	void updateDoubleDamage(float elapsedTime);
 
 	Vector2f getCurrPosition();
 
@@ -77,6 +84,7 @@ public:
 	int getMaxHealthPoints();
 	int flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight);
 	int getCurrShellAmount();
+	int getDDTimer();
 
 	float getGravity();
 	float getJumpForce();

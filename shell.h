@@ -6,6 +6,8 @@
 class Shell
 {
 public:
+	virtual ~Shell() {};
+
 	virtual void setLife(bool flag) = 0;
 	virtual void setPosition(float posX, float posY) = 0;
 	virtual void setAngle(float angle) = 0;

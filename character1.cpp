@@ -134,7 +134,11 @@ Character1::Character1(float posX, float posY)
 	//	shells_[i] = new ShellFireBall();
 	//}
 }
-Character1::~Character1() {}
+
+Character1::~Character1()
+{
+	cout << "In character1 destructor" << endl;
+}
 
 Sprite Character1::getSprite()
 {
@@ -304,7 +308,7 @@ int Character1::flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int en
 				&& enemyPos.y - enemyHeight <= flyingShells_[i]->getPosition().y
 				&& enemyPos.y >= flyingShells_[i]->getPosition().y)
 			{
-				cout << "DAMAGED ENEMY" << endl;
+				//cout << "DAMAGED ENEMY" << endl;
 				//flyingShells_[i]->setLife(false);
 				flyingShells_[i]->setExplosed(true);
 				//hurt_ = true;
@@ -473,6 +477,7 @@ void Character1::setCurrDeathFrame(float increase)
 	if (currentDeathFrame_ > numberOfDeathFrames_)
 	{
 		life_ = false;
+		//delete this;
 	}
 }
 
@@ -715,7 +720,29 @@ void Character1::addFlyingShell(string shellName)
 	if (shellName == "FireBall" && currFireBallAmount_ > 0)
 	{
 		currFireBallAmount_ -= 1;
-		flyingShells_.push_back(new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, currAngle_, currSpriteSide_));
+
+		Shell* shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, currAngle_, currSpriteSide_);
+		flyingShells_.push_back(shell);
+	}
+}
+
+void Character1::addFlyingShell(string shellName, bool doubleDamage)
+{
+	if (shellName == "FireBall" && currFireBallAmount_ > 0)
+	{
+		currFireBallAmount_ -= 1;
+		Shell* shell;
+
+		if (doubleDamage)
+		{
+			shell = new DDMagicDecorator(new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, currAngle_, currSpriteSide_));
+		}
+		else
+		{
+			shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, currAngle_, currSpriteSide_);
+		}
+
+		flyingShells_.push_back(shell);
 	}
 }
 
@@ -737,7 +764,9 @@ void Character1::flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWi
 
 	if (eraseShell != -1)
 	{
+		Shell* shell = flyingShells_.at(eraseShell);
 		flyingShells_.erase(flyingShells_.begin() + eraseShell);
+		delete shell;
 	}
 }
 

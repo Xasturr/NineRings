@@ -9,7 +9,7 @@ ShellFireBall::ShellFireBall(float posX, float posY, float angle, string spriteS
 	explosed_ = false;
 
 	angle_ = angle;
-	alphaStrike_ = 25;
+	alphaStrike_ = 50;
 	speed_ = 350;
 	currentFrame_ = 1;
 	currentExplosionFrame_ = 1;
@@ -42,6 +42,7 @@ ShellFireBall::ShellFireBall(float posX, float posY, float angle, string spriteS
 
 ShellFireBall::~ShellFireBall()
 {
+	cout << "In shellFireBall distructor" << endl;
 }
 
 void ShellFireBall::setLife(bool flag)

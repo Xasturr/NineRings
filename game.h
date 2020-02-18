@@ -30,6 +30,7 @@ class Game
 	Text textPosX_;
 	Text textPosY_;
 	Text textPlay, textSettings, textExit;
+	Text textDDTimer_;
 	
 	//chooseLevelMenu
 	Text textLevel1_;

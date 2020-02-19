@@ -38,12 +38,15 @@ class Game
 	Text textBack_;
 
 	Texture textureMainMenu_;
+	Texture textureSettings_;
 
 	Sprite spriteMainMenu_;
+	Sprite spriteSettings_;
 
 	void mainMenu();
 	void play(Level* level);
 	void chooseLevelMenu();
+	void settings();
 
 public:
 	Game();

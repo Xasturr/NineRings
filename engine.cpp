@@ -39,6 +39,11 @@ Vector2f Engine::getViewCenter()
 	return view_.getCenter();
 }
 
+Settings* Engine::getSettings()
+{
+	return &settings_;
+}
+
 void Engine::drawGameWindow(GameWindow* gameWindow)
 {
 	gameWindow->draw(&window_);

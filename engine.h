@@ -2,7 +2,6 @@
 
 #include <map>
 #include <math.h>
-#include <fstream>
 #include "button.h"
 #include "windowStyle.h"
 #include "gameWindow.h"
@@ -47,6 +46,8 @@ public:
 
 	Vector2f getPlayerPosition();
 	Vector2f getViewCenter();
+
+	Settings* getSettings();
 
 	void drawGameWindow(GameWindow* gameWindow);
 	void drawButton(Button* button);

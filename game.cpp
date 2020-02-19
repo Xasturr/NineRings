@@ -60,7 +60,7 @@ Game::Game()
 	textLevel1_.setFillColor(Color::Black);
 	textLevel1_.setOutlineColor(Color::White);
 	textLevel1_.setOutlineThickness(4);
-	textLevel1_.setPosition(280, 305);
+	textLevel1_.setPosition(250, 305);
 	textLevel1_.setString("Level 1");
 
 	textLevel2_.setFont(bebasRegular_);
@@ -68,7 +68,7 @@ Game::Game()
 	textLevel2_.setFillColor(Color::Black);
 	textLevel2_.setOutlineColor(Color::White);
 	textLevel2_.setOutlineThickness(4);
-	textLevel2_.setPosition(220, 480);
+	textLevel2_.setPosition(250, 480);
 	textLevel2_.setString("Level 2");
 
 	textBack_.setFont(bebasRegular_);
@@ -79,42 +79,15 @@ Game::Game()
 	textBack_.setPosition(285, 650);
 	textBack_.setString("Back");
 
-	textureMainMenu_.loadFromFile("./textures/backgrounds/mainMenuScreen.png");
+	textureMainMenu_.loadFromFile("./textures/backgrounds/mainMenuScreen.jpg");
+	textureSettings_.loadFromFile("./textures/backgrounds/mainMenuScreen.jpg");
 
 	spriteMainMenu_.setTexture(textureMainMenu_);
 	spriteMainMenu_.setScale(engine_.getResolution().x / textureMainMenu_.getSize().x, engine_.getResolution().y / textureMainMenu_.getSize().y);
 	//spriteMainMenu_.setOrigin(textureMainMenu_.getSize().x / 2, textureMainMenu_.getSize().y / 2);
-	spriteMainMenu_.setPosition(0, 0);
 
-	ofstream ofs;
-	ofs.open("./settings/settings.bin", ofstream::binary);
-	if (ofs.is_open())
-	{
-		cout << "Opened" << endl;
-		ofs << "INFO";
-	}
-	else
-	{
-		cout << "Some problems" << endl;
-	}
-	ofs.close();
-
-	ifstream ifs;
-	ifs.open("./settings/settings.bin", ifstream::binary);
-	if (ifs.is_open())
-	{
-		cout << "Opened" << endl;
-		while (!ifs.eof())
-		{
-			string str = "";
-			getline(ifs, str);
-			cout << "INFO: " << str << endl;
-		}
-	}
-	else
-	{
-		cout << "Some problems" << endl;
-	}
+	spriteSettings_.setTexture(textureSettings_);
+	spriteSettings_.setScale(engine_.getResolution().x / textureMainMenu_.getSize().x, engine_.getResolution().y / textureMainMenu_.getSize().y);
 }
 
 Game::~Game()
@@ -200,11 +173,14 @@ void Game::mainMenu()
 		if (Mouse::isButtonPressed(Mouse::Left) && menuState == 0 && clickTime_ == 0)
 		{
 			chooseLevelMenu();
-			clickTime_ = 0.5;
+			clickTime_ = 0.25;
 			clock_.restart();
 		}
 		if (Mouse::isButtonPressed(Mouse::Left) && menuState == 1 && clickTime_ == 0)
 		{
+			settings();
+			clickTime_ = 0.25;
+			clock_.restart();
 			//return 1;
 			//settingsMenu();
 		}
@@ -524,5 +500,212 @@ void Game::chooseLevelMenu()
 				clickTime_ = 0;
 			}
 		}
+	}
+}
+
+void Game::settings()
+{
+	//window_.setMouseCursorVisible(true);
+
+	//view_.reset(sf::FloatRect(0, 0, resolution_.x, resolution_.y));
+	//window_.setView(view_);
+
+	Text jumpText, turnLeftText, turnRightText, shootText, backText;
+	Text jumpOptionText, turnLeftOptionText, turnRightOptionText, shootOptionText;
+
+	jumpText.setFont(bebasRegular_);
+	jumpText.setString("Jump:");
+	jumpText.setPosition(130, 210);
+	jumpText.setOutlineThickness(3);
+	jumpText.setCharacterSize(70);
+
+	jumpOptionText.setFont(bebasRegular_);
+	jumpOptionText.setPosition(590, 210); //740
+	jumpOptionText.setOutlineThickness(3);
+	jumpOptionText.setCharacterSize(70);
+
+	turnLeftOptionText.setFont(bebasRegular_);
+	turnLeftOptionText.setPosition(590, 350); //550
+	turnLeftOptionText.setOutlineThickness(3);
+	turnLeftOptionText.setCharacterSize(70);
+
+	turnLeftText.setFont(bebasRegular_);
+	turnLeftText.setString("Turn left:");
+	turnLeftText.setPosition(130, 350);
+	turnLeftText.setOutlineThickness(3);
+	turnLeftText.setCharacterSize(70);
+
+	turnRightOptionText.setFont(bebasRegular_);
+	turnRightOptionText.setPosition(590, 490);
+	turnRightOptionText.setOutlineThickness(3);
+	turnRightOptionText.setCharacterSize(70);
+
+	turnRightText.setFont(bebasRegular_);
+	turnRightText.setString("Turn right:");
+	turnRightText.setPosition(130, 490);
+	turnRightText.setOutlineThickness(3);
+	turnRightText.setCharacterSize(70);
+
+	shootOptionText.setFont(bebasRegular_);
+	shootOptionText.setPosition(590, 630); //405
+	shootOptionText.setOutlineThickness(3);
+	shootOptionText.setCharacterSize(70);
+
+	shootText.setFont(bebasRegular_);
+	shootText.setString("Shoot:");
+	shootText.setPosition(130, 630);
+	shootText.setOutlineThickness(3);
+	shootText.setCharacterSize(70);
+
+	backText.setFont(bebasRegular_);
+	backText.setString("BACK");
+	backText.setPosition(1488, 770);
+	backText.setOutlineThickness(3);
+	backText.setCharacterSize(70);
+
+	int menuState;
+	clock_.restart();
+	Time time;
+
+	while (engine_.renderWindowIsOpen())
+	{
+		if (time.asSeconds() > 100000)
+			time = clock_.restart();
+		else
+			time += clock_.restart();
+
+		//Event event;
+		menuState = -1;
+
+		jumpOptionText.setFillColor(Color::Black);
+		jumpOptionText.setOutlineColor(Color::White);
+		jumpOptionText.setString((char)(engine_.getSettings()->getMoveUp() + 65));
+
+		jumpText.setFillColor(Color::Black);
+		jumpText.setOutlineColor(Color::White);
+
+		turnLeftOptionText.setFillColor(Color::Black);
+		turnLeftOptionText.setOutlineColor(Color::White);
+		turnLeftOptionText.setString((char)(engine_.getSettings()->getMoveLeft() + 65));
+
+		turnLeftText.setFillColor(Color::Black);
+		turnLeftText.setOutlineColor(Color::White);
+
+		turnRightOptionText.setFillColor(Color::Black);
+		turnRightOptionText.setOutlineColor(Color::White);
+		turnRightOptionText.setString((char)(engine_.getSettings()->getMoveRight() + 65));
+
+		turnRightText.setFillColor(Color::Black);
+		turnRightText.setOutlineColor(Color::White);
+
+		shootOptionText.setFillColor(Color::Black);
+		shootOptionText.setOutlineColor(Color::White);
+		shootOptionText.setString((char)(engine_.getSettings()->getShoot() + 65));
+
+		shootText.setFillColor(Color::Black);
+		shootText.setOutlineColor(Color::White);
+
+		backText.setFillColor(Color::Black);
+		backText.setOutlineColor(Color::White);
+
+		//engine_.renderWindowPollEvent();
+
+		//Event* event = engine_.getEvent();
+		if (engine_.getEvent()->type == Event::Closed)
+		{
+			engine_.closeRenderWindow();
+		}
+		
+		if (engine_.mouseContains(1400, 775, 400, 90))
+		{
+			backText.setFillColor(Color::White);
+			backText.setOutlineColor(Color::Black);
+			menuState = 0;
+		}
+		if (engine_.mouseContains(100, 215, 1720, 90))
+		{
+			jumpOptionText.setFillColor(Color::White);
+			jumpOptionText.setOutlineColor(Color::Black);
+
+			jumpText.setFillColor(Color::White);
+			jumpText.setOutlineColor(Color::Black);
+
+			menuState = 1;
+		}
+//355
+		if (engine_.mouseContains(100, 355, 1720, 90))
+		{
+			turnLeftOptionText.setFillColor(Color::White);
+			turnLeftOptionText.setOutlineColor(Color::Black);
+
+			turnLeftText.setFillColor(Color::White);
+			turnLeftText.setOutlineColor(Color::Black);
+
+			menuState = 3;
+		}
+		if (engine_.mouseContains(100, 495, 1720, 90))
+		{
+			turnRightOptionText.setFillColor(Color::White);
+			turnRightOptionText.setOutlineColor(Color::Black);
+
+			turnRightText.setFillColor(Color::White);
+			turnRightText.setOutlineColor(Color::Black);
+
+			menuState = 4;
+		}
+		if (engine_.mouseContains(100, 635, 1720, 90))
+		{
+			shootOptionText.setFillColor(Color::White);
+			shootOptionText.setOutlineColor(Color::Black);
+
+			shootText.setFillColor(Color::White);
+			shootText.setOutlineColor(Color::Black);
+
+			menuState = 5;
+		}
+
+		if (Mouse::isButtonPressed(Mouse::Left) && menuState == 0)
+		{
+			break;
+		}
+
+		if (Mouse::isButtonPressed(Mouse::Left) && menuState > 0 && time.asSeconds() > 1)
+		{
+			while (1)
+			{
+				//window_.pollEvent(event);
+				engine_.renderWindowPollEvent();
+				
+				if (engine_.getEvent()->type == Event::TextEntered)
+				{
+					if (menuState == 1)
+						engine_.getSettings()->setMoveUp(engine_.getEvent()->text.unicode - 32);
+					if (menuState == 3)
+						engine_.getSettings()->setMoveLeft(engine_.getEvent()->text.unicode - 32);
+					if (menuState == 4)
+						engine_.getSettings()->setMoveRight(engine_.getEvent()->text.unicode - 32);
+					if (menuState == 5)
+						engine_.getSettings()->setShoot(engine_.getEvent()->text.unicode - 32);
+
+					break;
+				}
+			}
+		}
+
+		engine_.renderWindowClear();
+
+		engine_.drawSprite(spriteSettings_);
+
+		engine_.drawText(jumpOptionText);
+		engine_.drawText(jumpText);
+		engine_.drawText(turnLeftOptionText);
+		engine_.drawText(turnLeftText);
+		engine_.drawText(turnRightOptionText);
+		engine_.drawText(turnRightText);
+		engine_.drawText(shootOptionText);
+		engine_.drawText(shootText);
+		engine_.drawText(backText);
+
+		engine_.renderWindowDisplay();
 	}
 }

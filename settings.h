@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 using namespace sf;

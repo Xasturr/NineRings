@@ -4,11 +4,11 @@ Level1::Level1()
 {
 	map_ = new Map1();
 
-	enemies_.push_back(new Enemy("Character1", 640, 960));
-	enemies_.push_back(new Enemy("Character1", 2560, 1664));
-	enemies_.push_back(new Enemy("Character1", 448, 2176));
-	enemies_.push_back(new Enemy("Character1", 666, 2176));
-	enemies_.push_back(new Enemy("Character1", 1600, 576));
+	enemies_.push_back(new Enemy("Character1", 640, 960, new PhysxImplEnWalk()));
+	enemies_.push_back(new Enemy("Character1", 2560, 1664, new PhysxImplEnWalk()));
+	enemies_.push_back(new Enemy("Character1", 448, 2176, new PhysxImplEnWalk()));
+	enemies_.push_back(new Enemy("Character1", 666, 2176, new PhysxImplEnWalk()));
+	enemies_.push_back(new Enemy("Character1", 1600, 576, new PhysxImplEnWalk()));
 	//enemies_.push_back(new Enemy("Character1", 1600, 576));
 	//enemies_.push_back(new Enemy("Character1", 1600, 576));
 	//enemies_.push_back(new Enemy("Character1", 1600, 576));

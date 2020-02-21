@@ -1,7 +1,88 @@
-﻿  settings.cpp
+﻿  enemy.cpp
+  engine.cpp
+D:\Repos\NineRings\windowStyle.h(18,2): warning C4091: static : пропускается слева от "WindowStyle", когда ни одна переменная не объявлена
+D:\Repos\NineRings\engine.cpp(15,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(165,29): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(170,32): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(180,28): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(185,31): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(195,38): warning C4244: return: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\engine.cpp(200,38): warning C4244: return: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\engine.cpp(328,131): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\engine.cpp(328,124): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+  game.cpp
+D:\Repos\NineRings\windowStyle.h(18,2): warning C4091: static : пропускается слева от "WindowStyle", когда ни одна переменная не объявлена
+D:\Repos\NineRings\game.cpp(86,111): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
+          with
+          [
+              T=unsigned int
+          ]
+D:\Repos\NineRings\game.cpp(86,53): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
+          with
+          [
+              T=unsigned int
+          ]
+D:\Repos\NineRings\game.cpp(90,111): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
+          with
+          [
+              T=unsigned int
+          ]
+D:\Repos\NineRings\game.cpp(90,53): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
+          with
+          [
+              T=unsigned int
+          ]
+D:\Repos\NineRings\game.cpp(121,9): warning C4101: event: неиспользованная локальная переменная
+D:\Repos\NineRings\game.cpp(270,8): warning C4101: intStr: неиспользованная локальная переменная
+D:\Repos\NineRings\game.cpp(412,9): warning C4101: event: неиспользованная локальная переменная
+  level1.cpp
+  level2.cpp
+  main.cpp
+D:\Repos\NineRings\windowStyle.h(18,2): warning C4091: static : пропускается слева от "WindowStyle", когда ни одна переменная не объявлена
+  physxImplEnWalk.cpp
+D:\Repos\NineRings\physxImplEnWalk.cpp(46,31): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+D:\Repos\NineRings\physxImplEnWalk.cpp(59,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\physxImplEnWalk.cpp(61,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\physxImplEnWalk.cpp(85,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\physxImplEnWalk.cpp(87,76): warning C4244: аргумент: преобразование "T" в "int", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\physxImplEnWalk.cpp(264,42): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+D:\Repos\NineRings\physxImplEnWalk.cpp(269,42): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+D:\Repos\NineRings\physxImplEnWalk.cpp(274,42): warning C4244: =: преобразование "int" в "float", возможна потеря данных
   Создание кода
-  3 of 816 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    10 functions had inline decision re-evaluated but remain unchanged
+  19 of 826 functions ( 2.3%) were compiled, the rest were copied from previous compilation.
+    2 functions were new in current compilation
+    4 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   NineRings.vcxproj -> D:\Repos\NineRings\x64\Release\NineRings.exe

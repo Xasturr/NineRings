@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "map.h"
 #include "player.h"
+#include "physxImplEnWalk.h"
 
 using namespace std;
 using namespace sf;

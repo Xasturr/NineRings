@@ -127,17 +127,16 @@ Character1::Character1(float posX, float posY)
 	currSpriteSide_ = "right";
 	state_ = "falling";
 	name_ = "Character1";
-	currShellName_ = "FireBall";
-
-	//for (int i = 0; i < currFireBallAmount_; i++)
-	//{
-	//	shells_[i] = new ShellFireBall();
-	//}
+	currShellName_ = "FireBall";	
 }
 
 Character1::~Character1()
 {
 	cout << "In character1 destructor" << endl;
+	if (flyingShells_.size())
+	{
+		delete[] &flyingShells_;
+	}
 }
 
 Sprite Character1::getSprite()

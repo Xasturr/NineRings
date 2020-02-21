@@ -166,6 +166,7 @@
     <ClCompile Include="magicDecorator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map1.cpp" />
+    <ClCompile Include="physxImplEnWalk.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="shellFireBall.cpp" />
@@ -180,12 +181,15 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gameWindow.h" />
     <ClInclude Include="ddMagicDecorator.h" />
+    <ClInclude Include="states.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="level1.h" />
     <ClInclude Include="level2.h" />
     <ClInclude Include="magicDecorator.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="map1.h" />
+    <ClInclude Include="physxImplement.h" />
+    <ClInclude Include="physxImplEnWalk.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="shell.h" />

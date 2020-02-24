@@ -43,11 +43,16 @@ void PhysxImplEnWalk::interactionWithMap(struct states* states, Character* chara
 
 	float pos = 0;
 
-	int gap = map->getTileWidth();
+	int gap = 0;
+	int gap2 = 0;
 
 	if (states->leftPressed_)
 	{
-		gap = 0;
+		gap2 = map->getTileWidth() / 2;
+	}
+	else
+	{
+		gap = map->getTileWidth() / 2;
 	}
 
 	//if (angryState_)
@@ -56,7 +61,7 @@ void PhysxImplEnWalk::interactionWithMap(struct states* states, Character* chara
 	//}
 
 	//preventing from fall
-	for (int i = (newEnemyPosition.x + gap) / map->getTileWidth(); i < (newEnemyPosition.x + gap) / map->getTileWidth(); i++)
+	for (int i = (newEnemyPosition.x) / map->getTileWidth(); i < (newEnemyPosition.x + gap) / map->getTileWidth(); i++)
 	{
 		for (int j = (oldEnemyPosition.y) / map->getTileHeight(); j < (oldEnemyPosition.y + character->getHeight()) / map->getTileHeight(); j++)
 		{
@@ -82,7 +87,7 @@ void PhysxImplEnWalk::interactionWithMap(struct states* states, Character* chara
 	}
 
 	//preventing from bounce
-	for (int i = (newEnemyPosition.x + gap) / map->getTileWidth(); i < (newEnemyPosition.x + gap) / map->getTileWidth() && !changedDirection; i++)
+	for (int i = (newEnemyPosition.x) / map->getTileWidth(); i < (newEnemyPosition.x + gap) / map->getTileWidth() && !changedDirection; i++)
 	{
 		if (!map->getCollision((oldEnemyPosition.y - character->getHeight() / 2) / map->getTileHeight(), i, ' '))
 		{
@@ -114,6 +119,11 @@ void PhysxImplEnWalk::updatePosition(Character *character, states* states, float
 			character->setCurrHurtFrame(character->getFrameSpeed() * elapsedTime);
 			character->spriteUpdateHurt(character->getCurrSpriteSide());
 			return;
+		}
+
+		if (character->getCurrState() == "falling") //костыль
+		{
+			character->setState("staying");
 		}
 
 		if (states->leftPressed_)
@@ -156,11 +166,11 @@ void PhysxImplEnWalk::updatePosition(Character *character, states* states, float
 			character->setCurrJumpFrame(character->getFrameSpeed() * elapsedTime);
 			character->spriteUpdateJump(character->getCurrSpriteSide());
 		}
-		if (character->getCurrState() == "staying")
+		if (character->getCurrState() == "staying" )
 		{
 			character->setPosition(character->getCurrPosition().x, character->getCurrPosition().y);
 			character->setCurrIdleFrame(character->getFrameSpeed() * elapsedTime);
-			character->spriteUpdateIdle();
+			character->spriteUpdateIdle(character->getCurrSpriteSide());
 		}
 		if (character->getCurrState() == "falling")
 		{

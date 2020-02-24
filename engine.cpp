@@ -100,6 +100,11 @@ bool Engine::mouseContains(int rectLeft, int rectTop, int rectWidth, int rectHei
 	return IntRect(rectLeft, rectTop, rectWidth, rectHeight).contains(Mouse::getPosition(window_));
 }
 
+bool Engine::isNewPlayerLevel()
+{
+	return player_->isNewLevel();
+}
+
 int Engine::input()
 {
 	if (Keyboard::isKeyPressed(Keyboard::Key(settings_.getMoveLeft())))
@@ -205,6 +210,16 @@ int Engine::getDDTimer()
 	return player_->getDDTimer();
 }
 
+int Engine::getNewPlayerLevel()
+{
+	return player_->getNewLevel();
+}
+
+int Engine::getPlayerPoints()
+{
+	return player_->getPoints();
+}
+
 void Engine::changeRenderWindowMode()
 {
 	if (isFullscreen_)
@@ -246,6 +261,16 @@ string Engine::getCurrPlayerShellName()
 Event* Engine::getEvent()
 {
 	return &event_;
+}
+
+Player* Engine::getPlayer()
+{
+	return player_;
+}
+
+struct resolutions Engine::getResolutions()
+{
+	return resolutions_;
 }
 
 //Level* Engine::getLevel()
@@ -291,7 +316,8 @@ void Engine::playerMoveDown()
 void Engine::update(float elapsedTime)
 {
 	Vector2f oldPlayerPosition = player_->getCurrPosition();
-	player_->update(elapsedTime);
+	player_->update(elapsedTime, &window_);
+	//player_->updateLevel(&window_);
 	player_->interactionWithMap(oldPlayerPosition, player_->getSprite().getPosition(), level_->getMap(), elapsedTime);
 	player_->calculateVariables(elapsedTime);
 	view_.setCenter(player_->getCurrPosition().x, player_->getCurrPosition().y);
@@ -323,8 +349,9 @@ void Engine::drawSprite(Sprite sprite)
 	window_.draw(sprite);
 }
 
-void Engine::setView(int sizeX, int sizeY)
+void Engine::setView(int rectLeft, int rectTop, int rectWidth, int rectHeight)
 {
-	view_.reset(FloatRect(player_->getSprite().getPosition().x - sizeX / 2, player_->getSprite().getPosition().y - sizeY / 2, sizeX, sizeY));
+	view_.reset(FloatRect(rectLeft, rectTop, rectWidth, rectHeight));
+	//view_.reset(FloatRect(player_->getSprite().getPosition().x - sizeX / 2, player_->getSprite().getPosition().y - sizeY / 2, sizeX, sizeY));
 	window_.setView(view_);
 }

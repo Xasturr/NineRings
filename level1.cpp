@@ -9,6 +9,7 @@ Level1::Level1()
 	enemies_.push_back(new Enemy("Character1", 448, 2176, new PhysxImplEnWalk()));
 	enemies_.push_back(new Enemy("Character1", 666, 2176, new PhysxImplEnWalk()));
 	enemies_.push_back(new Enemy("Character1", 1600, 576, new PhysxImplEnWalk()));
+	enemies_.push_back(new Enemy("Bat", 666, 2176-64*2, new PhysxImplEnFly(400, 40 * 64)));
 	//enemies_.push_back(new Enemy("Character1", 1600, 576));
 	//enemies_.push_back(new Enemy("Character1", 1600, 576));
 	//enemies_.push_back(new Enemy("Character1", 1600, 576));
@@ -116,10 +117,18 @@ void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 		if (enemies_[i]->getEnemyLife())
 		{
 			Vector2f oldEnemyPosition = enemies_[i]->getPosition();
+			enemies_[i]->flyingShellsUpdateAndDraw(elapsedTime, map_, window);
+			int enDamage = enemies_[i]->flyingShellsMakeDamage(player->getCurrPosition(), player->getWidth(), player->getHeight());
+			if (enDamage > 0)
+			{
+				player->setCurrHealthPoints(player->getCurrHealthPoints() - enDamage * (100 - player->getArmor()) / 100);
+				player->setHurt(true);
+				cout << "Player health: " << player->getCurrHealthPoints() << endl;
+			}
 			enemies_[i]->updatePosition(elapsedTime);
 			enemies_[i]->calculateVariables(elapsedTime);
 			enemies_[i]->decision(elapsedTime, player);
-			enemies_[i]->interactionWithMap(oldEnemyPosition, enemies_[i]->getPosition(), map_, elapsedTime);
+			enemies_[i]->interactionWithMap(oldEnemyPosition, map_, elapsedTime);
 			enemies_[i]->draw(window, player, viewSize, elapsedTime);
 			int damage = player->flyingShellsMakeDamage(enemies_[i]->getPosition(), enemies_[i]->getWidth(), enemies_[i]->getHeight());
 			if (damage > 0)
@@ -131,6 +140,7 @@ void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 		}
 		else
 		{
+			player->setCurrExp(player->getCurrExp() + enemies_[i]->getKillExp());
 			eraseEnemy = i;
 		}
 	}

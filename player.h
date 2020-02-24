@@ -4,6 +4,7 @@
 
 #include "character1.h"
 #include "map.h"
+#include "gameWindow.h"
 
 using namespace sf;
 using namespace std;
@@ -22,11 +23,24 @@ class Player
 	bool runAttack_;
 	bool shoot_;
 	bool doubleDamage_;
+	bool newExp_;
+	bool newLvl_;
 
 	string currShellName_;
 
 	int getJumpStaminaCost();
 	int getAttackStaminaCost();
+
+	int exp_;
+	int lvl_;
+	int points_;
+	int heartPlusPerkBonus_;
+	int chestArmorPerkBonus_;
+	int fairyWandPerkBonus_;
+	int vampireDraculaPerkBonus_;
+	int vampireDraculaPerkLevel_;
+
+	void updateLevel(RenderWindow* window);
 
 	float ddTimer_;
 	float ddDuration_;
@@ -49,7 +63,7 @@ public:
 	void stopAttack();
 	void stopShoot();
 
-	void update(float elapsedTime);
+	void update(float elapsedTime, RenderWindow* window);
 	void setPosition(float posX, float posY);
 	void setCurrGravityAccel(float value);
 	void setCurrJumpAccel(float value);
@@ -66,6 +80,11 @@ public:
 	void setCurrMana(float currMana);
 	void setDoubleDamage();
 	void updateDoubleDamage(float elapsedTime);
+	void setCurrExp(int exp);
+	void setHeartPlusPerk();
+	void setChestArmorPerk();
+	void setFairyWandPerk();
+	void setVampireDraculaPerk();
 
 	Vector2f getCurrPosition();
 
@@ -85,6 +104,12 @@ public:
 	int flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight);
 	int getCurrShellAmount();
 	int getDDTimer();
+	int getCurrExp();
+	int getNewLevel();
+	int getPoints();
+	int getArmor();
+	int getVampireDraculaPerkLevel();
+	int getVampireDraculaPerkBonus();
 
 	float getGravity();
 	float getJumpForce();
@@ -104,4 +129,5 @@ public:
 	bool getCharacterMadeDamage();
 	bool getDamageDisabled();
 	bool getHurt();
+	bool isNewLevel();
 };

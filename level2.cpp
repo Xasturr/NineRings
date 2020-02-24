@@ -87,9 +87,9 @@ void Level2::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 		{
 			Vector2f oldEnemyPosition = enemies_[i]->getPosition();
 			enemies_[i]->updatePosition(elapsedTime);
-			enemies_[i]->calculateVariables(elapsedTime);
+			//enemies_[i]->calculateVariables(elapsedTime);
 			enemies_[i]->decision(elapsedTime, player);
-			enemies_[i]->interactionWithMap(oldEnemyPosition, enemies_[i]->getPosition(), map_, elapsedTime);
+			enemies_[i]->interactionWithMap(oldEnemyPosition, map_, elapsedTime);
 			enemies_[i]->draw(window, player, viewSize, elapsedTime);
 			int damage = player->flyingShellsMakeDamage(enemies_[i]->getPosition(), enemies_[i]->getWidth(), enemies_[i]->getHeight());
 			if (damage > 0)

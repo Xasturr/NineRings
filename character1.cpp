@@ -104,10 +104,10 @@ Character1::Character1(float posX, float posY)
 	//lowerGap_ = 23;
 	//upperGap_ = 52;
 	currGravityAccel_ = jumpForce_;
-	maxHealthPoints_ = currHealthPoints_ =  100;
-	maxStamina_ = currentStamina_ = 100;
-	maxMana_ = currentMana_ = 100;
-	attackDamage_ = 10;
+	maxHealthPoints_ = currHealthPoints_ =  1000;
+	maxStamina_ = currentStamina_ = 1000;
+	maxMana_ = currentMana_ = 1000;
+	attackDamage_ = 200;
 	attackRange_ = 60;
 	runAttackRange_ = 58;
 	height_ = 70; //height of character
@@ -117,10 +117,12 @@ Character1::Character1(float posX, float posY)
 	currAngle_ = 90;
 	maxShotCoolDown_ = 2;
 	currShotCoolDown_ = 0;
-	manaRegen_ = 10;
-	staminaRegen_ = 15;
-	jumpStaminaCost_ = 15;
-	attackStaminaCost_ = 30;
+	manaRegen_ = 100;
+	staminaRegen_ = 150;
+	jumpStaminaCost_ = 150;
+	attackStaminaCost_ = 250;
+	killExp_ = 100;
+	armor_ = 0;
 
 	sprite_.setOrigin(textureRun1_.getSize().x / 2, 110);
 
@@ -209,6 +211,11 @@ float Character1::getMaxMana()
 	return maxMana_;
 }
 
+float Character1::getCurrShellAngle()
+{
+	return currAngle_;
+}
+
 int Character1::getCurrIdleFrame()
 {
 	return currentIdleFrame_;
@@ -256,7 +263,7 @@ int Character1::getMaxHealthPoints()
 	return maxHealthPoints_;
 }
 
-int Character1::getAttackDamage()
+float Character1::getAttackDamage()
 {
 	return attackDamage_;
 }
@@ -296,16 +303,16 @@ int Character1::getCurrShellAmount()
 	return 0;
 }
 
-int Character1::flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight)
+int Character1::flyingShellsMakeDamage(Vector2f charPos, int charWidth, int charHeight)
 {
 	for (int i = 0; i < flyingShells_.size(); i++)
 	{
 		if (!flyingShells_[i]->getExplosed())
 		{
-			if (enemyPos.x - enemyWidth / 2 <= flyingShells_[i]->getPosition().x
-				&& enemyPos.x + enemyWidth / 2 >= flyingShells_[i]->getPosition().x
-				&& enemyPos.y - enemyHeight <= flyingShells_[i]->getPosition().y
-				&& enemyPos.y >= flyingShells_[i]->getPosition().y)
+			if (charPos.x - charWidth / 2 <= flyingShells_[i]->getPosition().x
+				&& charPos.x + charWidth / 2 >= flyingShells_[i]->getPosition().x
+				&& charPos.y - charHeight <= flyingShells_[i]->getPosition().y
+				&& charPos.y >= flyingShells_[i]->getPosition().y)
 			{
 				//cout << "DAMAGED ENEMY" << endl;
 				//flyingShells_[i]->setLife(false);
@@ -337,6 +344,16 @@ int Character1::getJumpStaminaCost()
 int Character1::getAttackStaminaCost()
 {
 	return attackStaminaCost_;
+}
+
+int Character1::getKillExp()
+{
+	return killExp_;
+}
+
+int Character1::getArmor()
+{
+	return armor_;
 }
 
 Vector2f Character1::getCurrPosition()
@@ -375,6 +392,8 @@ void Character1::setCurrIdleFrame(float increase)
 	if (currentIdleFrame_ >= numberOfIdleFrames_)
 		currentIdleFrame_ = 1;
 }
+
+void Character1::setCurrFlyFrame(float increase) {}
 
 void Character1::setCurrRunFrame(float increase)
 {
@@ -494,6 +513,8 @@ void Character1::setCurrHurtFrame(float increase)
 	if (currentHurtFrame_ > numberOfHurtFrames_)
 	{
 		hurt_ = false;
+		currGravityAccel_ = 0;
+		state_ = "falling";
 		currentHurtFrame_ = 1;
 		//damageDisabled_ = false;
 	}
@@ -518,7 +539,7 @@ void Character1::updateSpriteSide(string spriteSide)
 	}
 }
 
-void Character1::spriteUpdateIdle()
+void Character1::spriteUpdateIdle(string spriteSide)
 {
 	if (int(currentIdleFrame_) == 1)
 		sprite_.setTexture(textureIdle1_);
@@ -545,6 +566,8 @@ void Character1::spriteUpdateIdle()
 	else 
 		sprite_.setTexture(textureIdle12_);
 }
+
+void Character1::spriteUpdateFly(string spriteSide) {}
 
 void Character1::spriteUpdateRun(string spriteSide)
 {
@@ -714,18 +737,18 @@ void Character1::setCurrMana(float currMana)
 	currentMana_ = currMana;
 }
 
-void Character1::addFlyingShell(string shellName)
+void Character1::addFlyingShell(string shellName, float angle)
 {
 	if (shellName == "FireBall" && currFireBallAmount_ > 0)
 	{
 		currFireBallAmount_ -= 1;
 
-		Shell* shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, currAngle_, currSpriteSide_);
+		Shell* shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
 		flyingShells_.push_back(shell);
 	}
 }
 
-void Character1::addFlyingShell(string shellName, bool doubleDamage)
+void Character1::addFlyingShell(string shellName, bool doubleDamage, float angle)
 {
 	if (shellName == "FireBall" && currFireBallAmount_ > 0)
 	{
@@ -734,11 +757,11 @@ void Character1::addFlyingShell(string shellName, bool doubleDamage)
 
 		if (doubleDamage)
 		{
-			shell = new DDMagicDecorator(new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, currAngle_, currSpriteSide_));
+			shell = new DDMagicDecorator(new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_));
 		}
 		else
 		{
-			shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, currAngle_, currSpriteSide_);
+			shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
 		}
 
 		flyingShells_.push_back(shell);
@@ -772,6 +795,26 @@ void Character1::flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWi
 void Character1::setCurrShotCoolDown(float currShotCoolDown)
 {
 	currShotCoolDown_ = currShotCoolDown;
+}
+
+void Character1::setCurrShellAgle(float angle)
+{
+	currAngle_ = angle;
+}
+
+void Character1::setMaxHealthPoints(int healthPoints)
+{
+	maxHealthPoints_ = healthPoints;
+}
+
+void Character1::setArmor(int armor)
+{
+	armor_ = armor;
+}
+
+void Character1::setMaxMana(int mana)
+{
+	maxMana_ = mana;
 }
 
 //void Character1::eraseShell(string shellName)
@@ -846,6 +889,16 @@ bool Character1::getDamageDisabled()
 bool Character1::getHurt()
 {
 	return hurt_;
+}
+
+bool Character1::calculateAngryState(Vector2f playerPos)
+{
+	if (abs(playerPos.x - position_.x) <= overview_ && playerPos.y == position_.y)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 string Character1::getCurrSpriteSide()

@@ -10,12 +10,22 @@ Player::Player(string charName, float posX, float posY)
 	runAttack_ = false;
 	shoot_ = false;
 	doubleDamage_ = false;
+	newExp_ = false;
+	newLvl_ = false;
 
 	charName_ = charName;
 	currShellName_ = "FireBall";
 
 	ddTimer_ = 0;
 	ddDuration_ = 5;
+	exp_ = 0;
+	lvl_ = 1;
+	points_ = 0;
+	heartPlusPerkBonus_ = 200;
+	chestArmorPerkBonus_ = 10;
+	fairyWandPerkBonus_ = 200;
+	vampireDraculaPerkBonus_ = 15;
+	vampireDraculaPerkLevel_ = 0;
 
 	if (charName_ == "Character1")
 	{
@@ -96,10 +106,12 @@ void Player::stopShoot()
 	shoot_ = false;
 }
 
-void Player::update(float elapsedTime)
+void Player::update(float elapsedTime, RenderWindow* window)
 {
 	if (character_->getCurrHealthPoints() > 0)
 	{
+		updateLevel(window);
+
 		if (character_->getHurt())
 		{
 			attack_ = false;
@@ -108,15 +120,15 @@ void Player::update(float elapsedTime)
 			return;
 		}
 
-		if (character_->getCurrShotCoolDown() > 0)
-		{
-			character_->setCurrShotCoolDown(character_->getCurrShotCoolDown() - elapsedTime);
-			
-			if (character_->getCurrShotCoolDown() < 0)
-			{
-				character_->setCurrShotCoolDown(0);
-			}
-		}
+		//if (character_->getCurrShotCoolDown() > 0)
+		//{
+		//	character_->setCurrShotCoolDown(character_->getCurrShotCoolDown() - elapsedTime);
+		//	
+		//	if (character_->getCurrShotCoolDown() < 0)
+		//	{
+		//		character_->setCurrShotCoolDown(0);
+		//	}
+		//}
 
 		if (shoot_ && character_->getCurrShotCoolDown() == 0 && character_->getCurrShellAmount() > 0 && getCurrMana() >= 40)
 		{
@@ -124,11 +136,11 @@ void Player::update(float elapsedTime)
 
 			if (ddTimer_ > 0)
 			{
-				character_->addFlyingShell(currShellName_, true);
+				character_->addFlyingShell(currShellName_, true, character_->getCurrShellAngle());
 			}
 			else
 			{
-				character_->addFlyingShell(currShellName_);
+				character_->addFlyingShell(currShellName_, character_->getCurrShellAngle());
 			}
 			character_->setCurrShotCoolDown(character_->getMaxShotCoolDown());
 		}
@@ -180,7 +192,7 @@ void Player::update(float elapsedTime)
 		{
 			character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
 			character_->setCurrIdleFrame(character_->getFrameSpeed() * elapsedTime);
-			character_->spriteUpdateIdle();
+			character_->spriteUpdateIdle(character_->getCurrSpriteSide());
 		}
 		if (character_->getCurrState() == "falling")
 		{
@@ -352,6 +364,16 @@ void Player::calculateVariables(float elapsedTime)
 	{
 		updateDoubleDamage(elapsedTime);
 	}
+
+	if (character_->getCurrShotCoolDown() > 0)
+	{
+		character_->setCurrShotCoolDown(character_->getCurrShotCoolDown() - elapsedTime);
+
+		if (character_->getCurrShotCoolDown() < 0)
+		{
+			character_->setCurrShotCoolDown(0);
+		}
+	}
 }
 
 void Player::setEnemyDamaged(bool flag)
@@ -406,6 +428,78 @@ void Player::updateDoubleDamage(float elapsedTime)
 		if (ddTimer_ < 0)
 		{
 			ddTimer_ = 0;
+		}
+	}
+}
+
+void Player::setCurrExp(int exp)
+{
+	exp_ = exp;
+	newExp_ = true;
+}
+
+void Player::setHeartPlusPerk()
+{
+	if (points_ >= 1)
+	{
+		character_->setMaxHealthPoints(character_->getMaxHealthPoints() + heartPlusPerkBonus_);
+		points_ -= 1;
+	}
+}
+
+void Player::setChestArmorPerk()
+{
+	if (points_ >= 1)
+	{
+		character_->setArmor(character_->getArmor() + chestArmorPerkBonus_);
+		points_ -= 1;
+	}
+}
+
+void Player::setFairyWandPerk()
+{
+	if (points_ >= 1)
+	{
+		character_->setMaxMana(character_->getMaxMana() + fairyWandPerkBonus_);
+		points_ -= 1;
+	}
+}
+
+void Player::setVampireDraculaPerk()
+{
+	if (points_ >= 3 && vampireDraculaPerkLevel_ == 0)
+	{
+		vampireDraculaPerkLevel_ = 1;
+		points_ -= 3;
+	}
+}
+
+void Player::updateLevel(RenderWindow* window)
+{
+	if (newExp_)
+	{
+		newExp_ = false;
+
+		if (exp_ >= 100 && lvl_ == 1)
+		{
+			newLvl_ = true;
+			lvl_ = 2;
+			points_ += 1;
+			cout << "2" << endl;
+		}
+		if (exp_ >= 200 && lvl_ == 2)
+		{
+			newLvl_ = true;
+			lvl_ = 3;
+			points_ += 1;
+			cout << "3" << endl;
+		}
+		if (exp_ >= 300 && lvl_ == 3)
+		{
+			newLvl_ = true;
+			lvl_ = 4;
+			points_ += 1;
+			cout << "4" << endl;
 		}
 	}
 }
@@ -488,6 +582,36 @@ int Player::getCurrShellAmount()
 int Player::getDDTimer()
 {
 	return (int)ddTimer_;
+}
+
+int Player::getCurrExp()
+{
+	return exp_;
+}
+
+int Player::getNewLevel()
+{
+	return lvl_;
+}
+
+int Player::getPoints()
+{
+	return points_;
+}
+
+int Player::getArmor()
+{
+	return character_->getArmor();
+}
+
+int Player::getVampireDraculaPerkLevel()
+{
+	return vampireDraculaPerkLevel_;
+}
+
+int Player::getVampireDraculaPerkBonus()
+{
+	return vampireDraculaPerkBonus_;
 }
 
 int Player::getJumpStaminaCost()
@@ -578,4 +702,9 @@ bool Player::getDamageDisabled()
 bool Player::getHurt()
 {
 	return character_->getHurt();
+}
+
+bool Player::isNewLevel()
+{
+	return newLvl_;
 }

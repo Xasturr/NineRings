@@ -4,6 +4,7 @@
 #include "map.h"
 #include "player.h"
 #include "physxImplEnWalk.h"
+#include "physxImplEnFly.h"
 
 using namespace std;
 using namespace sf;
@@ -32,6 +33,4 @@ public:
 	virtual void updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime) = 0;
 
 	virtual Map* getMap() = 0;
-
-	//virtual vector<Enemy*> getEnemies() = 0;
 };

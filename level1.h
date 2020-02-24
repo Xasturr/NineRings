@@ -34,6 +34,4 @@ public:
 	void updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime);
 
 	Map* getMap();
-
-	//vector<Enemy*> getEnemies();
 };

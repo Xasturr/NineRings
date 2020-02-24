@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <ctime>
+
 #include "map.h"
 
 using namespace sf;
@@ -26,11 +27,14 @@ public:
 	virtual float getCurrMana() = 0;
 	virtual float getMaxStamina() = 0;
 	virtual float getMaxMana() = 0;
+	virtual float getCurrShellAngle() = 0;
+	virtual float getAttackDamage() = 0;
 	//virtual float getCurrentSpeed() = 0;
 
 	//virtual void spriteFrameUpdate(float currentFrame) = 0;
 	virtual void setPosition(float posX, float posY) = 0;
 	virtual void setCurrIdleFrame(float increase) = 0;
+	virtual void setCurrFlyFrame(float increase) = 0;
 	virtual void setCurrRunFrame(float increase) = 0;
 	virtual void setCurrJumpFrame(float increase) = 0;
 	virtual void setCurrFallFrame(float increase) = 0;
@@ -38,7 +42,8 @@ public:
 	virtual void setCurrRunAttackFrame(float increase) = 0;
 	virtual void setCurrDeathFrame(float increase) = 0;
 	virtual void setCurrHurtFrame(float increase) = 0;
-	virtual void spriteUpdateIdle() = 0;
+	virtual void spriteUpdateIdle(string spriteSide) = 0;
+	virtual void spriteUpdateFly(string spriteSide) = 0;
 	virtual void spriteUpdateRun(string spriteSide) = 0;
 	virtual void spriteUpdateJump(string spriteSide) = 0;
 	virtual void spriteUpdateFall(string spriteSide) = 0;
@@ -61,10 +66,14 @@ public:
 	virtual void setCurrHealthPoints(int currHealthPoints) = 0;
 	virtual void setCurrStamina(float currStamina) = 0;
 	virtual void setCurrMana(float currMana) = 0;
-	virtual void addFlyingShell(string shellName) = 0;
-	virtual void addFlyingShell(string shellName, bool doubleDamage) = 0;
+	virtual void addFlyingShell(string shellName, float angle) = 0;
+	virtual void addFlyingShell(string shellName, bool doubleDamage, float angle) = 0;
 	virtual void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window) = 0;
 	virtual void setCurrShotCoolDown(float currCoolDown) = 0;
+	virtual void setCurrShellAgle(float angle) = 0;
+	virtual void setMaxHealthPoints(int healthPoints) = 0;
+	virtual void setArmor(int armor) = 0;
+	virtual void setMaxMana(int mana) = 0;
 
 	virtual int getUpperGap() = 0;
 	virtual int getLowerGap() = 0;
@@ -72,7 +81,6 @@ public:
 	virtual int getRightGap() = 0;
 	virtual int getAttackRange() = 0;
 	virtual int getCurrHealthPoints() = 0;
-	virtual int getAttackDamage() = 0;
 	virtual int getNumberOfAttackFrames() = 0;
 	virtual int getHeight() = 0;
 	virtual int getWidth() = 0;
@@ -80,11 +88,13 @@ public:
 	virtual int getMaxHealthPoints() = 0;
 	virtual int getCurrFlyingShellAmount() = 0;
 	virtual int getCurrShellAmount() = 0;
-	virtual int flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight) = 0;
+	virtual int flyingShellsMakeDamage(Vector2f charPos, int charWidth, int charHeight) = 0;
 	virtual int getStaminaRegen() = 0;
 	virtual int getManaRegen() = 0;
 	virtual int getJumpStaminaCost() = 0;
 	virtual int getAttackStaminaCost() = 0;
+	virtual int getKillExp() = 0;
+	virtual int getArmor() = 0;
 
 	virtual bool getJumpState() = 0;
 	virtual bool getAttackState() = 0;
@@ -93,6 +103,7 @@ public:
 	virtual bool getCharacterMadeDamage() = 0;
 	virtual bool getDamageDisabled() = 0;
 	virtual bool getHurt() = 0;
+	virtual bool calculateAngryState(Vector2f playerPos) = 0;
 
 	virtual string getCurrSpriteSide() = 0;
 	virtual string getCurrState() = 0;

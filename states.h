@@ -10,4 +10,5 @@ struct states
 	bool runAttack_;
 	bool angryState_;
 	bool onEdge_;
+	bool shoot_;
 };

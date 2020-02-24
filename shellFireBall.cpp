@@ -9,8 +9,8 @@ ShellFireBall::ShellFireBall(float posX, float posY, float angle, string spriteS
 	explosed_ = false;
 
 	angle_ = angle;
-	alphaStrike_ = 50;
-	speed_ = 350;
+	alphaStrike_ = 500;
+	speed_ = 360;
 	currentFrame_ = 1;
 	currentExplosionFrame_ = 1;
 	numberOfFrames_ = 5;
@@ -26,18 +26,19 @@ ShellFireBall::ShellFireBall(float posX, float posY, float angle, string spriteS
 
 	sprite_.setTexture(texture1_);
 	sprite_.setPosition(position_);
+	sprite_.setRotation(angle_ - 90);
 
 	spriteSide_ = spriteSide;
 
+	sprite_.setOrigin(texture1_.getSize().x - 44, texture1_.getSize().y / 2);
 	if (spriteSide_ == "left")
 	{
-		sprite_.setOrigin(texture1_.getSize().x - 44, texture1_.getSize().y / 2);
-		sprite_.setScale(-1.f, 1.f);
+		//sprite_.setScale(-1.f, 1.f);
 	}
-	else
-	{
-		sprite_.setOrigin(44, texture1_.getSize().y / 2);
-	}
+	//else
+	//{
+	//	sprite_.setOrigin(texture1_.getSize().x, texture1_.getSize().y / 2);
+	//}
 }
 
 ShellFireBall::~ShellFireBall()
@@ -68,22 +69,25 @@ void ShellFireBall::updateAndDraw(float elapsedTime, Map* map, RenderWindow* win
 		position_.y -= (speed_ * cos(angle_ * 3.14 / 180)) * elapsedTime;
 		position_.x += (speed_ * sin(angle_* 3.14 / 180)) * elapsedTime;
 
-		int	gap = map->getTileWidth() / 2;
+		int	gap = 0;
+		int gap2 = 0;
 
-		if (spriteSide_ == "left")
+		if (spriteSide_ == "right")
 		{
-			gap = -gap;
+			gap = map->getTileWidth() / 2;
+		}
+		else
+		{
+			gap2 = map->getTileWidth() / 2;
 		}
 
-		for (int i = (position_.x) / map->getTileWidth(); i < (position_.x + gap) / map->getTileWidth(); i++)
+		for (int i = (position_.x + gap2) / map->getTileWidth(); i < (position_.x + gap + gap2) / map->getTileWidth(); i++)
 		{
 			for (int j = position_.y / map->getTileHeight(); j < (position_.y) / map->getTileHeight(); j++)
 			{
 				if (!map->getCollision(j, i, ' '))
 				{
 					explosed_ = true;
-					//life_ = false;
-					//cout << "SHELL COLLISION" << endl;
 					return;
 				}
 			}

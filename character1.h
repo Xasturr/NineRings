@@ -106,6 +106,7 @@ class Character1 : public Character
 	float frameSpeed_;
 	float currShotCoolDown_;
 	float maxShotCoolDown_;
+	float attackDamage_;
 
 	int numberOfIdleFrames_;
 	int numberOfRunFrames_;
@@ -120,7 +121,6 @@ class Character1 : public Character
 	int rightGap_;
 	int leftGap_;
 	int maxHealthPoints_;
-	int attackDamage_;
 	int attackRange_;
 	int runAttackRange_;
 	int height_;
@@ -131,13 +131,14 @@ class Character1 : public Character
 	int staminaRegen_;
 	int jumpStaminaCost_;
 	int attackStaminaCost_;
+	int killExp_;
+	int armor_;
 
 	string currSpriteSide_;
 	string state_;
 	string name_;
 	string currShellName_;
 
-	//vector<Shell*> shells_;
 	vector<Shell*> flyingShells_;
 
 	void updateSpriteSide(string spriteSide);
@@ -161,6 +162,8 @@ public:
 	float getCurrMana();
 	float getMaxStamina();
 	float getMaxMana();
+	float getCurrShellAngle();
+	float getAttackDamage();
 
 	int getCurrIdleFrame();
 	int getUpperGap();
@@ -169,7 +172,6 @@ public:
 	int getRightGap();
 	int getAttackRange();
 	int getCurrHealthPoints();
-	int getAttackDamage();
 	int getNumberOfAttackFrames();
 	int getHeight();
 	int getWidth();
@@ -177,16 +179,19 @@ public:
 	int getMaxHealthPoints();
 	int getCurrFlyingShellAmount();
 	int getCurrShellAmount();
-	int flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight);
+	int flyingShellsMakeDamage(Vector2f charPos, int charWidth, int charHeight);
 	int getManaRegen();
 	int getStaminaRegen();
 	int getJumpStaminaCost();
 	int getAttackStaminaCost();
+	int getKillExp();
+	int getArmor();
 
 	Vector2f getCurrPosition();
 
 	void setPosition(float x, float y);
 	void setCurrIdleFrame(float increase);
+	void setCurrFlyFrame(float increase);
 	void setCurrRunFrame(float increase);
 	void setCurrJumpFrame(float increase);
 	void setCurrFallFrame(float increase);
@@ -194,7 +199,8 @@ public:
 	void setCurrRunAttackFrame(float increase);
 	void setCurrDeathFrame(float increase);
 	void setCurrHurtFrame(float increase);
-	void spriteUpdateIdle();
+	void spriteUpdateIdle(string spriteSide);
+	void spriteUpdateFly(string spriteSide);
 	void spriteUpdateRun(string spriteSide);
 	void spriteUpdateJump(string spriteSide);
 	void spriteUpdateFall(string spriteSide);
@@ -217,10 +223,14 @@ public:
 	void setCurrHealthPoints(int currHealthPoints);
 	void setCurrStamina(float currStamina);
 	void setCurrMana(float currMana);
-	void addFlyingShell(string shellName);
-	void addFlyingShell(string shellName, bool doubleDamage);
+	void addFlyingShell(string shellName, float angle);
+	void addFlyingShell(string shellName, bool doubleDamage, float angle);
 	void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window);
 	void setCurrShotCoolDown(float currShotCoolDown);
+	void setCurrShellAgle(float angle);
+	void setMaxHealthPoints(int healthPoints);
+	void setArmor(int armor);
+	void setMaxMana(int mana);
 
 	bool getCharacterLife();
 	bool getAttackState();
@@ -230,6 +240,7 @@ public:
 	bool getCharacterMadeDamage();
 	bool getDamageDisabled();
 	bool getHurt();
+	bool calculateAngryState(Vector2f playerPos);
 
 	string getCurrSpriteSide();
 	string getCurrState();

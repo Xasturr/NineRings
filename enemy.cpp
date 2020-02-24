@@ -8,6 +8,10 @@ Enemy::Enemy(string charName, float posX, float posY, PhysxImplement* physx)
 	{
 		character_ = new Character1(posX, posY);
 	}
+	else if (charName_ == "Bat")
+	{
+		character_ = new CharacterBat(posX, posY);
+	}
 	else
 	{
 		cout << "Wrong character" << endl;
@@ -55,7 +59,7 @@ void Enemy::draw(RenderWindow* window, Player* player, Vector2f viewSize, float 
 		if (player->getCurrPosition().y + viewSize.y / 2 + 50 >= character_->getCurrPosition().y && player->getCurrPosition().y - viewSize.y / 2 - 50 <= character_->getCurrPosition().y)
 		{
 			//if (abs(player->getCurrPosition().x - character_->getCurrPosition().x) <= character_->getOverview() && abs(player->getCurrPosition().y - character_->getCurrPosition().y) <= character_->getHeight())
-			if (abs(player->getCurrPosition().x - character_->getCurrPosition().x) <= character_->getOverview() && player->getCurrPosition().y == character_->getCurrPosition().y)
+			if (character_->calculateAngryState(player->getCurrPosition()))
 			{
 				states_.angryState_ = true;
 				character_->setMaxMoveSpeed(300);
@@ -78,7 +82,7 @@ void Enemy::draw(RenderWindow* window, Player* player, Vector2f viewSize, float 
 	}
 }
 
-void Enemy::interactionWithMap(Vector2f oldEnemyPosition, Vector2f newEnemyPosition, Map* map, float elapsedTime)
+void Enemy::interactionWithMap(Vector2f oldEnemyPosition, Map* map, float elapsedTime)
 {
 	physx_->interactionWithMap(&states_, character_, oldEnemyPosition, map, elapsedTime);
 }
@@ -88,18 +92,27 @@ void Enemy::decision(float elapsedTime, Player* player)
 	physx_->decision(player, character_, &states_, elapsedTime);
 }
 
-//void Enemy::calculateVariables(float elapsedTime)
-//{
-//	if (character_->getCurrState() == "falling")
-//	{
-//		character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
-//	}
-//	else if (character_->getCurrState() == "jumping")
-//	{
-//		character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
-//		character_->setCurrJumpAccel(character_->getCurrJumpAccel() - character_->getCurrGravityAccel() * elapsedTime);
-//	}
-//}
+void Enemy::calculateVariables(float elapsedTime)
+{
+	if (character_->getCurrShotCoolDown() > 0)
+	{
+		character_->setCurrShotCoolDown(character_->getCurrShotCoolDown() - elapsedTime);
+
+		if (character_->getCurrShotCoolDown() < 0)
+		{
+			character_->setCurrShotCoolDown(0);
+		}
+	}
+	//if (character_->getCurrState() == "falling")
+	//{
+	//	character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
+	//}
+	//else if (character_->getCurrState() == "jumping")
+	//{
+	//	character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
+	//	character_->setCurrJumpAccel(character_->getCurrJumpAccel() - character_->getCurrGravityAccel() * elapsedTime);
+	//}
+}
 
 void Enemy::setCurrHealthPoints(int healthPoints)
 {
@@ -109,6 +122,11 @@ void Enemy::setCurrHealthPoints(int healthPoints)
 void Enemy::setHurt(bool flag)
 {
 	character_->setHurt(flag);
+}
+
+void Enemy::flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window)
+{
+	character_->flyingShellsUpdateAndDraw(elapsedTime, map, window);
 }
 
 int Enemy::getWidth()
@@ -124,6 +142,16 @@ int Enemy::getHeight()
 int Enemy::getCurrHealthPoints()
 {
 	return character_->getCurrHealthPoints();
+}
+
+int Enemy::flyingShellsMakeDamage(Vector2f playerPos, int playerWidth, int playerHeight)
+{
+	return character_->flyingShellsMakeDamage(playerPos, playerWidth, playerHeight);
+}
+
+int Enemy::getKillExp()
+{
+	return character_->getKillExp();
 }
 
 Vector2f Enemy::getPosition()
@@ -147,7 +175,16 @@ void Enemy::checkDamage(Player* player)
 				if (player->getCurrPosition().x - player->getAttackRange() <= character_->getCurrPosition().x + character_->getWidth() / 2 && player->getCurrPosition().x > character_->getCurrPosition().x)
 				{
 					player->setEnemyDamaged(true);
+					int oldHp = character_->getCurrHealthPoints();
 					character_->setCurrHealthPoints(character_->getCurrHealthPoints() - player->getAttackDamage());
+					if (player->getVampireDraculaPerkLevel() == 1 && player->getCurrHealthPoints() < player->getMaxHealthPoints())
+					{
+						player->setCurrHealthPoints(player->getCurrHealthPoints() + player->getVampireDraculaPerkBonus() * float(oldHp - character_->getCurrHealthPoints()) / 100);
+						if (player->getMaxHealthPoints() < player->getCurrHealthPoints())
+						{
+							player->setCurrHealthPoints(player->getMaxHealthPoints());
+						}
+					}
 					cout << "Enemy health: " << character_->getCurrHealthPoints() << endl;
 					character_->setHurt(true);
 				}
@@ -157,7 +194,16 @@ void Enemy::checkDamage(Player* player)
 				if (player->getCurrPosition().x + player->getAttackRange() > character_->getCurrPosition().x - character_->getWidth() / 2 && player->getCurrPosition().x < character_->getCurrPosition().x)
 				{
 					player->setEnemyDamaged(true);
+					int oldHp = character_->getCurrHealthPoints();
 					character_->setCurrHealthPoints(character_->getCurrHealthPoints() - player->getAttackDamage());
+					if (player->getVampireDraculaPerkLevel() == 1 && player->getCurrHealthPoints() < player->getMaxHealthPoints())
+					{
+						player->setCurrHealthPoints(player->getCurrHealthPoints() + player->getVampireDraculaPerkBonus() * float(oldHp - character_->getCurrHealthPoints()) / 100);
+						if (player->getMaxHealthPoints() < player->getCurrHealthPoints())
+						{
+							player->setCurrHealthPoints(player->getMaxHealthPoints());
+						}
+					}
 					cout << "Enemy health: " << character_->getCurrHealthPoints() << endl;
 					character_->setHurt(true);
 				}
@@ -174,8 +220,7 @@ void Enemy::checkDamage(Player* player)
 				if (character_->getCurrPosition().x - character_->getAttackRange() <= player->getCurrPosition().x + player->getWidth() / 2 && character_->getCurrPosition().x > player->getCurrPosition().x)
 				{
 					character_->setEnemyDamaged(true);
-					player->setCurrHealthPoints(player->getCurrHealthPoints() - character_->getAttackDamage());
-					//cout << "Player health: " << player->getCurrHealthPoints() << endl;
+					player->setCurrHealthPoints(player->getCurrHealthPoints() - character_->getAttackDamage() * (100 - player->getArmor()) / 100);
 					player->setHurt(true);
 				}
 			}
@@ -184,8 +229,7 @@ void Enemy::checkDamage(Player* player)
 				if (character_->getCurrPosition().x + character_->getAttackRange() > player->getCurrPosition().x - player->getWidth() / 2 && character_->getCurrPosition().x < player->getCurrPosition().x)
 				{
 					character_->setEnemyDamaged(true);
-					player->setCurrHealthPoints(player->getCurrHealthPoints() - character_->getAttackDamage());
-					//cout << "Player health: " << player->getCurrHealthPoints() << endl;
+					player->setCurrHealthPoints(player->getCurrHealthPoints() - character_->getAttackDamage() * (100 - player->getArmor()) / 100);
 					player->setHurt(true);
 				}
 			}

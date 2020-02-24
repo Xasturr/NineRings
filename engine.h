@@ -9,6 +9,7 @@
 #include "player.h"
 #include "collision.h"
 #include "settings.h"
+#include "resolutions.h"
 
 using namespace sf;
 using namespace std;
@@ -33,6 +34,8 @@ class Engine
 	Player* player_;
 
 	Settings settings_;
+
+	struct resolutions resolutions_;
 
 public:
 	Engine();
@@ -69,12 +72,13 @@ public:
 	void draw(float elapsedTime);
 	void drawText(Text text);
 	void drawSprite(Sprite sprite);
-	void setView(int sizeX, int sizeY);
+	void setView(int rectLeft, int rectTop, int rectWidth, int rectHeight);
 
 	bool renderWindowIsOpen();
 	bool renderWindowPollEvent();
 	bool isRenderWindowFullscreen();
 	bool mouseContains(int rectLeft, int rectTop, int rectWidth, int rectHeight);
+	bool isNewPlayerLevel();
 
 	int input();
 	int getCurrPlayerHealthPoints();
@@ -87,6 +91,8 @@ public:
 	int getCurrPlayerPosX();
 	int getCurrPlayerPosY();
 	int getDDTimer();
+	int getNewPlayerLevel();
+	int getPlayerPoints();
 
 	string getClickedButtonId(GameWindow* gameWindow);
 	string getCurrPlayerShellName();
@@ -94,6 +100,10 @@ public:
 	Vector2i getResolution();
 
 	Event* getEvent();
+
+	Player* getPlayer();
+
+	struct resolutions getResolutions();
 
 	//Level* getLevel();
 };

@@ -349,6 +349,12 @@ void Engine::drawSprite(Sprite sprite)
 	window_.draw(sprite);
 }
 
+void Engine::drawAnimation(Animation* animation, float elapsedTime)
+{
+	animation->updateAnimation(elapsedTime);
+	animation->drawAnimation(&window_);
+}
+
 void Engine::setView(int rectLeft, int rectTop, int rectWidth, int rectHeight)
 {
 	view_.reset(FloatRect(rectLeft, rectTop, rectWidth, rectHeight));

@@ -289,11 +289,13 @@ void Player::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPo
 			{
 				if (character_->getCurrState() == "jumping")
 				{
-					if (newPlayerPosition.y > j * map->getTileHeight() + map->getTileHeight() / 2)
+					if (oldPlayerPosition.y >= j * map->getTileHeight() + map->getTileHeight())
 					{
 						character_->setState("falling");
-						character_->setPosition(oldPlayerPosition.x, oldPlayerPosition.y);
+						cout << oldPlayerPosition.y - newPlayerPosition.y << endl;
+						character_->setPosition(oldPlayerPosition.x, 2 * oldPlayerPosition.y - newPlayerPosition.y);
 						character_->setCurrGravityAccel(0);
+						cout << "I" << endl;
 						return;
 					}
 				}
@@ -302,15 +304,16 @@ void Player::interactionWithMap(Vector2f oldPlayerPosition, Vector2f newPlayerPo
 					if (position.x == newPlayerPosition.x && newPlayerPosition.x != oldPlayerPosition.x)
 					{
 						character_->setState("running");
+						position.y = j * map->getTileHeight();
 					}
 					else
 					{
 						character_->setState("staying");
+						position.y = j * map->getTileHeight();
 					}
 
 					//position.y = j * map->getTileHeight() - character_->getLowerGap();
 					//position.y = oldPlayerPosition.y;
-					position.y = j * map->getTileHeight();
 				}
 
 				character_->setCurrJumpAccel(character_->getJumpForce());

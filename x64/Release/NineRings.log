@@ -1,10 +1,4 @@
-﻿  enemy.cpp
-D:\Repos\NineRings\enemy.h(4,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-D:\Repos\NineRings\enemy.cpp(182,65): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-D:\Repos\NineRings\enemy.cpp(201,65): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-D:\Repos\NineRings\enemy.cpp(223,64): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-D:\Repos\NineRings\enemy.cpp(232,64): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-  player.cpp
+﻿  player.cpp
 D:\Repos\NineRings\player.cpp(272,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
           with
           [
@@ -25,16 +19,21 @@ D:\Repos\NineRings\player.cpp(286,14): warning C4244: инициализация
           [
               T=float
           ]
-D:\Repos\NineRings\player.cpp(313,21): warning C4244: =: преобразование "size_t" в "T", возможна потеря данных
+D:\Repos\NineRings\player.cpp(307,22): warning C4244: =: преобразование "size_t" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-D:\Repos\NineRings\player.cpp(463,51): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-D:\Repos\NineRings\player.cpp(544,36): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\player.cpp(312,22): warning C4244: =: преобразование "size_t" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\player.cpp(466,51): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\player.cpp(547,36): warning C4244: return: преобразование "float" в "int", возможна потеря данных
   Создание кода
-  2 of 959 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  3 of 1003 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    8 functions had inline decision re-evaluated but remain unchanged
+    6 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   NineRings.vcxproj -> D:\Repos\NineRings\x64\Release\NineRings.exe

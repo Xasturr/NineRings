@@ -72,6 +72,9 @@
     <ClCompile Include="physxImplEnFly.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="animation.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.h">
@@ -147,6 +150,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="resolutions.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="animation.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

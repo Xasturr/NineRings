@@ -15,6 +15,7 @@ Game::Game()
 	//showNewLevel_ = false;
 
 	bebasRegular_.loadFromFile("./fonts/Bebas-Regular.otf");
+	arcadeClassic_.loadFromFile("./fonts/ARCADECLASSIC.ttf");
 
 	//pair<size_t, size_t> res1 = { 1920, 1080 };
 	//pair<size_t, size_t> size1 = { 1000, 500 };
@@ -39,30 +40,6 @@ Game::Game()
 	textPosX_.setFillColor(Color::White);
 	textPosY_.setFillColor(Color::White);
 	textDDTimer_.setFillColor(Color::White);
-
-	textPlay.setFont(bebasRegular_);
-	textPlay.setCharacterSize(90);
-	textPlay.setFillColor(Color::Black);
-	textPlay.setOutlineColor(Color::White);
-	textPlay.setOutlineThickness(4);
-	textPlay.setPosition(280, 305);
-	textPlay.setString("PLAY");
-
-	textSettings.setFont(bebasRegular_);
-	textSettings.setCharacterSize(90);
-	textSettings.setFillColor(Color::Black);
-	textSettings.setOutlineColor(Color::White);
-	textSettings.setOutlineThickness(4);
-	textSettings.setPosition(220, 480);
-	textSettings.setString("SETTINGS");
-
-	textExit.setFont(bebasRegular_);
-	textExit.setCharacterSize(90);
-	textExit.setFillColor(Color::Black);
-	textExit.setOutlineColor(Color::White);
-	textExit.setOutlineThickness(4);
-	textExit.setPosition(285, 650);
-	textExit.setString("EXIT");
 
 	//chooseLevelMenu
 	textLevel1_.setFont(bebasRegular_);
@@ -89,9 +66,11 @@ Game::Game()
 	textBack_.setPosition(285, 650);
 	textBack_.setString("Back");
 
-	textureMainMenu_.loadFromFile("./textures/backgrounds/mainMenuScreen.jpg");
+	textureMainMenu_.loadFromFile("./textures/backgrounds/background4.gif");
 	textureSettings_.loadFromFile("./textures/backgrounds/mainMenuScreen.jpg");
-	texturePerksMenu_.loadFromFile("./textures/backgrounds/backgroundPerks.png");
+	texturePerksMenu_.loadFromFile("./textures/backgrounds/backgroundPerksMenu.png");
+
+	//textureMainMenuBackground1_.loadFromFile("./textures/backgrounds/mainMenu/0.gif");
 
 	float engineResX = engine_.getResolution().x;
 	float engineResY = engine_.getResolution().y;
@@ -100,10 +79,52 @@ Game::Game()
 	spriteMainMenu_.setScale(engineResX / textureMainMenu_.getSize().x, engineResY / textureMainMenu_.getSize().y);
 
 	spriteSettings_.setTexture(textureSettings_);
-	spriteSettings_.setScale(engineResX / textureSettings_.getSize().x, engineResY / textureSettings_.getSize().y);
+spriteSettings_.setScale(engineResX / textureSettings_.getSize().x, engineResY / textureSettings_.getSize().y);
 
-	spritePerksMenu_.setTexture(texturePerksMenu_);
-	spritePerksMenu_.setScale(engineResX / texturePerksMenu_.getSize().x, engineResY / texturePerksMenu_.getSize().y);	
+spritePerksMenu_.setTexture(texturePerksMenu_);
+spritePerksMenu_.setScale(engineResX / texturePerksMenu_.getSize().x, engineResY / texturePerksMenu_.getSize().y);
+
+/////MainMenu///////////////////////////////////////////////////////////////
+
+Texture texture;
+texture.loadFromFile("./textures/backgrounds/mainMenu/0.gif");
+
+mainMenuBackgroundAnim_ = new Animation(10);
+mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/0.gif");
+mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/1.gif");
+mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/2.gif");
+mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/3.gif");
+mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/4.gif");
+mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/5.gif");
+mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/6.gif");
+mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/7.gif");
+mainMenuBackgroundAnim_->setSpriteScale(engineResX / texture.getSize().x, engineResY / texture.getSize().y);
+
+textContinue.setFont(arcadeClassic_);
+textContinue.setCharacterSize(60);
+textContinue.setOutlineThickness(4);
+textContinue.setPosition(90, 800);
+textContinue.setString("CONTINUE");
+
+textNewGame.setFont(arcadeClassic_);
+textNewGame.setCharacterSize(60);
+textNewGame.setOutlineThickness(4);
+textNewGame.setPosition(90, 860);
+textNewGame.setString("NEW GAME");
+
+textSettings.setFont(arcadeClassic_);
+textSettings.setCharacterSize(60);
+textSettings.setOutlineThickness(4);
+textSettings.setPosition(90, 920);
+textSettings.setString("SETTINGS");
+
+textExit.setFont(arcadeClassic_);
+textExit.setCharacterSize(60);
+textExit.setOutlineThickness(4);
+textExit.setPosition(90, 980);
+textExit.setString("EXIT");
+
+////////////////////////////////////////////////////////////////
 }
 
 Game::~Game()
@@ -118,7 +139,7 @@ void Game::start()
 
 void Game::mainMenu()
 {
-	//engine_.setView(engine_.getResolution().x, engine_.getResolution().y);
+	engine_.setView(0, 0, engine_.getResolution().x, engine_.getResolution().y);
 	//view_.reset(sf::FloatRect(0, 0, resolution_.x, resolution_.y));
 	//window_.setView(view_);
 
@@ -136,6 +157,54 @@ void Game::mainMenu()
 	{
 		Event event;
 		menuState = -1;
+		elapsedTime_ = clock_.restart().asSeconds();
+
+		//TextColor////////////////////////////////////
+
+		textContinue.setFillColor(Color::Black);
+		textContinue.setOutlineColor(Color::Red);
+
+		textNewGame.setFillColor(Color::Black);
+		textNewGame.setOutlineColor(Color::Red);
+
+		textSettings.setFillColor(Color::Black);
+		textSettings.setOutlineColor(Color::Red);
+
+		textExit.setFillColor(Color::Black);
+		textExit.setOutlineColor(Color::Red);
+
+		///////////////////////////////////////////////
+
+		//Containing///////////////////////////////////
+
+		if (engine_.mouseContains(0, 810, 455, 60))
+		{
+			textContinue.setFillColor(Color::Red);
+			textContinue.setOutlineColor(Color::Black);
+			menuState = 0;
+		}
+		if (engine_.mouseContains(0, 870, 455, 60))
+		{
+			textNewGame.setFillColor(Color::Red);
+			textNewGame.setOutlineColor(Color::Black);
+			menuState = 1;
+		}
+		if (engine_.mouseContains(0, 930, 455, 60))
+		{
+			textSettings.setFillColor(Color::Red);
+			textSettings.setOutlineColor(Color::Black);
+			menuState = 2;
+		}
+		if (engine_.mouseContains(0, 990, 455, 60))
+		{
+			textExit.setFillColor(Color::Red);
+			textExit.setOutlineColor(Color::Black);
+			menuState = 3;
+		}
+
+		////////////////////////////////////////////
+
+		//PollEvent/////////////////////////////
 
 		while (engine_.renderWindowPollEvent())
 		{
@@ -144,7 +213,40 @@ void Game::mainMenu()
 			{
 				engine_.closeRenderWindow();
 			}
+
+			if (event.type == Event::MouseButtonPressed)
+			{
+				if (event.key.code == Mouse::Left)
+				{
+					mouseButtonPressed_ = true;
+				}
+			}
+			if (event.type == Event::MouseButtonReleased)
+			{
+				if (menuState == 0 && mouseButtonPressed_)
+				{
+					chooseLevelMenu();
+					clock_.restart();
+				}
+				if (menuState == 1 && mouseButtonPressed_)
+				{
+					chooseLevelMenu();
+					clock_.restart();
+				}
+				if (menuState == 2 && mouseButtonPressed_)
+				{
+					settings();
+					clock_.restart();
+				}
+				if (menuState == 3 && mouseButtonPressed_)
+				{
+					exit(EXIT_SUCCESS);
+				}
+				mouseButtonPressed_ = false;
+			}
 		}
+
+		///////////////////////////////////////////
 
 		if (Keyboard::isKeyPressed(Keyboard::LAlt) && Keyboard::isKeyPressed(Keyboard::Enter) && engine_.isRenderWindowFullscreen() == false)
 		{
@@ -158,64 +260,34 @@ void Game::mainMenu()
 			engine_.changeRenderWindowMode();
 		}
 
-		textPlay.setFillColor(Color::Black);
-		textPlay.setOutlineColor(Color::White);
-
-		textSettings.setFillColor(Color::Black);
-		textSettings.setOutlineColor(Color::White);
-
-		textExit.setFillColor(Color::Black);
-		textExit.setOutlineColor(Color::White);
-
-		if (engine_.mouseContains(90, 305, 580, 110))
-		{
-			textPlay.setFillColor(Color::White);
-			textPlay.setOutlineColor(Color::Black);
-			menuState = 0;
-		}
-		if (engine_.mouseContains(90, 485, 580, 110))
-		{
-			textSettings.setFillColor(Color::White);
-			textSettings.setOutlineColor(Color::Black);
-			menuState = 1;
-		}
-		if (engine_.mouseContains(90, 660, 580, 110))
-		{
-			textExit.setFillColor(Color::White);
-			textExit.setOutlineColor(Color::Black);
-			menuState = 2;
-		}
-
-		if (Mouse::isButtonPressed(Mouse::Left) && menuState == 0 && clickTime_ == 0)
-		{
-			chooseLevelMenu();
-			clickTime_ = 0.25;
-			clock_.restart();
-		}
-		if (Mouse::isButtonPressed(Mouse::Left) && menuState == 1 && clickTime_ == 0)
-		{
-			settings();
-			clickTime_ = 0.25;
-			clock_.restart();
+		//if (Mouse::isButtonPressed(Mouse::Left) && menuState == 0 && clickTime_ == 0)
+		//{
+			//chooseLevelMenu();
+			//clickTime_ = 0.25;
+			//clock_.restart();
+		//}
+		//if (Mouse::isButtonPressed(Mouse::Left) && menuState == 1 && clickTime_ == 0)
+		//{
+		//	settings();
+		//	clickTime_ = 0.25;
+		//	clock_.restart();
 			//return 1;
 			//settingsMenu();
-		}
-		if (Mouse::isButtonPressed(Mouse::Left) && menuState == 2 && clickTime_ == 0)
-		{
-			exit(EXIT_SUCCESS);
-		}
+		//}
+		//if (Mouse::isButtonPressed(Mouse::Left) && menuState == 2 && clickTime_ == 0)
+		//{
+		//	exit(EXIT_SUCCESS);
+		//}
 
 		//window_.clear();
 		engine_.renderWindowClear();
 
-		//window_.draw(mainMenuSprite_);
-		//window_.draw(playText);
-		//window_.draw(settingsText);
-		//window_.draw(exitText);
-		//engine_.draw
-
-		engine_.drawSprite(spriteMainMenu_);
-		engine_.drawText(textPlay);
+		//engine_.drawSprite(spriteMainMenu_);
+		//mainMenuBackgroundAnim_->updateAnimation(elapsedTime_);
+		//mainMenuBackgroundAnim_->drawAnimation(engine_.render)
+		engine_.drawAnimation(mainMenuBackgroundAnim_, elapsedTime_);
+		engine_.drawText(textContinue);
+		engine_.drawText(textNewGame);
 		engine_.drawText(textSettings);
 		engine_.drawText(textExit);
 		//window_.display();

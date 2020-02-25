@@ -14,6 +14,7 @@ class Game
 	Clock clock_;
 
 	Font bebasRegular_;
+	Font arcadeClassic_;
 
 	int inputValue;
 
@@ -33,7 +34,6 @@ class Game
 	Text textShellsAmount_;
 	Text textPosX_;
 	Text textPosY_;
-	Text textPlay, textSettings, textExit;
 	Text textDDTimer_;
 	
 	//chooseLevelMenu
@@ -52,6 +52,9 @@ class Game
 	map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap_;
 
 	resolutions resolutions_;
+
+	Animation* mainMenuBackgroundAnim_;
+	Text textContinue, textNewGame, textSettings, textExit;
 
 	void mainMenu();
 	void play(Level* level);

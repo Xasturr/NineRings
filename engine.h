@@ -10,6 +10,7 @@
 #include "collision.h"
 #include "settings.h"
 #include "resolutions.h"
+#include "animation.h"
 
 using namespace sf;
 using namespace std;
@@ -72,6 +73,7 @@ public:
 	void draw(float elapsedTime);
 	void drawText(Text text);
 	void drawSprite(Sprite sprite);
+	void drawAnimation(Animation* animation, float elapsedTime);
 	void setView(int rectLeft, int rectTop, int rectWidth, int rectHeight);
 
 	bool renderWindowIsOpen();

@@ -12,6 +12,9 @@ Engine::Engine()
 	viewSizeX_ = 1280;
 	viewSizeY_ = 720;
 
+	viewSize_.x = 1280;
+	viewSize_.y = 720;
+
 	srand(time(0));
 }
 
@@ -75,6 +78,11 @@ Vector2i Engine::getResolution()
 	return resolution_;
 }
 
+Vector2i Engine::getViewSize()
+{
+	return viewSize_;
+}
+
 bool Engine::renderWindowIsOpen()
 {
 	return window_.isOpen();
@@ -103,6 +111,26 @@ bool Engine::mouseContains(int rectLeft, int rectTop, int rectWidth, int rectHei
 bool Engine::isNewPlayerLevel()
 {
 	return player_->isNewLevel();
+}
+
+bool Engine::isEndOfLevel()
+{
+	if (level_->getLevelNumber() == 1)
+	{
+		if (int(player_->getCurrPosition().x / level_->getTileWidth()) == 58 && int(player_->getCurrPosition().y / level_->getTileHeight()) == 34)
+		{
+			return true;
+		}
+	}
+	else if (level_->getLevelNumber() == 2)
+	{	
+		if (int(player_->getCurrPosition().x / level_->getTileWidth() <= 3) && int(player_->getCurrPosition().y / level_->getTileHeight()) >= 33
+			&& int(player_->getCurrPosition().x / level_->getTileWidth() >= 2) && int(player_->getCurrPosition().y / level_->getTileHeight()) <= 34)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 int Engine::input()
@@ -220,6 +248,11 @@ int Engine::getPlayerPoints()
 	return player_->getPoints();
 }
 
+int Engine::getCurrLevelNumber()
+{
+	return level_->getLevelNumber();
+}
+
 void Engine::changeRenderWindowMode()
 {
 	if (isFullscreen_)
@@ -285,7 +318,14 @@ struct resolutions Engine::getResolutions()
 
 void Engine::createLevel(Level* level)
 {
+	if (level_)
+	{
+		delete level_;
+	}
+
+	player_->setPosition(1800, 300);
 	level_ = level;
+	cout << "Creating" << endl;
 }
 
 void Engine::setPlayer(string charName, float posX, float posY)
@@ -318,6 +358,7 @@ void Engine::update(float elapsedTime)
 	Vector2f oldPlayerPosition = player_->getCurrPosition();
 	player_->update(elapsedTime, &window_);
 	//player_->updateLevel(&window_);
+	//level_->playerInteractionWithMap(oldPlayerPosition, player_, elapsedTime);
 	player_->interactionWithMap(oldPlayerPosition, player_->getSprite().getPosition(), level_->getMap(), elapsedTime);
 	player_->calculateVariables(elapsedTime);
 	view_.setCenter(player_->getCurrPosition().x, player_->getCurrPosition().y);
@@ -331,7 +372,7 @@ void Engine::update(float elapsedTime)
 
 void Engine::draw(float elapsedTime)
 {
-	level_->buildMap(&window_, player_->getSprite().getPosition(), view_.getSize());
+	level_->buildMap(&window_, player_->getSprite().getPosition(), view_.getSize(), elapsedTime);
 	//level_->buildMap(&window_);
 	level_->updateAndDrawEnemies(&window_, player_, view_.getSize(), elapsedTime);
 	player_->flyingShellsUpdateAndDraw(elapsedTime, level_->getMap(), &window_);

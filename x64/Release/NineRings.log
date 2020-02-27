@@ -1,39 +1,43 @@
-﻿  player.cpp
-D:\Repos\NineRings\player.cpp(272,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+﻿  engine.cpp
+D:\Repos\NineRings\windowStyle.h(18,2): warning C4091: static : пропускается слева от "WindowStyle", когда ни одна переменная не объявлена
+D:\Repos\NineRings\engine.cpp(18,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(198,29): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(203,32): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(213,28): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(218,31): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(228,38): warning C4244: return: преобразование "T" в "int", возможна потеря данных
           with
           [
               T=float
           ]
-D:\Repos\NineRings\player.cpp(274,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(233,38): warning C4244: return: преобразование "T" в "int", возможна потеря данных
           with
           [
               T=float
           ]
-D:\Repos\NineRings\player.cpp(284,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(401,54): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-D:\Repos\NineRings\player.cpp(286,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(401,43): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-D:\Repos\NineRings\player.cpp(307,22): warning C4244: =: преобразование "size_t" в "T", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(401,34): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-D:\Repos\NineRings\player.cpp(312,22): warning C4244: =: преобразование "size_t" в "T", возможна потеря данных
+D:\Repos\NineRings\engine.cpp(401,24): warning C4244: аргумент: преобразование "int" в "T", возможна потеря данных
           with
           [
               T=float
           ]
-D:\Repos\NineRings\player.cpp(466,51): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-D:\Repos\NineRings\player.cpp(547,36): warning C4244: return: преобразование "float" в "int", возможна потеря данных
   Создание кода
-  3 of 1003 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+  4 of 1136 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    6 functions had inline decision re-evaluated but remain unchanged
+    10 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   NineRings.vcxproj -> D:\Repos\NineRings\x64\Release\NineRings.exe

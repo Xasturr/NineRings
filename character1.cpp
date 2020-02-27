@@ -135,9 +135,10 @@ Character1::Character1(float posX, float posY)
 Character1::~Character1()
 {
 	cout << "In character1 destructor" << endl;
-	if (flyingShells_.size())
+
+	for (int i = 0; i < flyingShells_.size(); i++)
 	{
-		delete[] &flyingShells_;
+		delete flyingShells_[i];
 	}
 }
 

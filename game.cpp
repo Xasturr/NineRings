@@ -23,14 +23,14 @@ Game::Game()
 
 	//map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMapNewLevel;
 
-	textFPS_.setFont(bebasRegular_);
-	textHP_.setFont(bebasRegular_);
-	textMana_.setFont(bebasRegular_);
-	textStamina_.setFont(bebasRegular_);
-	textShellsAmount_.setFont(bebasRegular_);
-	textPosX_.setFont(bebasRegular_);
-	textPosY_.setFont(bebasRegular_);
-	textDDTimer_.setFont(bebasRegular_);
+	textFPS_.setFont(arcadeClassic_);
+	textHP_.setFont(arcadeClassic_);
+	textMana_.setFont(arcadeClassic_);
+	textStamina_.setFont(arcadeClassic_);
+	textShellsAmount_.setFont(arcadeClassic_);
+	textPosX_.setFont(arcadeClassic_);
+	textPosY_.setFont(arcadeClassic_);
+	textDDTimer_.setFont(arcadeClassic_);
 
 	textFPS_.setFillColor(Color::White);
 	textHP_.setFillColor(Color::White);
@@ -42,7 +42,7 @@ Game::Game()
 	textDDTimer_.setFillColor(Color::White);
 
 	//chooseLevelMenu
-	textLevel1_.setFont(bebasRegular_);
+	textLevel1_.setFont(arcadeClassic_);
 	textLevel1_.setCharacterSize(90);
 	textLevel1_.setFillColor(Color::Black);
 	textLevel1_.setOutlineColor(Color::White);
@@ -50,7 +50,7 @@ Game::Game()
 	textLevel1_.setPosition(250, 305);
 	textLevel1_.setString("Level 1");
 
-	textLevel2_.setFont(bebasRegular_);
+	textLevel2_.setFont(arcadeClassic_);
 	textLevel2_.setCharacterSize(90);
 	textLevel2_.setFillColor(Color::Black);
 	textLevel2_.setOutlineColor(Color::White);
@@ -58,7 +58,7 @@ Game::Game()
 	textLevel2_.setPosition(250, 480);
 	textLevel2_.setString("Level 2");
 
-	textBack_.setFont(bebasRegular_);
+	textBack_.setFont(arcadeClassic_);
 	textBack_.setCharacterSize(90);
 	textBack_.setFillColor(Color::Black);
 	textBack_.setOutlineColor(Color::White);
@@ -79,57 +79,59 @@ Game::Game()
 	spriteMainMenu_.setScale(engineResX / textureMainMenu_.getSize().x, engineResY / textureMainMenu_.getSize().y);
 
 	spriteSettings_.setTexture(textureSettings_);
-spriteSettings_.setScale(engineResX / textureSettings_.getSize().x, engineResY / textureSettings_.getSize().y);
+	spriteSettings_.setScale(engineResX / textureSettings_.getSize().x, engineResY / textureSettings_.getSize().y);
 
-spritePerksMenu_.setTexture(texturePerksMenu_);
-spritePerksMenu_.setScale(engineResX / texturePerksMenu_.getSize().x, engineResY / texturePerksMenu_.getSize().y);
-
-/////MainMenu///////////////////////////////////////////////////////////////
-
-Texture texture;
-texture.loadFromFile("./textures/backgrounds/mainMenu/0.gif");
-
-mainMenuBackgroundAnim_ = new Animation(10);
-mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/0.gif");
-mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/1.gif");
-mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/2.gif");
-mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/3.gif");
-mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/4.gif");
-mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/5.gif");
-mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/6.gif");
-mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/7.gif");
-mainMenuBackgroundAnim_->setSpriteScale(engineResX / texture.getSize().x, engineResY / texture.getSize().y);
-
-textContinue.setFont(arcadeClassic_);
-textContinue.setCharacterSize(60);
-textContinue.setOutlineThickness(4);
-textContinue.setPosition(90, 800);
-textContinue.setString("CONTINUE");
-
-textNewGame.setFont(arcadeClassic_);
-textNewGame.setCharacterSize(60);
-textNewGame.setOutlineThickness(4);
-textNewGame.setPosition(90, 860);
-textNewGame.setString("NEW GAME");
-
-textSettings.setFont(arcadeClassic_);
-textSettings.setCharacterSize(60);
-textSettings.setOutlineThickness(4);
-textSettings.setPosition(90, 920);
-textSettings.setString("SETTINGS");
-
-textExit.setFont(arcadeClassic_);
-textExit.setCharacterSize(60);
-textExit.setOutlineThickness(4);
-textExit.setPosition(90, 980);
-textExit.setString("EXIT");
+	spritePerksMenu_.setTexture(texturePerksMenu_);
+	spritePerksMenu_.setScale(engineResX / texturePerksMenu_.getSize().x, engineResY / texturePerksMenu_.getSize().y);
+	
+	/////MainMenu///////////////////////////////////////////////////////////////
+	
+	Texture texture;
+	texture.loadFromFile("./textures/backgrounds/mainMenu/0.gif");
+	
+	mainMenuBackgroundAnim_ = new Animation(10);
+	mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/0.gif");
+	mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/1.gif");
+	mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/2.gif");
+	mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/3.gif");
+	mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/4.gif");
+	mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/5.gif");
+	mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/6.gif");
+	mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/7.gif");
+	mainMenuBackgroundAnim_->setSpriteScale(engineResX / texture.getSize().x, engineResY / texture.getSize().y);
+	
+	textContinue.setFont(arcadeClassic_);
+	textContinue.setCharacterSize(60);
+	textContinue.setOutlineThickness(4);
+	textContinue.setPosition(90, 800);
+	textContinue.setString("CONTINUE");
+	
+	textNewGame.setFont(arcadeClassic_);
+	textNewGame.setCharacterSize(60);
+	textNewGame.setOutlineThickness(4);
+	textNewGame.setPosition(90, 860);
+	textNewGame.setString("NEW GAME");
+	
+	textSettings.setFont(arcadeClassic_);
+	textSettings.setCharacterSize(60);
+	textSettings.setOutlineThickness(4);
+	textSettings.setPosition(90, 920);
+	textSettings.setString("SETTINGS");
+	
+	textExit.setFont(arcadeClassic_);
+	textExit.setCharacterSize(60);
+	textExit.setOutlineThickness(4);
+	textExit.setPosition(90, 980);
+	textExit.setString("EXIT");
 
 ////////////////////////////////////////////////////////////////
 }
 
 Game::~Game()
 {
+	cout << "In Game distructor" << endl;
 
+	delete mainMenuBackgroundAnim_;
 }
 
 void Game::start()
@@ -290,17 +292,8 @@ void Game::mainMenu()
 		engine_.drawText(textNewGame);
 		engine_.drawText(textSettings);
 		engine_.drawText(textExit);
-		//window_.display();
-		engine_.renderWindowDisplay();
 
-		if (clickTime_ != 0)
-		{
-			clickTime_ -= clock_.restart().asSeconds();
-			if (clickTime_ < 0)
-			{
-				clickTime_ = 0;
-			}
-		}
+		engine_.renderWindowDisplay();
 	}
 }
 
@@ -344,8 +337,8 @@ void Game::play(Level* level)
 
 	string clickedButtonId = "";
 
-	engine_.createLevel(level);
 	engine_.setPlayer("Character1", 1800, 350);
+	engine_.createLevel(level);
 
 	float time = 0;
 
@@ -371,7 +364,7 @@ void Game::play(Level* level)
 		if (time >= 1)
 		{
 			//timeText.setString(to_string(iter));
-			textFPS_.setString("FPS: " + to_string(iter));
+			textFPS_.setString("FPS " + to_string(iter));
 			time = 0;
 			iter = 0;
 		}
@@ -482,13 +475,22 @@ void Game::play(Level* level)
 			elapsedTime_ = 0;
 		}
 
+		//Check if level is ended////////////////////////
+
+		if (engine_.isEndOfLevel())
+		{
+			loadNextLevel();
+			continue;
+		}
+
+		////////////////////////////////////////////////
+
 		engine_.draw(elapsedTime_);
 		engine_.update(elapsedTime_);
 
-		engine_.setView(engine_.getPlayerPosition().x - 1280 / 2, engine_.getPlayerPosition().y - 720 / 2, 1280, 720);
+		engine_.setView(engine_.getPlayerPosition().x - engine_.getViewSize().x / 2, engine_.getPlayerPosition().y - engine_.getViewSize().y / 2, engine_.getViewSize().x, engine_.getViewSize().y);
 
 		//engine_.drawGameWindow(win1);
-		//engine_.drawText(timeText);
 		if (showInfo_)
 		{
 			textFPS_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 335);
@@ -500,13 +502,13 @@ void Game::play(Level* level)
 			textPosY_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 155);
 			textDDTimer_.setPosition(engine_.getViewCenter().x - 620, engine_.getViewCenter().y - 125);
 
-			textHP_.setString("HP: " + to_string(engine_.getCurrPlayerHealthPoints()) + " of " + to_string(engine_.getMaxPlayerHealthPoints()));
-			textStamina_.setString("Stamina: " + to_string(engine_.getCurrPlayerStamina()) + " of " + to_string(engine_.getMaxPlayerStamina()));
-			textMana_.setString("Mana: " + to_string(engine_.getCurrPlayerMana()) + " of " + to_string(engine_.getMaxPlayerMana()));
-			textShellsAmount_.setString(engine_.getCurrPlayerShellName() + ": " + to_string(engine_.getCurrPlayerShellAmount()));
-			textPosX_.setString("PosX:" + to_string(engine_.getCurrPlayerPosX()));
-			textPosY_.setString("PosY:" + to_string(engine_.getCurrPlayerPosY()));
-			textDDTimer_.setString("DDTimer: " + to_string(engine_.getDDTimer()));
+			textHP_.setString("HP " + to_string(engine_.getCurrPlayerHealthPoints()) + " of " + to_string(engine_.getMaxPlayerHealthPoints()));
+			textStamina_.setString("Stamina " + to_string(engine_.getCurrPlayerStamina()) + " of " + to_string(engine_.getMaxPlayerStamina()));
+			textMana_.setString("Mana " + to_string(engine_.getCurrPlayerMana()) + " of " + to_string(engine_.getMaxPlayerMana()));
+			textShellsAmount_.setString(engine_.getCurrPlayerShellName() + " " + to_string(engine_.getCurrPlayerShellAmount()));
+			textPosX_.setString("PosX " + to_string(engine_.getCurrPlayerPosX()));
+			textPosY_.setString("PosY " + to_string(engine_.getCurrPlayerPosY()));
+			textDDTimer_.setString("DDTimer " + to_string(engine_.getDDTimer()));
 
 			engine_.drawText(textFPS_);
 			engine_.drawText(textHP_);
@@ -539,6 +541,35 @@ void Game::chooseLevelMenu()
 	{
 		Event event;
 		menuState = -1;
+		elapsedTime_ = clock_.restart().asSeconds();
+
+		textLevel1_.setFillColor(Color::Black);
+		textLevel1_.setOutlineColor(Color::Red);
+
+		textLevel2_.setFillColor(Color::Black);
+		textLevel2_.setOutlineColor(Color::Red);
+
+		textBack_.setFillColor(Color::Black);
+		textBack_.setOutlineColor(Color::Red);
+
+		if (engine_.mouseContains(90, 305, 580, 110))
+		{
+			textLevel1_.setFillColor(Color::Red);
+			textLevel1_.setOutlineColor(Color::Black);
+			menuState = 0;
+		}
+		if (engine_.mouseContains(90, 485, 580, 110))
+		{
+			textLevel2_.setFillColor(Color::Red);
+			textLevel2_.setOutlineColor(Color::Black);
+			menuState = 1;
+		}
+		if (engine_.mouseContains(90, 660, 580, 110))
+		{
+			textBack_.setFillColor(Color::Red);
+			textBack_.setOutlineColor(Color::Black);
+			menuState = 2;
+		}
 
 		while (engine_.renderWindowPollEvent())
 		{
@@ -546,6 +577,27 @@ void Game::chooseLevelMenu()
 			if (event.type == Event::Closed)
 			{
 				engine_.closeRenderWindow();
+			}
+
+			if (event.type == Event::MouseButtonPressed)
+			{
+				mouseButtonPressed_ = true;
+			}
+			if (event.type == Event::MouseButtonReleased)
+			{
+				if (menuState == 0 && mouseButtonPressed_)
+				{
+					play(new Level1);
+				}
+				if (menuState == 1 && mouseButtonPressed_)
+				{
+					play(new Level2);
+				}
+				if (menuState == 2 && mouseButtonPressed_)
+				{
+					return;
+				}
+				mouseButtonPressed_ = false;
 			}
 		}
 
@@ -561,48 +613,20 @@ void Game::chooseLevelMenu()
 			engine_.changeRenderWindowMode();
 		}
 
-		textLevel1_.setFillColor(Color::Black);
-		textLevel1_.setOutlineColor(Color::White);
-
-		textLevel2_.setFillColor(Color::Black);
-		textLevel2_.setOutlineColor(Color::White);
-
-		textBack_.setFillColor(Color::Black);
-		textBack_.setOutlineColor(Color::White);
-
-		if (engine_.mouseContains(90, 305, 580, 110))
-		{
-			textLevel1_.setFillColor(Color::White);
-			textLevel1_.setOutlineColor(Color::Black);
-			menuState = 0;
-		}
-		if (engine_.mouseContains(90, 485, 580, 110))
-		{
-			textLevel2_.setFillColor(Color::White);
-			textLevel2_.setOutlineColor(Color::Black);
-			menuState = 1;
-		}
-		if (engine_.mouseContains(90, 660, 580, 110))
-		{
-			textBack_.setFillColor(Color::White);
-			textBack_.setOutlineColor(Color::Black);
-			menuState = 2;
-		}
-
-		if (Mouse::isButtonPressed(Mouse::Left) && menuState == 0 && clickTime_ == 0)
-		{
-			play(new Level1);
-		}
-		if (Mouse::isButtonPressed(Mouse::Left) && menuState == 1 && clickTime_ == 0)
-		{
-			//return 1;
-			//settingsMenu();
-			play(new Level2);
-		}
-		if (Mouse::isButtonPressed(Mouse::Left) && menuState == 2 && clickTime_ == 0)
-		{
-			break;
-		}
+		//if (Mouse::isButtonPressed(Mouse::Left) && menuState == 0 && clickTime_ == 0)
+		//{
+		//	play(new Level1);
+		//}
+		//if (Mouse::isButtonPressed(Mouse::Left) && menuState == 1 && clickTime_ == 0)
+		//{
+		//	//return 1;
+		//	//settingsMenu();
+		//	play(new Level2);
+		//}
+		//if (Mouse::isButtonPressed(Mouse::Left) && menuState == 2 && clickTime_ == 0)
+		//{
+		//	break;
+		//}
 
 		//window_.clear();
 		engine_.renderWindowClear();
@@ -613,21 +637,23 @@ void Game::chooseLevelMenu()
 		//window_.draw(exitText);
 		//engine_.draw
 
-		engine_.drawSprite(spriteMainMenu_);
+		//engine_.drawSprite(spriteMainMenu_);
+
+		engine_.drawAnimation(mainMenuBackgroundAnim_, elapsedTime_);
 		engine_.drawText(textLevel1_);
 		engine_.drawText(textLevel2_);
 		engine_.drawText(textBack_);
 		//window_.display();
 		engine_.renderWindowDisplay();
 
-		if (clickTime_ != 0)
-		{
-			clickTime_ -= clock_.restart().asSeconds();
-			if (clickTime_ < 0)
-			{
-				clickTime_ = 0;
-			}
-		}
+		//if (clickTime_ != 0)
+		//{
+		//	clickTime_ -= clock_.restart().asSeconds();
+		//	if (clickTime_ < 0)
+		//	{
+		//		clickTime_ = 0;
+		//	}
+		//}
 	}
 }
 
@@ -641,53 +667,53 @@ void Game::settings()
 	Text jumpText, turnLeftText, turnRightText, shootText, backText;
 	Text jumpOptionText, turnLeftOptionText, turnRightOptionText, shootOptionText;
 
-	jumpText.setFont(bebasRegular_);
-	jumpText.setString("Jump:");
+	jumpText.setFont(arcadeClassic_);
+	jumpText.setString("Jump");
 	jumpText.setPosition(130, 210);
 	jumpText.setOutlineThickness(3);
 	jumpText.setCharacterSize(70);
 
-	jumpOptionText.setFont(bebasRegular_);
+	jumpOptionText.setFont(arcadeClassic_);
 	jumpOptionText.setPosition(590, 210); //740
 	jumpOptionText.setOutlineThickness(3);
 	jumpOptionText.setCharacterSize(70);
 
-	turnLeftOptionText.setFont(bebasRegular_);
+	turnLeftOptionText.setFont(arcadeClassic_);
 	turnLeftOptionText.setPosition(590, 350); //550
 	turnLeftOptionText.setOutlineThickness(3);
 	turnLeftOptionText.setCharacterSize(70);
 
-	turnLeftText.setFont(bebasRegular_);
-	turnLeftText.setString("Turn left:");
+	turnLeftText.setFont(arcadeClassic_);
+	turnLeftText.setString("Turn left");
 	turnLeftText.setPosition(130, 350);
 	turnLeftText.setOutlineThickness(3);
 	turnLeftText.setCharacterSize(70);
 
-	turnRightOptionText.setFont(bebasRegular_);
+	turnRightOptionText.setFont(arcadeClassic_);
 	turnRightOptionText.setPosition(590, 490);
 	turnRightOptionText.setOutlineThickness(3);
 	turnRightOptionText.setCharacterSize(70);
 
-	turnRightText.setFont(bebasRegular_);
-	turnRightText.setString("Turn right:");
+	turnRightText.setFont(arcadeClassic_);
+	turnRightText.setString("Turn right");
 	turnRightText.setPosition(130, 490);
 	turnRightText.setOutlineThickness(3);
 	turnRightText.setCharacterSize(70);
 
-	shootOptionText.setFont(bebasRegular_);
+	shootOptionText.setFont(arcadeClassic_);
 	shootOptionText.setPosition(590, 630); //405
 	shootOptionText.setOutlineThickness(3);
 	shootOptionText.setCharacterSize(70);
 
-	shootText.setFont(bebasRegular_);
-	shootText.setString("Shoot:");
+	shootText.setFont(arcadeClassic_);
+	shootText.setString("Shoot");
 	shootText.setPosition(130, 630);
 	shootText.setOutlineThickness(3);
 	shootText.setCharacterSize(70);
 
-	backText.setFont(bebasRegular_);
+	backText.setFont(arcadeClassic_);
 	backText.setString("BACK");
-	backText.setPosition(1488, 770);
+	backText.setPosition(1640, 900);
 	backText.setOutlineThickness(3);
 	backText.setCharacterSize(70);
 
@@ -706,35 +732,35 @@ void Game::settings()
 		menuState = -1;
 
 		jumpOptionText.setFillColor(Color::Black);
-		jumpOptionText.setOutlineColor(Color::White);
+		jumpOptionText.setOutlineColor(Color::Red);
 		jumpOptionText.setString((char)(engine_.getSettings()->getMoveUp() + 65));
 
 		jumpText.setFillColor(Color::Black);
-		jumpText.setOutlineColor(Color::White);
+		jumpText.setOutlineColor(Color::Red);
 
 		turnLeftOptionText.setFillColor(Color::Black);
-		turnLeftOptionText.setOutlineColor(Color::White);
+		turnLeftOptionText.setOutlineColor(Color::Red);
 		turnLeftOptionText.setString((char)(engine_.getSettings()->getMoveLeft() + 65));
 
 		turnLeftText.setFillColor(Color::Black);
-		turnLeftText.setOutlineColor(Color::White);
+		turnLeftText.setOutlineColor(Color::Red);
 
 		turnRightOptionText.setFillColor(Color::Black);
-		turnRightOptionText.setOutlineColor(Color::White);
+		turnRightOptionText.setOutlineColor(Color::Red);
 		turnRightOptionText.setString((char)(engine_.getSettings()->getMoveRight() + 65));
 
 		turnRightText.setFillColor(Color::Black);
-		turnRightText.setOutlineColor(Color::White);
+		turnRightText.setOutlineColor(Color::Red);
 
 		shootOptionText.setFillColor(Color::Black);
-		shootOptionText.setOutlineColor(Color::White);
+		shootOptionText.setOutlineColor(Color::Red);
 		shootOptionText.setString((char)(engine_.getSettings()->getShoot() + 65));
 
 		shootText.setFillColor(Color::Black);
-		shootText.setOutlineColor(Color::White);
+		shootText.setOutlineColor(Color::Red);
 
 		backText.setFillColor(Color::Black);
-		backText.setOutlineColor(Color::White);
+		backText.setOutlineColor(Color::Red);
 
 		//engine_.renderWindowPollEvent();
 
@@ -744,18 +770,18 @@ void Game::settings()
 			engine_.closeRenderWindow();
 		}
 		
-		if (engine_.mouseContains(1400, 775, 400, 90))
+		if (engine_.mouseContains(1512, 905, 400, 90))
 		{
-			backText.setFillColor(Color::White);
+			backText.setFillColor(Color::Red);
 			backText.setOutlineColor(Color::Black);
 			menuState = 0;
 		}
 		if (engine_.mouseContains(100, 215, 1720, 90))
 		{
-			jumpOptionText.setFillColor(Color::White);
+			jumpOptionText.setFillColor(Color::Red);
 			jumpOptionText.setOutlineColor(Color::Black);
 
-			jumpText.setFillColor(Color::White);
+			jumpText.setFillColor(Color::Red);
 			jumpText.setOutlineColor(Color::Black);
 
 			menuState = 1;
@@ -763,30 +789,30 @@ void Game::settings()
 //355
 		if (engine_.mouseContains(100, 355, 1720, 90))
 		{
-			turnLeftOptionText.setFillColor(Color::White);
+			turnLeftOptionText.setFillColor(Color::Red);
 			turnLeftOptionText.setOutlineColor(Color::Black);
 
-			turnLeftText.setFillColor(Color::White);
+			turnLeftText.setFillColor(Color::Red);
 			turnLeftText.setOutlineColor(Color::Black);
 
 			menuState = 3;
 		}
 		if (engine_.mouseContains(100, 495, 1720, 90))
 		{
-			turnRightOptionText.setFillColor(Color::White);
+			turnRightOptionText.setFillColor(Color::Red);
 			turnRightOptionText.setOutlineColor(Color::Black);
 
-			turnRightText.setFillColor(Color::White);
+			turnRightText.setFillColor(Color::Red);
 			turnRightText.setOutlineColor(Color::Black);
 
 			menuState = 4;
 		}
 		if (engine_.mouseContains(100, 635, 1720, 90))
 		{
-			shootOptionText.setFillColor(Color::White);
+			shootOptionText.setFillColor(Color::Red);
 			shootOptionText.setOutlineColor(Color::Black);
 
-			shootText.setFillColor(Color::White);
+			shootText.setFillColor(Color::Red);
 			shootText.setOutlineColor(Color::Black);
 
 			menuState = 5;
@@ -822,7 +848,8 @@ void Game::settings()
 
 		engine_.renderWindowClear();
 
-		engine_.drawSprite(spriteSettings_);
+		//engine_.drawSprite(spriteSettings_);
+		engine_.drawAnimation(mainMenuBackgroundAnim_, elapsedTime_);
 
 		engine_.drawText(jumpOptionText);
 		engine_.drawText(jumpText);
@@ -845,7 +872,7 @@ void Game::perksMenu()
 	Text textPoints_;
 
 	jumpText.setFont(bebasRegular_);
-	jumpText.setString("Jump:");
+	jumpText.setString("Jump;");
 	jumpText.setPosition(130, 210);
 	jumpText.setOutlineThickness(3);
 	jumpText.setCharacterSize(70);
@@ -1078,5 +1105,19 @@ void Game::perksMenu()
 		engine_.drawText(textPoints_);
 
 		engine_.renderWindowDisplay();
+	}
+}
+
+void Game::loadNextLevel()
+{
+	//cout << "Level: " << engine_.getCurrLevelNumber() << endl;
+	if (engine_.getCurrLevelNumber() == 1)
+	{
+		Level* level2 = new Level2();
+		engine_.createLevel(level2);
+	}
+	else if (engine_.getCurrLevelNumber() == 2)
+	{
+		exit(EXIT_SUCCESS);
 	}
 }

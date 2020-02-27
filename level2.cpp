@@ -72,9 +72,9 @@ size_t Level2::getTextureSizeY()
 	return map_->getTextureSizeY();
 }
 
-void Level2::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize)
+void Level2::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize, float elapsedTime)
 {
-	map_->buildMap(window, playerPos, viewSize);
+	map_->buildMap(window, playerPos, viewSize, elapsedTime);
 }
 
 void Level2::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime)
@@ -110,7 +110,17 @@ void Level2::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 	}
 }
 
+//void Level2::playerInteractionWithMap(Vector2f oldPlayerPosition, Player* player, float elapsedTime)
+//{
+//	map_->playerInteractionWithMap(oldPlayerPosition, player, elapsedTime);
+//}
+
 Map* Level2::getMap()
 {
 	return map_;
+}
+
+int Level2::getLevelNumber()
+{
+	return 2;
 }

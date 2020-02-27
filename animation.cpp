@@ -9,9 +9,11 @@ Animation::Animation(float updateSpeed)
 
 Animation::~Animation()
 {
-	if (textures_.size() > 0)
+	cout << "In Animation destructor" << endl;
+
+	for (int i = 0; i < textures_.size(); i++)
 	{
-		delete[] &textures_;
+		delete textures_[i];
 	}
 }
 

@@ -22,6 +22,7 @@ class Engine
 	View view_;
 
 	Vector2i resolution_;
+	Vector2i viewSize_;
 
 	bool isFullscreen_;
 
@@ -81,6 +82,7 @@ public:
 	bool isRenderWindowFullscreen();
 	bool mouseContains(int rectLeft, int rectTop, int rectWidth, int rectHeight);
 	bool isNewPlayerLevel();
+	bool isEndOfLevel();
 
 	int input();
 	int getCurrPlayerHealthPoints();
@@ -95,11 +97,13 @@ public:
 	int getDDTimer();
 	int getNewPlayerLevel();
 	int getPlayerPoints();
+	int getCurrLevelNumber();
 
 	string getClickedButtonId(GameWindow* gameWindow);
 	string getCurrPlayerShellName();
 
 	Vector2i getResolution();
+	Vector2i getViewSize();
 
 	Event* getEvent();
 

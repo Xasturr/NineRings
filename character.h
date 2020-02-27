@@ -12,6 +12,7 @@ class Character
 {
 public:
 	virtual ~Character() {};
+
 	virtual Sprite getSprite() = 0;
 
 	virtual float getMaxMoveSpeed() = 0;

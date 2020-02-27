@@ -62,6 +62,8 @@ class Game
 	void settings();
 	void perksMenu();
 
+	void loadNextLevel();
+
 public:
 	Game();
 	~Game();

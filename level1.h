@@ -30,8 +30,11 @@ public:
 	size_t getTextureSizeX();
 	size_t getTextureSizeY();
 
-	void buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize);
+	void buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize, float elapsedTime);
 	void updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime);
+	//void playerInteractionWithMap(Vector2f oldPlayerPosition, Player* player, float elapsedTime);
 
 	Map* getMap();
+
+	int getLevelNumber();
 };

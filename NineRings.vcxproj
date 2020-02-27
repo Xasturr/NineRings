@@ -173,6 +173,8 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="shellFireBall.cpp" />
+    <ClCompile Include="treasureCoin.cpp" />
+    <ClCompile Include="treasureFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
@@ -201,6 +203,9 @@
     <ClInclude Include="settings.h" />
     <ClInclude Include="shell.h" />
     <ClInclude Include="shellFireBall.h" />
+    <ClInclude Include="treasure.h" />
+    <ClInclude Include="treasureCoin.h" />
+    <ClInclude Include="treasureFactory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

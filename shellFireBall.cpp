@@ -13,7 +13,7 @@ ShellFireBall::ShellFireBall(float posX, float posY, float angle, string spriteS
 	speed_ = 360;
 	currentFrame_ = 1;
 	currentExplosionFrame_ = 1;
-	numberOfFrames_ = 5;
+	numberOfFrames_ = 60;
 	numberOfExplosionFrames_ = 6;
 
 	texture1_.loadFromFile("./textures/skills/FB00_nyknck/FB001.png");

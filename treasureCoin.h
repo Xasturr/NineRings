@@ -19,12 +19,13 @@ class TreasureCoin : public Treasure
 
 	Vector2f position_;
 
-	bool life_;
+	//bool life_;
 
 	float currentFrame_;
 
 	int numberOfFrames_;
 	int frameSpeed_;
+	int points_;
 
 public:
 	TreasureCoin(Vector2f position);
@@ -34,7 +35,9 @@ public:
 
 	void setCurrFrame(float elapsedTime);
 	void spriteUpdate();
-	void setLife(bool flag);
+	//void setLife(bool flag);
+
+	int getTreasurePoints();
 
 	Vector2f getCurrPosition();
 };

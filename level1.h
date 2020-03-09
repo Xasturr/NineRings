@@ -9,6 +9,8 @@ class Level1 : public Level
 	Map* map_;
 	vector<Enemy*> enemies_;
 
+	int map1Points_;
+
 public:
 	Level1();
 	~Level1();
@@ -19,9 +21,11 @@ public:
 	const size_t getTileHeight();
 
 	string* getTileMapElse();
+	string* getTileMapTreasure();
 
 	bool getValue(int i, int j, char c, string tileMap[]);
 	bool getCollision(int i, int j, char c);
+	bool getInSaveZone();
 
 	Texture getTexture();
 
@@ -30,11 +34,15 @@ public:
 	size_t getTextureSizeX();
 	size_t getTextureSizeY();
 
-	void buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize, float elapsedTime);
+	void buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize, int playerWidth, int playerHeight, float elapsedTime);
 	void updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime);
-	//void playerInteractionWithMap(Vector2f oldPlayerPosition, Player* player, float elapsedTime);
+	void setTreasurePoints(int treasurePoints);
 
 	Map* getMap();
 
 	int getLevelNumber();
+	int getCatchedCoins();
+	int getTreasurePoints();
+
+	Vector2i getSavedPosition();
 };

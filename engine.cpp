@@ -2,6 +2,8 @@
 
 Engine::Engine()
 {
+	//engineInstance_ = nullptr;
+
 	resolution_.x = VideoMode::getDesktopMode().width;
 	resolution_.y = VideoMode::getDesktopMode().height;
 
@@ -18,7 +20,25 @@ Engine::Engine()
 	srand(time(0));
 }
 
-Engine::~Engine() {}
+Engine::~Engine() 
+{
+	cout << "In Engine distructor" << endl;
+
+	delete player_;
+	delete level_;
+}
+
+Engine* Engine::getEngineInstance()
+{
+	if (engineInstance_ == NULL)
+	{
+		engineInstance_ = new Engine();
+	}
+	
+	return engineInstance_;
+}
+
+Engine* Engine::engineInstance_ = 0;
 
 GameWindow* Engine::createGameWindow(map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string texturePath)
 {
@@ -47,15 +67,15 @@ Settings* Engine::getSettings()
 	return &settings_;
 }
 
-void Engine::drawGameWindow(GameWindow* gameWindow)
-{
-	gameWindow->draw(&window_);
-}
+//void Engine::drawGameWindow(GameWindow* gameWindow)
+//{
+//	gameWindow->draw(&window_);
+//}
 
-void Engine::drawButton(Button* button)
-{
-	button->draw(&window_);
-}
+//void Engine::drawButton(Button* button)
+//{
+//	button->draw(&window_);
+//}
 
 void Engine::createRenderWindow(VideoMode videoMode, string title, string windowStyle)
 {
@@ -108,6 +128,16 @@ bool Engine::mouseContains(int rectLeft, int rectTop, int rectWidth, int rectHei
 	return IntRect(rectLeft, rectTop, rectWidth, rectHeight).contains(Mouse::getPosition(window_));
 }
 
+bool Engine::mouseContains(FloatRect rect)
+{
+	return rect.contains(Mouse::getPosition(window_).x, Mouse::getPosition(window_).y);
+}
+
+bool Engine::mouseContains(Sprite sprite)
+{
+	return sprite.getGlobalBounds().contains(Mouse::getPosition(window_).x, Mouse::getPosition(window_).y);
+}
+
 bool Engine::isNewPlayerLevel()
 {
 	return player_->isNewLevel();
@@ -131,6 +161,11 @@ bool Engine::isEndOfLevel()
 		}
 	}
 	return false;
+}
+
+bool Engine::isNewGame()
+{
+	return player_->isNewGame();
 }
 
 int Engine::input()
@@ -238,19 +273,29 @@ int Engine::getDDTimer()
 	return player_->getDDTimer();
 }
 
-int Engine::getNewPlayerLevel()
+int Engine::getPlayerLevel()
 {
-	return player_->getNewLevel();
+	return player_->getCurrLevel();
 }
 
-int Engine::getPlayerPoints()
+int Engine::getPlayerLevelPoints()
 {
-	return player_->getPoints();
+	return player_->getLevelPoints();
 }
 
 int Engine::getCurrLevelNumber()
 {
 	return level_->getLevelNumber();
+}
+
+int Engine::getTreasurePoints()
+{
+	return level_->getTreasurePoints();
+}
+
+int Engine::getPlayerExp()
+{
+	return player_->getCurrExp();
 }
 
 void Engine::changeRenderWindowMode()
@@ -306,6 +351,11 @@ struct resolutions Engine::getResolutions()
 	return resolutions_;
 }
 
+struct perksInfo Engine::getPlayerPerksInfo()
+{
+	return player_->getPerksInfo();
+}
+
 //Level* Engine::getLevel()
 //{
 //	return level_;
@@ -357,22 +407,19 @@ void Engine::update(float elapsedTime)
 {
 	Vector2f oldPlayerPosition = player_->getCurrPosition();
 	player_->update(elapsedTime, &window_);
-	//player_->updateLevel(&window_);
-	//level_->playerInteractionWithMap(oldPlayerPosition, player_, elapsedTime);
+	//updateTreasurePoints();
 	player_->interactionWithMap(oldPlayerPosition, player_->getSprite().getPosition(), level_->getMap(), elapsedTime);
 	player_->calculateVariables(elapsedTime);
+	if (level_->getInSaveZone())
+	{
+		saveLoad_.save(level_, player_);
+	}
 	view_.setCenter(player_->getCurrPosition().x, player_->getCurrPosition().y);
-
-	//RectangleShape rect;
-	//rect.setFillColor(Color::Green);
-	//rect.setSize(Vector2f(2, 2));
-	//rect.setPosition(player_->getCurrPosition());
-	//window_.draw(rect);
 }
 
 void Engine::draw(float elapsedTime)
 {
-	level_->buildMap(&window_, player_->getSprite().getPosition(), view_.getSize(), elapsedTime);
+	level_->buildMap(&window_, player_->getSprite().getPosition(), view_.getSize(), player_->getWidth(), player_->getHeight(), elapsedTime);
 	//level_->buildMap(&window_);
 	level_->updateAndDrawEnemies(&window_, player_, view_.getSize(), elapsedTime);
 	player_->flyingShellsUpdateAndDraw(elapsedTime, level_->getMap(), &window_);
@@ -380,21 +427,47 @@ void Engine::draw(float elapsedTime)
 	window_.draw(player_->getSprite());
 }
 
-void Engine::drawText(Text text)
+void Engine::draw(Text text)
 {
 	window_.draw(text);
 }
 
-void Engine::drawSprite(Sprite sprite)
+void Engine::draw(Sprite sprite)
 {
 	window_.draw(sprite);
 }
 
-void Engine::drawAnimation(Animation* animation, float elapsedTime)
+//void Engine::drawText(Text text)
+//{
+//	window_.draw(text);
+//}
+
+//void Engine::drawSprite(Sprite sprite)
+//{
+//	window_.draw(sprite);
+//}
+
+void Engine::draw(Animation* animation, float elapsedTime)
 {
 	animation->updateAnimation(elapsedTime);
 	animation->drawAnimation(&window_);
 }
+
+void Engine::draw(GameWindow* gameWindow)
+{
+	gameWindow->draw(&window_);
+}
+
+void Engine::draw(Button* button)
+{
+	button->draw(&window_);
+}
+
+//void Engine::drawAnimation(Animation* animation, float elapsedTime)
+//{
+//	animation->updateAnimation(elapsedTime);
+//	animation->drawAnimation(&window_);
+//}
 
 void Engine::setView(int rectLeft, int rectTop, int rectWidth, int rectHeight)
 {
@@ -402,3 +475,18 @@ void Engine::setView(int rectLeft, int rectTop, int rectWidth, int rectHeight)
 	//view_.reset(FloatRect(player_->getSprite().getPosition().x - sizeX / 2, player_->getSprite().getPosition().y - sizeY / 2, sizeX, sizeY));
 	window_.setView(view_);
 }
+
+void Engine::load()
+{
+	saveLoad_.load(&level_, &player_);
+}
+
+void Engine::loadNewGame()
+{
+	saveLoad_.loadNewGame(&level_, &player_);
+}
+
+//void Engine::updateTreasurePoints()
+//{
+//	treasurePoints_ = level_->getCatchedCoins() * coinsValue_;
+//}

@@ -1,9 +1,20 @@
 #include "physxImplEnWalk.h"
 
-PhysxImplEnWalk::PhysxImplEnWalk() 
+PhysxImplEnWalk::PhysxImplEnWalk(int charName) 
 {
 	runningTime_ = 0;
 	stayingTime_ = 0;
+
+	states_.leftPressed_ = false;
+	states_.rightPressed_ = false;
+	states_.upPressed_ = false;
+	states_.downPressed_ = false;
+	states_.attack_ = false;
+	states_.runAttack_ = false;
+	states_.angryState_ = false;
+	states_.onEdge_ = false;
+
+	strategy_ = makeStrategy(StrategyParams::peacful, charName);
 }
 
 PhysxImplEnWalk::~PhysxImplEnWalk()
@@ -11,33 +22,33 @@ PhysxImplEnWalk::~PhysxImplEnWalk()
 	cout << "In PhysxImplEnWalk distructor" << endl;
 }
 
-void PhysxImplEnWalk::updateDecisionTime(states* states, float elapsedTime)
+void PhysxImplEnWalk::updateDecisionTime(float elapsedTime)
 {
-	if (runningTime_ > 0)
-	{
-		runningTime_ -= elapsedTime;
-	}
-	else if (stayingTime_ > 0)
-	{
-		stayingTime_ -= elapsedTime;
-	}
+	//if (runningTime_ > 0)
+	//{
+	//	runningTime_ -= elapsedTime;
+	//}
+	//else if (stayingTime_ > 0)
+	//{
+	//	stayingTime_ -= elapsedTime;
+	//}
 
-	if (runningTime_ <= 0 && stayingTime_ <= 0)
-	{
-		runningTime_ = 0;
-		stayingTime_ = 0;
-		states->leftPressed_ = false;
-		states->rightPressed_ = false;
-	}
+	//if (runningTime_ <= 0 && stayingTime_ <= 0)
+	//{
+	//	runningTime_ = 0;
+	//	stayingTime_ = 0;
+	//	states_.leftPressed_ = false;
+	//	states_.rightPressed_ = false;
+	//}
 }
 
-void PhysxImplEnWalk::interactionWithMap(struct states* states, Character* character, Vector2f oldEnemyPosition, Map* map, float elapsedTime)
+void PhysxImplEnWalk::interactionWithMap(Character* character, Vector2f oldEnemyPosition, Map* map, float elapsedTime)
 {
 	Vector2f position = character->getCurrPosition();
 	Vector2f newEnemyPosition = character->getCurrPosition();
 
 	character->setCurrGravityAccel(0);
-	states->onEdge_ = false;
+	states_.onEdge_ = false;
 
 	bool changedDirection = false;
 
@@ -46,7 +57,7 @@ void PhysxImplEnWalk::interactionWithMap(struct states* states, Character* chara
 	int gap = 0;
 	int gap2 = 0;
 
-	if (states->leftPressed_)
+	if (states_.leftPressed_)
 	{
 		gap2 = map->getTileWidth() / 2;
 	}
@@ -68,17 +79,17 @@ void PhysxImplEnWalk::interactionWithMap(struct states* states, Character* chara
 			if (map->getValue(j, i, ' ', map->getTileMapElse()))
 			{
 				//position.x = oldEnemyPosition.x;
-				if (states->leftPressed_)
+				if (states_.leftPressed_)
 				{
 					//character->setPosition(oldEnemyPosition.x + (oldEnemyPosition.x - newEnemyPosition.x), oldEnemyPosition.y);
-					states->leftPressed_ = false;
-					states->rightPressed_ = true;
+					states_.leftPressed_ = false;
+					states_.rightPressed_ = true;
 				}
-				else if (states->rightPressed_)
+				else if (states_.rightPressed_)
 				{
 					//character->setPosition(oldEnemyPosition.x - (newEnemyPosition.x - oldEnemyPosition.x), oldEnemyPosition.y);
-					states->rightPressed_ = false;
-					states->leftPressed_ = true;
+					states_.rightPressed_ = false;
+					states_.leftPressed_ = true;
 				}
 				character->setPosition(oldEnemyPosition.x, oldEnemyPosition.y);
 				return;
@@ -91,15 +102,15 @@ void PhysxImplEnWalk::interactionWithMap(struct states* states, Character* chara
 	{
 		if (!map->getCollision((oldEnemyPosition.y - character->getHeight() / 2) / map->getTileHeight(), i, ' '))
 		{
-			if (states->leftPressed_)
+			if (states_.leftPressed_)
 			{
-				states->leftPressed_ = false;
-				states->rightPressed_ = true;
+				states_.leftPressed_ = false;
+				states_.rightPressed_ = true;
 			}
-			else if (states->rightPressed_)
+			else if (states_.rightPressed_)
 			{
-				states->rightPressed_ = false;
-				states->leftPressed_ = true;
+				states_.rightPressed_ = false;
+				states_.leftPressed_ = true;
 			}
 			character->setPosition(oldEnemyPosition.x, oldEnemyPosition.y);
 			return;
@@ -109,13 +120,13 @@ void PhysxImplEnWalk::interactionWithMap(struct states* states, Character* chara
 	character->setPosition(position.x, position.y);
 }
 
-void PhysxImplEnWalk::updatePosition(Character *character, states* states, float elapsedTime)
+void PhysxImplEnWalk::updatePosition(Character *character, float elapsedTime)
 {
 	if (character->getCurrHealthPoints() > 0)
 	{
 		if (character->getHurt())
 		{
-			states->attack_ = false;
+			states_.attack_ = false;
 			character->setCurrHurtFrame(character->getFrameSpeed() * elapsedTime);
 			character->spriteUpdateHurt(character->getCurrSpriteSide());
 			return;
@@ -126,7 +137,7 @@ void PhysxImplEnWalk::updatePosition(Character *character, states* states, float
 			character->setState("staying");
 		}
 
-		if (states->leftPressed_)
+		if (states_.leftPressed_)
 		{
 			if (character->getCurrState() == "falling" || character->getCurrState() == "jumping")
 			{
@@ -140,7 +151,7 @@ void PhysxImplEnWalk::updatePosition(Character *character, states* states, float
 			}
 			character->spriteUpdateRun("left");
 		}
-		else if (states->rightPressed_)
+		else if (states_.rightPressed_)
 		{
 			if (character->getCurrState() == "falling" || character->getCurrState() == "jumping")
 			{
@@ -154,9 +165,9 @@ void PhysxImplEnWalk::updatePosition(Character *character, states* states, float
 			}
 			character->spriteUpdateRun("right");
 		}
-		if (((states->upPressed_ && character->getCurrState() != "jumping") || character->getCurrState() == "jumping") && character->getCurrState() != "falling")
+		if (((states_.upPressed_ && character->getCurrState() != "jumping") || character->getCurrState() == "jumping") && character->getCurrState() != "falling")
 		{
-			if (states->upPressed_ && character->getCurrState() != "jumping")
+			if (states_.upPressed_ && character->getCurrState() != "jumping")
 			{
 				character->setState("jumping");
 				character->setCurrJumpAccel(character->getJumpForce());
@@ -178,7 +189,7 @@ void PhysxImplEnWalk::updatePosition(Character *character, states* states, float
 			character->setCurrFallFrame(character->getFrameSpeed() * elapsedTime);
 			character->spriteUpdateFall(character->getCurrSpriteSide());
 		}
-		if ((states->attack_ && !character->getRunAttackState() || character->getRunAttackState()))
+		if ((states_.attack_ && !character->getRunAttackState() || character->getRunAttackState()))
 		{
 			if (character->getCurrState() == "running")
 			{
@@ -187,7 +198,7 @@ void PhysxImplEnWalk::updatePosition(Character *character, states* states, float
 				character->spriteUpdateRunAttack(character->getCurrSpriteSide());
 			}
 		}
-		if (states->attack_ && !character->getAttackState() || character->getAttackState())
+		if (states_.attack_ && !character->getAttackState() || character->getAttackState())
 		{
 			if (character->getCurrState() != "running")
 			{
@@ -204,89 +215,108 @@ void PhysxImplEnWalk::updatePosition(Character *character, states* states, float
 	}
 }
 
-void PhysxImplEnWalk::decision(Player* player, Character* character, states* states, float elapsedTime)
+void PhysxImplEnWalk::decision(Player* player, Character* character, float elapsedTime)
 {
-	if (character->getName() == "Character1" && !character->getHurt())
+	strategy_->decision(player, character, &states_, elapsedTime);
+	//if (character->getName() == "Character1" && !character->getHurt())
+	//{
+	//	if (character->getCurrState() == "falling")
+	//	{
+	//		states_.leftPressed_ = false;
+	//		states_.rightPressed_ = false;
+	//		stayingTime_ = 0;
+	//		runningTime_ = 0;
+	//	}
+	//	else if (states_.angryState_)
+	//	{
+	//		states_.leftPressed_ = false;
+	//		states_.rightPressed_ = false;
+	//		states_.attack_ = false;
+	//		stayingTime_ = 0;
+	//		runningTime_ = 1;
+
+	//		if (character->getCurrSpriteSide() == "left")
+	//		{
+	//			if (character->getCurrPosition().x - character->getAttackRange() <= player->getCurrPosition().x + player->getWidth() / 2 && character->getCurrPosition().x >= player->getCurrPosition().x && !player->getHurt())
+	//			{
+	//				states_.attack_ = true;
+	//			}
+	//		}
+	//		else
+	//		{
+	//			if (character->getCurrPosition().x + character->getAttackRange() >= player->getCurrPosition().x - player->getWidth() / 2 && character->getCurrPosition().x <= player->getCurrPosition().x && !player->getHurt())
+	//			{
+	//				states_.attack_ = true;
+	//			}
+	//		}
+
+	//		if (player->getCurrPosition().x - character->getCurrPosition().x <= character->getOverview() && player->getCurrPosition().x - player->getWidth() / 1 - character->getCurrPosition().x > character->getAttackRange() / 2)
+	//		{
+	//			states_.rightPressed_ = true;
+	//		}
+	//		else if (character->getCurrPosition().x - player->getCurrPosition().x <= character->getOverview() && character->getCurrPosition().x - player->getWidth() / 1 - player->getCurrPosition().x > character->getAttackRange() / 2)
+	//		{
+	//			states_.leftPressed_ = true;
+	//		}
+	//		else
+	//		{
+	//			if (player->getCurrPosition().x > character->getCurrPosition().x)
+	//			{
+	//				character->spriteUpdateAttack("right");
+	//			}
+	//			else if (player->getCurrPosition().x < character->getCurrPosition().x)
+	//			{
+	//				character->spriteUpdateAttack("left");
+	//			}
+	//			else
+	//			{
+	//				//to do
+	//			}
+	//			character->setState("staying");
+	//		}
+	//	}
+	//	else
+	//	{
+	//		if (!states_.leftPressed_ && !states_.rightPressed_ && stayingTime_ == 0 && runningTime_ == 0)
+	//		{
+	//			int r = rand() % 3;
+
+	//			if (r == 0)
+	//			{
+	//				runningTime_ = rand() % (9 - 8 + 1) + 8;
+	//				states_.leftPressed_ = true;
+	//			}
+	//			else if (r == 1)
+	//			{
+	//				runningTime_ = rand() % (9 - 8 + 1) + 8;
+	//				states_.rightPressed_ = true;
+	//			}
+	//			else
+	//			{
+	//				stayingTime_ = rand() % (1 - 1 + 1) + 1;
+	//				character->setState("staying");
+	//			}
+	//		}
+	//	}
+	//}
+
+	updateDecisionTime(elapsedTime);
+}
+
+void PhysxImplEnWalk::setStrategy(int param, int charName)
+{
+	delete strategy_;
+	strategy_ = makeStrategy(param, charName);
+
+	/*if (param == strategyParams::angry)
 	{
-		if (character->getCurrState() == "falling")
+		if (character == Characters::Character1)
 		{
-			states->leftPressed_ = false;
-			states->rightPressed_ = false;
-			stayingTime_ = 0;
-			runningTime_ = 0;
-		}
-		else if (states->angryState_)
-		{
-			states->leftPressed_ = false;
-			states->rightPressed_ = false;
-			states->attack_ = false;
-			stayingTime_ = 0;
-			runningTime_ = 1;
-
-			if (character->getCurrSpriteSide() == "left")
-			{
-				if (character->getCurrPosition().x - character->getAttackRange() <= player->getCurrPosition().x + player->getWidth() / 2 && character->getCurrPosition().x >= player->getCurrPosition().x && !player->getHurt())
-				{
-					states->attack_ = true;
-				}
-			}
-			else
-			{
-				if (character->getCurrPosition().x + character->getAttackRange() >= player->getCurrPosition().x - player->getWidth() / 2 && character->getCurrPosition().x <= player->getCurrPosition().x && !player->getHurt())
-				{
-					states->attack_ = true;
-				}
-			}
-
-			if (player->getCurrPosition().x - character->getCurrPosition().x <= character->getOverview() && player->getCurrPosition().x - player->getWidth() / 1 - character->getCurrPosition().x > character->getAttackRange() / 2)
-			{
-				states->rightPressed_ = true;
-			}
-			else if (character->getCurrPosition().x - player->getCurrPosition().x <= character->getOverview() && character->getCurrPosition().x - player->getWidth() / 1 - player->getCurrPosition().x > character->getAttackRange() / 2)
-			{
-				states->leftPressed_ = true;
-			}
-			else
-			{
-				if (player->getCurrPosition().x > character->getCurrPosition().x)
-				{
-					character->spriteUpdateAttack("right");
-				}
-				else if (player->getCurrPosition().x < character->getCurrPosition().x)
-				{
-					character->spriteUpdateAttack("left");
-				}
-				else
-				{
-					//to do
-				}
-				character->setState("staying");
-			}
-		}
-		else
-		{
-			if (!states->leftPressed_ && !states->rightPressed_ && stayingTime_ == 0 && runningTime_ == 0)
-			{
-				int r = rand() % 3;
-
-				if (r == 0)
-				{
-					runningTime_ = rand() % (9 - 8 + 1) + 8;
-					states->leftPressed_ = true;
-				}
-				else if (r == 1)
-				{
-					runningTime_ = rand() % (9 - 8 + 1) + 8;
-					states->rightPressed_ = true;
-				}
-				else
-				{
-					stayingTime_ = rand() % (1 - 1 + 1) + 1;
-					character->setState("staying");
-				}
-			}
+			strategy_ = makeStrategy(StrategyType::StateAnger1);
 		}
 	}
-
-	updateDecisionTime(states, elapsedTime);
+	else if (param == strategyParams::peacful)
+	{
+		strategy_ = makeStrategy(StrategyType::StatePeace1);
+	}*/
 }

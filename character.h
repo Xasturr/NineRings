@@ -4,6 +4,7 @@
 #include <ctime>
 
 #include "map.h"
+#include "Characters.h"
 
 using namespace sf;
 using namespace std;
@@ -59,7 +60,7 @@ public:
 	virtual void setAttackState(bool flag) = 0;
 	virtual void setRunAttackState(bool flag) = 0;
 	virtual void setEnemyDamaged(bool flag) = 0;
-	virtual void setName(string name) = 0;
+	virtual void setName(int name) = 0;
 	virtual void setMaxMoveSpeed(float maxMoveSpeed) = 0;
 	virtual void setSpriteSide(string spriteSide) = 0;
 	virtual void setLife(float flag) = 0;
@@ -75,6 +76,7 @@ public:
 	virtual void setMaxHealthPoints(int healthPoints) = 0;
 	virtual void setArmor(int armor) = 0;
 	virtual void setMaxMana(int mana) = 0;
+	virtual void setMaxStamina(int stamina) = 0;
 
 	virtual int getUpperGap() = 0;
 	virtual int getLowerGap() = 0;
@@ -96,6 +98,7 @@ public:
 	virtual int getAttackStaminaCost() = 0;
 	virtual int getKillExp() = 0;
 	virtual int getArmor() = 0;
+	virtual int getName() = 0;
 
 	virtual bool getJumpState() = 0;
 	virtual bool getAttackState() = 0;
@@ -108,7 +111,6 @@ public:
 
 	virtual string getCurrSpriteSide() = 0;
 	virtual string getCurrState() = 0;
-	virtual string getName() = 0;
 	virtual string getCurrShellName() = 0;
 
 	//virtual int getCurrFrame() = 0;

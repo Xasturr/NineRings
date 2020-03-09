@@ -110,7 +110,7 @@ Character1::Character1(float posX, float posY)
 	attackDamage_ = 200;
 	attackRange_ = 60;
 	runAttackRange_ = 58;
-	height_ = 70; //height of character
+	height_ = 60; //height of character
 	width_ = 40; //width of caracter
 	overview_ = 330;
 	currFireBallAmount_ = 100;
@@ -123,12 +123,12 @@ Character1::Character1(float posX, float posY)
 	attackStaminaCost_ = 250;
 	killExp_ = 100;
 	armor_ = 0;
+	name_ = Characters::Character1_name;
 
 	sprite_.setOrigin(textureRun1_.getSize().x / 2, 110);
 
 	currSpriteSide_ = "right";
 	state_ = "falling";
-	name_ = "Character1";
 	currShellName_ = "FireBall";	
 }
 
@@ -355,6 +355,11 @@ int Character1::getKillExp()
 int Character1::getArmor()
 {
 	return armor_;
+}
+
+int Character1::getName()
+{
+	return name_;
 }
 
 Vector2f Character1::getCurrPosition()
@@ -818,14 +823,10 @@ void Character1::setMaxMana(int mana)
 	maxMana_ = mana;
 }
 
-//void Character1::eraseShell(string shellName)
-//{
-//	if (shellName == "FireBall" && currFireBallAmount_ > 0)
-//	{
-//		//shells_.erase(shells_.begin());
-//		currFireBallAmount_ -= 1;
-//	}
-//}
+void Character1::setMaxStamina(int stamina)
+{
+	maxStamina_ = stamina;
+}
 
 void Character1::setEnemyDamaged(bool flag)
 {
@@ -837,7 +838,7 @@ void Character1::setState(string state)
 	state_ = state;
 }
 
-void Character1::setName(string name)
+void Character1::setName(int name)
 {
 	name_ = name;
 }
@@ -910,11 +911,6 @@ string Character1::getCurrSpriteSide()
 string Character1::getCurrState()
 {
 	return state_;
-}
-
-string Character1::getName()
-{
-	return name_;
 }
 
 string Character1::getCurrShellName()

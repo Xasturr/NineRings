@@ -5,6 +5,7 @@
 #include "character1.h"
 #include "map.h"
 #include "gameWindow.h"
+#include "perksInfo.h"
 
 using namespace sf;
 using namespace std;
@@ -25,6 +26,7 @@ class Player
 	bool doubleDamage_;
 	bool newExp_;
 	bool newLvl_;
+	bool newGame_;
 
 	string currShellName_;
 
@@ -33,12 +35,24 @@ class Player
 
 	int exp_;
 	int lvl_;
-	int points_;
-	int heartPlusPerkBonus_;
-	int chestArmorPerkBonus_;
-	int fairyWandPerkBonus_;
-	int vampireDraculaPerkBonus_;
-	int vampireDraculaPerkLevel_;
+	int levelPoints_;
+	int treasurePoints_;
+	//int heartPlusPerkBonus_;
+	//int heartPlusPerkLevel_;
+	//int chestArmorPerkBonus_;
+	//int chestArmorPerkLevel_;
+	//int fairyWandPerkBonus_;
+	//int fairyWandPerkLevel_;
+	//int vampireDraculaPerkBonus_;
+	//int vampireDraculaPerkLevel_;
+	//int foamyDiscPerkLevel_;
+	//int halfDeadPerkLevel_;
+	//int iceBoltPerkLevel_;
+	//int jugglerPerkLevel_;
+	//int tripleScratchesPerkLevel_;
+	//int dripplingBladePerkLevel_;
+
+	struct perksInfo perksInfo_;
 
 	void updateLevel(RenderWindow* window);
 
@@ -85,6 +99,12 @@ public:
 	void setChestArmorPerk();
 	void setFairyWandPerk();
 	void setVampireDraculaPerk();
+	void setCurrLevel(int level);
+	void setMaxMana(int maxMana);
+	void setMaxHealthPoints(int maxHp);
+	void setMaxStamina(int maxStamina);
+	void setLevelPoints(int levelPts);
+	void setNewGame(bool flag);
 
 	Vector2f getCurrPosition();
 
@@ -105,11 +125,13 @@ public:
 	int getCurrShellAmount();
 	int getDDTimer();
 	int getCurrExp();
-	int getNewLevel();
-	int getPoints();
+	int getCurrLevel();
+	int getLevelPoints();
 	int getArmor();
 	int getVampireDraculaPerkLevel();
 	int getVampireDraculaPerkBonus();
+	int getTreasurePoints();
+	int getChestArmorPerkLevel();
 
 	float getGravity();
 	float getJumpForce();
@@ -130,4 +152,7 @@ public:
 	bool getDamageDisabled();
 	bool getHurt();
 	bool isNewLevel();
+	bool isNewGame();
+
+	struct perksInfo getPerksInfo();
 };

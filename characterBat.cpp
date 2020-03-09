@@ -53,13 +53,13 @@ CharacterBat::CharacterBat(float posX, float posY)
 	attackStaminaCost_ = 200;
 	killExp_ = 200;
 	armor_ = 0;
+	name_ = Characters::CharacterBat_name;
 
 	sprite_.setOrigin(8, 15);
 	sprite_.setScale(scaleFactor_, scaleFactor_);
 
 	currSpriteSide_ = "right";
 	state_ = "flying";
-	name_ = "CharacterBat";
 	currShellName_ = "FireBall";
 }
 
@@ -283,6 +283,11 @@ int CharacterBat::getKillExp()
 int CharacterBat::getArmor()
 {
 	return armor_;
+}
+
+int CharacterBat::getName()
+{
+	return name_;
 }
 
 Vector2f CharacterBat::getCurrPosition()
@@ -545,14 +550,10 @@ void CharacterBat::setMaxMana(int mana)
 	maxMana_ = mana;
 }
 
-//void CharacterBat::eraseShell(string shellName)
-//{
-//	if (shellName == "FireBall" && currFireBallAmount_ > 0)
-//	{
-//		//shells_.erase(shells_.begin());
-//		currFireBallAmount_ -= 1;
-//	}
-//}
+void CharacterBat::setMaxStamina(int stamina)
+{
+	maxStamina_ = stamina;
+}
 
 void CharacterBat::setEnemyDamaged(bool flag)
 {
@@ -564,7 +565,7 @@ void CharacterBat::setState(string state)
 	state_ = state;
 }
 
-void CharacterBat::setName(string name)
+void CharacterBat::setName(int name)
 {
 	name_ = name;
 }
@@ -637,11 +638,6 @@ string CharacterBat::getCurrSpriteSide()
 string CharacterBat::getCurrState()
 {
 	return state_;
-}
-
-string CharacterBat::getName()
-{
-	return name_;
 }
 
 string CharacterBat::getCurrShellName()

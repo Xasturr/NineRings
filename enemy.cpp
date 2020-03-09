@@ -1,14 +1,14 @@
 #include "enemy.h"
 
-Enemy::Enemy(string charName, float posX, float posY, PhysxImplement* physx)
+Enemy::Enemy(int charName, float posX, float posY, PhysxImplement* physx)
 {
 	charName_ = charName;
 
-	if (charName_ == "Character1")
+	if (charName_ == Characters::Character1_name)
 	{
 		character_ = new Character1(posX, posY);
 	}
-	else if (charName_ == "Bat")
+	else if (charName_ == Characters::CharacterBat_name)
 	{
 		character_ = new CharacterBat(posX, posY);
 	}
@@ -18,21 +18,20 @@ Enemy::Enemy(string charName, float posX, float posY, PhysxImplement* physx)
 		exit(EXIT_FAILURE);
 	}
 
-	states_.leftPressed_ = false;
-	states_.rightPressed_ = false;
-	states_.upPressed_ = false;
-	states_.downPressed_ = false;
-	states_.attack_ = false;
-	states_.runAttack_ = false;
-	states_.angryState_ = false;
-	states_.onEdge_ = false;
+	physx_ = physx;
+	character_->setPosition(posX, posY);
+	//states_.leftPressed_ = false;
+	//states_.rightPressed_ = false;
+	//states_.upPressed_ = false;
+	//states_.downPressed_ = false;
+	//states_.attack_ = false;
+	//states_.runAttack_ = false;
+	//states_.angryState_ = false;
+	//states_.onEdge_ = false;
 
 	//stayingTime_ = 0;
 	//runningTime_ = 0;
 
-	character_->setPosition(posX, posY);
-
-	physx_ = physx;
 }
 
 Enemy::~Enemy()
@@ -49,7 +48,7 @@ bool Enemy::getEnemyLife()
 
 void Enemy::updatePosition(float elapsedTime)
 {
-	physx_->updatePosition(character_, &states_, elapsedTime);
+	physx_->updatePosition(character_, elapsedTime);
 }
 
 void Enemy::draw(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime)
@@ -61,15 +60,20 @@ void Enemy::draw(RenderWindow* window, Player* player, Vector2f viewSize, float 
 			//if (abs(player->getCurrPosition().x - character_->getCurrPosition().x) <= character_->getOverview() && abs(player->getCurrPosition().y - character_->getCurrPosition().y) <= character_->getHeight())
 			if (character_->calculateAngryState(player->getCurrPosition()))
 			{
-				states_.angryState_ = true;
+				//states_.angryState_ = true;
+				//physx_->states_.angryState_ = true;
+
+				physx_->setStrategy(StrategyParams::angry, character_->getName());
+				
 				character_->setMaxMoveSpeed(300);
 			}
 			else
 			{
-				states_.angryState_ = false;
-				states_.attack_ = false;
+				physx_->setStrategy(StrategyParams::peacful, character_->getName());
+				//states_.angryState_ = false;
+				//states_.attack_ = false;
 				character_->setMaxMoveSpeed(200);
-				character_->setState("staying");
+				//character_->setState("staying");
 				//stayingTime_ = 0;
 				//runningTime_ = 0;
 			}
@@ -84,12 +88,12 @@ void Enemy::draw(RenderWindow* window, Player* player, Vector2f viewSize, float 
 
 void Enemy::interactionWithMap(Vector2f oldEnemyPosition, Map* map, float elapsedTime)
 {
-	physx_->interactionWithMap(&states_, character_, oldEnemyPosition, map, elapsedTime);
+	physx_->interactionWithMap(character_, oldEnemyPosition, map, elapsedTime);
 }
 	
 void Enemy::decision(float elapsedTime, Player* player)
 {
-	physx_->decision(player, character_, &states_, elapsedTime);
+	physx_->decision(player, character_, elapsedTime);
 }
 
 void Enemy::calculateVariables(float elapsedTime)
@@ -129,6 +133,11 @@ void Enemy::flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow*
 	character_->flyingShellsUpdateAndDraw(elapsedTime, map, window);
 }
 
+void Enemy::setStrategy(int param)
+{
+	physx_->setStrategy(param, character_->getName());
+}
+
 int Enemy::getWidth()
 {
 	return character_->getWidth();
@@ -152,6 +161,11 @@ int Enemy::flyingShellsMakeDamage(Vector2f playerPos, int playerWidth, int playe
 int Enemy::getKillExp()
 {
 	return character_->getKillExp();
+}
+
+int Enemy::getCurrFlyingShellsAmount()
+{
+	return character_->getCurrFlyingShellAmount();
 }
 
 Vector2f Enemy::getPosition()
@@ -236,3 +250,8 @@ void Enemy::checkDamage(Player* player)
 		}
 	}
 }
+
+//void Enemy::makeStrategy(int choice)
+//{
+//	physx_->makeStrategy(choice, character_->getName());
+//}

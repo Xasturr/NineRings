@@ -10,6 +10,13 @@ class Map1 : public Map
 	const int TILE_WIDTH = 64;
 	const int TILE_HEIGHT = 64;
 
+	int catchedCoins;
+	int treasurePoints_;
+
+	bool inSaveZone_;
+
+	Vector2i savedPosition_;
+
 	string tileMap[HEIGHT_MAP] =
 	{
 		"                                                            ",
@@ -131,7 +138,49 @@ class Map1 : public Map
 		"000000000000000000000000000000000000000000000000000000000000",
 	};
 
+	string tileMapDecoration[HEIGHT_MAP] =
+	{
+		"000000000000000000000000000000000000000000000000000000000000",
+		"0                                                          0",
+		"0                                                          0",
+		"0                                                          0",
+		"0                                                          0",
+		"0                                                          0",
+		"0                                                00000000000",
+		"0   s   1                         4000002        00000000000",
+		"011111111            0      0                              0",
+		"0                000 40000002                              0",
+		"0                    30000001                              0",
+		"0                                                          0",
+		"0                                                    s     0",
+		"0                                               400000000000",
+		"0                                               300000000000",
+		"0       4000002                                            0",
+		"0       3000001                                            0",
+		"0                                                          0",
+		"0                                           400002         0",
+		"0                                           300001         0",
+		"0	                                                        0",
+		"0                      s                                   0",
+		"0                 40000000002                              0",
+		"0                 00000000000                              0",
+		"0                 00       00                              0",
+		"0                 00       00                              0",
+		"0                 00       00      40000000002             0",
+		"0                 00000000000      30000000001             0",
+		"0                 30000000001                         400000",
+		"0                                                     300000",
+		"0                                                          0",
+		"0                                                          0",
+		"002                                                        0",
+		"000                                                        0",
+		"000000000000000000000000000000000000000000000000000000000000",
+		"000000000000000000000000000000000000000000000000000000000000",
+	};
+
 	Texture texture_;
+	Texture textureStatue_;
+
 	Sprite sprite_;
 
 	TreasureFactory* treasureFactory_;
@@ -148,9 +197,11 @@ public:
 
 	string* getTileMapElse();
 	string* getTileMapTreasure();
+	string* getTileMapDecoration();
 
 	bool getValue(int i, int j, char c, string tileMap[]);
 	bool getCollision(int i, int j, char c);
+	bool getInSaveZone();
 
 	Texture getTexture();
 
@@ -159,6 +210,11 @@ public:
 	size_t getTextureSizeX();
 	size_t getTextureSizeY();
 
-	void buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize, float elapsedTime);
-	//void playerInteractionWithMap(Vector2f oldPlayerPosition, Player* player, float elapsedTime);
+	void buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize, int playerWidth, int playerHeight, float elapsedTime);
+	void setTreasurePoints(int treasurePoints);
+
+	int getCatchedCoins();
+	int getTreasurePoints();
+
+	Vector2i getSavedPosition();
 };

@@ -12,6 +12,7 @@ Player::Player(string charName, float posX, float posY)
 	doubleDamage_ = false;
 	newExp_ = false;
 	newLvl_ = false;
+	newGame_ = true;
 
 	charName_ = charName;
 	currShellName_ = "FireBall";
@@ -20,12 +21,22 @@ Player::Player(string charName, float posX, float posY)
 	ddDuration_ = 5;
 	exp_ = 0;
 	lvl_ = 1;
-	points_ = 0;
-	heartPlusPerkBonus_ = 200;
-	chestArmorPerkBonus_ = 10;
-	fairyWandPerkBonus_ = 200;
-	vampireDraculaPerkBonus_ = 15;
-	vampireDraculaPerkLevel_ = 0;
+	levelPoints_ = 0;
+	treasurePoints_ = 0;
+	perksInfo_.heartPlusPerkBonus_ = 200;
+	perksInfo_.heartPlusPerkLevel_ = 0;
+	perksInfo_.chestArmorPerkBonus_ = 10;
+	perksInfo_.chestArmorPerkLevel_ = 0;
+	perksInfo_.fairyWandPerkBonus_ = 200;
+	perksInfo_.fairyWandPerkLevel_ = 0;
+	perksInfo_.vampireDraculaPerkBonus_ = 15;
+	perksInfo_.vampireDraculaPerkLevel_ = 0;
+	perksInfo_.foamyDiscPerkLevel_ = 0;
+	perksInfo_.halfDeadPerkLevel_ = 0;
+	perksInfo_.iceBoltPerkLevel_ = 0;
+	perksInfo_.jugglerPerkLevel_ = 0;
+	perksInfo_.tripleScratchesPerkLevel_ = 0;
+	perksInfo_.dripplingBladePerkLevel_ = 0;
 
 	if (charName_ == "Character1")
 	{
@@ -443,38 +454,71 @@ void Player::setCurrExp(int exp)
 
 void Player::setHeartPlusPerk()
 {
-	if (points_ >= 1)
+	if (levelPoints_ >= 1)
 	{
-		character_->setMaxHealthPoints(character_->getMaxHealthPoints() + heartPlusPerkBonus_);
-		points_ -= 1;
+		character_->setMaxHealthPoints(character_->getMaxHealthPoints() + perksInfo_.heartPlusPerkBonus_);
+		levelPoints_ -= 1;
+		perksInfo_.heartPlusPerkLevel_ += 1;
 	}
 }
 
 void Player::setChestArmorPerk()
 {
-	if (points_ >= 1)
+	if (levelPoints_ >= 1)
 	{
-		character_->setArmor(character_->getArmor() + chestArmorPerkBonus_);
-		points_ -= 1;
+		character_->setArmor(character_->getArmor() + perksInfo_.chestArmorPerkBonus_);
+		levelPoints_ -= 1;
+		perksInfo_.chestArmorPerkLevel_ += 1;
 	}
 }
 
 void Player::setFairyWandPerk()
 {
-	if (points_ >= 1)
+	if (levelPoints_ >= 1)
 	{
-		character_->setMaxMana(character_->getMaxMana() + fairyWandPerkBonus_);
-		points_ -= 1;
+		character_->setMaxMana(character_->getMaxMana() + perksInfo_.fairyWandPerkBonus_);
+		levelPoints_ -= 1;
+		perksInfo_.fairyWandPerkLevel_ += 1;
 	}
 }
 
 void Player::setVampireDraculaPerk()
 {
-	if (points_ >= 3 && vampireDraculaPerkLevel_ == 0)
+	if (levelPoints_ >= 3 && perksInfo_.vampireDraculaPerkLevel_ == 0)
 	{
-		vampireDraculaPerkLevel_ = 1;
-		points_ -= 3;
+		perksInfo_.vampireDraculaPerkLevel_ += 1;
+		levelPoints_ -= 3;
 	}
+}
+
+void Player::setCurrLevel(int level)
+{
+	lvl_ = level;
+}
+
+void Player::setMaxMana(int maxMana)
+{
+	character_->setMaxMana(maxMana);
+}
+
+void Player::setMaxHealthPoints(int maxHp)
+{
+	character_->setMaxHealthPoints(maxHp);
+}
+
+void Player::setMaxStamina(int maxStamina)
+{
+	character_->setMaxStamina(maxStamina);
+}
+
+void Player::setLevelPoints(int levelPts)
+{
+	levelPoints_ = levelPts;
+}
+
+void Player::setNewGame(bool flag)
+{
+	newGame_ = flag;
 }
 
 void Player::updateLevel(RenderWindow* window)
@@ -487,21 +531,21 @@ void Player::updateLevel(RenderWindow* window)
 		{
 			newLvl_ = true;
 			lvl_ = 2;
-			points_ += 1;
+			levelPoints_ += 1;
 			cout << "2" << endl;
 		}
 		if (exp_ >= 200 && lvl_ == 2)
 		{
 			newLvl_ = true;
 			lvl_ = 3;
-			points_ += 1;
+			levelPoints_ += 1;
 			cout << "3" << endl;
 		}
 		if (exp_ >= 300 && lvl_ == 3)
 		{
 			newLvl_ = true;
 			lvl_ = 4;
-			points_ += 1;
+			levelPoints_ += 1;
 			cout << "4" << endl;
 		}
 	}
@@ -592,14 +636,14 @@ int Player::getCurrExp()
 	return exp_;
 }
 
-int Player::getNewLevel()
+int Player::getCurrLevel()
 {
 	return lvl_;
 }
 
-int Player::getPoints()
+int Player::getLevelPoints()
 {
-	return points_;
+	return levelPoints_;
 }
 
 int Player::getArmor()
@@ -609,12 +653,22 @@ int Player::getArmor()
 
 int Player::getVampireDraculaPerkLevel()
 {
-	return vampireDraculaPerkLevel_;
+	return perksInfo_.vampireDraculaPerkLevel_;
 }
 
 int Player::getVampireDraculaPerkBonus()
 {
-	return vampireDraculaPerkBonus_;
+	return perksInfo_.vampireDraculaPerkBonus_;
+}
+
+int Player::getTreasurePoints()
+{
+	return treasurePoints_;
+}
+
+int Player::getChestArmorPerkLevel()
+{
+	return perksInfo_.chestArmorPerkLevel_;
 }
 
 int Player::getJumpStaminaCost()
@@ -710,4 +764,14 @@ bool Player::getHurt()
 bool Player::isNewLevel()
 {
 	return newLvl_;
+}
+
+bool Player::isNewGame()
+{
+	return newGame_;
+}
+
+struct perksInfo Player::getPerksInfo()
+{
+	return perksInfo_;
 }

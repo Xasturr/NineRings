@@ -39,13 +39,26 @@ GameWindow::GameWindow(map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair
 	visible_ = false;
 }
 
-GameWindow::~GameWindow() {}
+GameWindow::~GameWindow()
+{
+	cout << "In GameWindow destructor" << endl;
+
+	for (int i = 0; i < buttons_.size(); i++)
+	{
+		delete buttons_[i];
+	}
+}
 
 void GameWindow::draw(RenderWindow *window)
 {
 	if (visible_)
 	{
 		window->draw(spriteGameWindow_);
+
+		for (Text text : texts_)
+		{
+			window->draw(text);
+		}
 
 		for (Button* button : buttons_)
 		{
@@ -57,6 +70,16 @@ void GameWindow::draw(RenderWindow *window)
 void GameWindow::addButton(Button* button)
 {
 	buttons_.push_back(button);
+}
+
+void GameWindow::addText(Text text)
+{
+	texts_.push_back(text);
+}
+
+void GameWindow::deleteTexts()
+{
+	texts_.clear();
 }
 
 void GameWindow::setVisible()

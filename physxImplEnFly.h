@@ -8,10 +8,11 @@ class PhysxImplEnFly : public PhysxImplement
 	int maxPosX_;
 
 public:
-	PhysxImplEnFly(int minPosX, int maxPosX);
+	PhysxImplEnFly(int minPosX, int maxPosX, int charName);
 	~PhysxImplEnFly();
 
-	void interactionWithMap(struct states* states, Character* character, Vector2f oldEnemyPosition, Map* map, float elapsedTime);
-	void updatePosition(Character* character, states* states, float elapsedTime);
-	void decision(Player* player, Character* character, states* states, float elapsedTime);
+	void interactionWithMap(Character* character, Vector2f oldEnemyPosition, Map* map, float elapsedTime);
+	void updatePosition(Character* character, float elapsedTime);
+	void decision(Player* player, Character* character, float elapsedTime);
+	void setStrategy(int param, int charName);
 };

@@ -5,7 +5,17 @@ Level2::Level2()
 	map_ = new Map1();
 }
 
-Level2::~Level2() {}
+Level2::~Level2()
+{
+	cout << "In Level2 distructor" << endl;
+
+	for (int i = 0; i < enemies_.size(); i++)
+	{
+		delete enemies_.at(i);
+	}
+
+	delete map_;
+}
 
 const size_t Level2::getHeightMap()
 {
@@ -32,6 +42,11 @@ string* Level2::getTileMapElse()
 	return map_->getTileMapElse();
 }
 
+string* Level2::getTileMapTreasure()
+{
+	return map_->getTileMapTreasure();
+}
+
 bool Level2::getValue(int i, int j, char c, string tileMap[])
 {
 	if (tileMap[i][j] == c)
@@ -50,6 +65,11 @@ bool Level2::getCollision(int i, int j, char c)
 	}
 
 	return false;
+}
+
+bool Level2::getInSaveZone()
+{
+	return map_->getInSaveZone();
 }
 
 Texture Level2::getTexture()
@@ -72,9 +92,9 @@ size_t Level2::getTextureSizeY()
 	return map_->getTextureSizeY();
 }
 
-void Level2::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize, float elapsedTime)
+void Level2::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize, int playerWidth, int playerHeight, float elapsedTime)
 {
-	map_->buildMap(window, playerPos, viewSize, elapsedTime);
+	map_->buildMap(window, playerPos, viewSize, playerWidth, playerHeight, elapsedTime);
 }
 
 void Level2::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime)
@@ -110,10 +130,10 @@ void Level2::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 	}
 }
 
-//void Level2::playerInteractionWithMap(Vector2f oldPlayerPosition, Player* player, float elapsedTime)
-//{
-//	map_->playerInteractionWithMap(oldPlayerPosition, player, elapsedTime);
-//}
+void Level2::setTreasurePoints(int treasurePoints)
+{
+	map_->setTreasurePoints(treasurePoints);
+}
 
 Map* Level2::getMap()
 {
@@ -123,4 +143,19 @@ Map* Level2::getMap()
 int Level2::getLevelNumber()
 {
 	return 2;
+}
+
+int Level2::getCatchedCoins()
+{
+	return map_->getCatchedCoins();
+}
+
+int Level2::getTreasurePoints()
+{
+	return map_->getTreasurePoints();
+}
+
+Vector2i Level2::getSavedPosition()
+{
+	return map_->getSavedPosition();
 }

@@ -19,6 +19,7 @@ class GameWindow
 	Sprite spriteGameWindow_;
 
 	vector<Button*> buttons_;
+	vector<Text> texts_;
 
 	bool visible_;
  
@@ -28,6 +29,8 @@ public:
 
 	void draw(RenderWindow *window);
 	void addButton(Button* button);
+	void addText(Text text);
+	void deleteTexts();
 	void setVisible();
 	void setInvisible();
 	string getClickedButtonId(RenderWindow* window);

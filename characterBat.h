@@ -62,10 +62,10 @@ class CharacterBat : public Character
 	int scaleFactor_;
 	int killExp_;
 	int armor_;
+	int name_;
 
 	string currSpriteSide_;
 	string state_;
-	string name_;
 	string currShellName_;
 
 	vector<Shell*> flyingShells_;
@@ -115,6 +115,7 @@ public:
 	int getAttackStaminaCost();
 	int getKillExp();
 	int getArmor();
+	int getName();
 
 	Vector2f getCurrPosition();
 
@@ -144,7 +145,7 @@ public:
 	void setAttackState(bool flag);
 	void setRunAttackState(bool flag);
 	void setEnemyDamaged(bool flag);
-	void setName(string name);
+	void setName(int name);
 	void setMaxMoveSpeed(float moveMaxSpeed);
 	void setSpriteSide(string spriteSide);
 	void setLife(float flag);
@@ -160,6 +161,7 @@ public:
 	void setMaxHealthPoints(int healthPoints);
 	void setArmor(int armor);
 	void setMaxMana(int mana);
+	void setMaxStamina(int stamina);
 
 	bool getCharacterLife();
 	bool getAttackState();
@@ -173,7 +175,6 @@ public:
 
 	string getCurrSpriteSide();
 	string getCurrState();
-	string getName();
 	string getCurrShellName();
 };
 

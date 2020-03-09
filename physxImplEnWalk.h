@@ -7,13 +7,14 @@ class PhysxImplEnWalk : public PhysxImplement
 	float stayingTime_;
 	float runningTime_;
 
-	void updateDecisionTime(states* states, float elapsedTime);
+	void updateDecisionTime(float elapsedTime);
 
 public:
-	PhysxImplEnWalk();
+	PhysxImplEnWalk(int charName);
 	~PhysxImplEnWalk();
 
-	void interactionWithMap(struct states* states, Character* character, Vector2f oldEnemyPosition, Map* map, float elapsedTime);
-	void updatePosition(Character* character, states* states, float elapsedTime);
-	void decision(Player* player, Character* character, states* states, float elapsedTime);
+	void interactionWithMap(Character* character, Vector2f oldEnemyPosition, Map* map, float elapsedTime);
+	void updatePosition(Character* character, float elapsedTime);
+	void decision(Player* player, Character* character, float elapsedTime);
+	void setStrategy(int param, int character);
 };

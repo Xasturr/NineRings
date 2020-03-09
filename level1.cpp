@@ -4,39 +4,25 @@ Level1::Level1()
 {
 	map_ = new Map1();
 
-	enemies_.push_back(new Enemy("Character1", 640, 960, new PhysxImplEnWalk()));
-	enemies_.push_back(new Enemy("Character1", 2560, 1664, new PhysxImplEnWalk()));
-	enemies_.push_back(new Enemy("Character1", 448, 2176, new PhysxImplEnWalk()));
-	enemies_.push_back(new Enemy("Character1", 666, 2176, new PhysxImplEnWalk()));
-	enemies_.push_back(new Enemy("Character1", 1600, 576, new PhysxImplEnWalk()));
-	enemies_.push_back(new Enemy("Bat", 666, 2176-64*2, new PhysxImplEnFly(400, 40 * 64)));
-	//enemies_.push_back(new Enemy("Character1", 1600, 576));
-	//enemies_.push_back(new Enemy("Character1", 1600, 576));
-	//enemies_.push_back(new Enemy("Character1", 1600, 576));
-	//enemies_.push_back(new Enemy("Character1", 1600, 576));
-	//enemies_.push_back(new Enemy("Character1", 1600, 576));
-	//enemies_.push_back(new Enemy("Character1", 1600, 576));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-	//enemies_.push_back(new Enemy("Character1", 1600, 330));
-
-
-	//enemies_.push_back(new Enemy("Character1", 1700, 930));
-	//enemies_.push_back(new Enemy("Character1", 2500, 930));
+	enemies_.push_back(new Enemy(Characters::Character1_name, 640, 960, new PhysxImplEnWalk(Characters::Character1_name)));
+	enemies_.push_back(new Enemy(Characters::Character1_name, 2560, 1664, new PhysxImplEnWalk(Characters::Character1_name)));
+	enemies_.push_back(new Enemy(Characters::Character1_name, 448, 2176, new PhysxImplEnWalk(Characters::Character1_name)));
+	enemies_.push_back(new Enemy(Characters::Character1_name, 666, 2176, new PhysxImplEnWalk(Characters::Character1_name)));
+	enemies_.push_back(new Enemy(Characters::Character1_name, 1600, 576, new PhysxImplEnWalk(Characters::Character1_name)));
+	enemies_.push_back(new Enemy(Characters::CharacterBat_name, 666, 2176-64*2, new PhysxImplEnFly(400, 40 * 64, Characters::CharacterBat_name)));
 }
 
-Level1::~Level1() {}
+Level1::~Level1() 
+{
+	cout << "In Level1 distructor" << endl;
+
+	for (int i = 0; i < enemies_.size(); i++)
+	{
+		delete enemies_.at(i);
+	}
+
+	delete map_;
+}
 
 const size_t Level1::getHeightMap()
 {
@@ -63,6 +49,11 @@ string* Level1::getTileMapElse()
 	return map_->getTileMapElse();
 }
 
+string* Level1::getTileMapTreasure()
+{
+	return map_->getTileMapTreasure();
+}
+
 bool Level1::getValue(int i, int j, char c, string tileMap[])
 {
 	if (tileMap[i][j] == c)
@@ -81,6 +72,11 @@ bool Level1::getCollision(int i, int j, char c)
 	}
 
 	return false;
+}
+
+bool Level1::getInSaveZone()
+{
+	return map_->getInSaveZone();
 }
 
 Texture Level1::getTexture()
@@ -103,9 +99,9 @@ size_t Level1::getTextureSizeY()
 	return map_->getTextureSizeY();
 }
 
-void Level1::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize, float elapsedTime)
+void Level1::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize, int playerWidth, int playerHeight, float elapsedTime)
 {
-	map_->buildMap(window, playerPos, viewSize, elapsedTime);
+	map_->buildMap(window, playerPos, viewSize, playerWidth, playerHeight, elapsedTime);
 }
 
 void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime)
@@ -114,17 +110,17 @@ void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 
 	for (int i = 0; i < enemies_.size(); i++)
 	{
+		enemies_[i]->flyingShellsUpdateAndDraw(elapsedTime, map_, window);
+		int enDamage = enemies_[i]->flyingShellsMakeDamage(player->getCurrPosition(), player->getWidth(), player->getHeight());
+		if (enDamage > 0)
+		{
+			player->setCurrHealthPoints(player->getCurrHealthPoints() - enDamage * (100 - player->getArmor()) / 100);
+			player->setHurt(true);
+			cout << "Player health: " << player->getCurrHealthPoints() << endl;
+		}
 		if (enemies_[i]->getEnemyLife())
 		{
 			Vector2f oldEnemyPosition = enemies_[i]->getPosition();
-			enemies_[i]->flyingShellsUpdateAndDraw(elapsedTime, map_, window);
-			int enDamage = enemies_[i]->flyingShellsMakeDamage(player->getCurrPosition(), player->getWidth(), player->getHeight());
-			if (enDamage > 0)
-			{
-				player->setCurrHealthPoints(player->getCurrHealthPoints() - enDamage * (100 - player->getArmor()) / 100);
-				player->setHurt(true);
-				cout << "Player health: " << player->getCurrHealthPoints() << endl;
-			}
 			enemies_[i]->updatePosition(elapsedTime);
 			enemies_[i]->calculateVariables(elapsedTime);
 			enemies_[i]->decision(elapsedTime, player);
@@ -141,7 +137,10 @@ void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 		else
 		{
 			player->setCurrExp(player->getCurrExp() + enemies_[i]->getKillExp());
-			eraseEnemy = i;
+			if (enemies_[i]->getCurrFlyingShellsAmount() == 0)
+			{
+				eraseEnemy = i;
+			}
 		}
 	}
 
@@ -153,10 +152,10 @@ void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 	}
 }
 
-/*void Level1::playerInteractionWithMap(Vector2f oldPlayerPosition, Player* player, float elapsedTime)
+void Level1::setTreasurePoints(int treasurePoints)
 {
-	map_->playerInteractionWithMap(oldPlayerPosition, player, elapsedTime);
-}*/
+	map_->setTreasurePoints(treasurePoints);
+}
 
 Map* Level1::getMap()
 {
@@ -166,4 +165,19 @@ Map* Level1::getMap()
 int Level1::getLevelNumber()
 {
 	return 1;
+}
+
+int Level1::getCatchedCoins()
+{
+	return map_->getCatchedCoins();
+}
+
+int Level1::getTreasurePoints()
+{
+	return map_->getTreasurePoints();
+}
+
+Vector2i Level1::getSavedPosition()
+{
+	return map_->getSavedPosition();
 }

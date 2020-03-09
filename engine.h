@@ -11,6 +11,7 @@
 #include "settings.h"
 #include "resolutions.h"
 #include "animation.h"
+#include "saveLoad.h"
 
 using namespace sf;
 using namespace std;
@@ -37,11 +38,19 @@ class Engine
 
 	Settings settings_;
 
+	SaveLoad saveLoad_;
+
 	struct resolutions resolutions_;
 
-public:
+	static Engine* engineInstance_;
+
+protected:
 	Engine();
+
+public:
 	~Engine();
+
+	static Engine* getEngineInstance();
 
 	GameWindow* createGameWindow(map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string texturePath);
 	//key - resolution; value - 1) Size; 2) Position
@@ -54,8 +63,6 @@ public:
 
 	Settings* getSettings();
 
-	void drawGameWindow(GameWindow* gameWindow);
-	void drawButton(Button* button);
 	void createRenderWindow(VideoMode videoMode, string title, string windowStyle);
 	void renderWindowClear();
 	void renderWindowDisplay();
@@ -63,7 +70,6 @@ public:
 	void changeRenderWindowMode();
 	void setGameWindowVisible(GameWindow* gameWindow);
 	void setGameWindowInvisible(GameWindow* gameWindow);
-	//void buildMap();
 	void createLevel(Level* level);
 	void setPlayer(string charName, float posX, float posY);
 	void playerMoveLeft();
@@ -72,17 +78,24 @@ public:
 	void playerMoveDown();
 	void update(float elapsedTime);
 	void draw(float elapsedTime);
-	void drawText(Text text);
-	void drawSprite(Sprite sprite);
-	void drawAnimation(Animation* animation, float elapsedTime);
+	void draw(Text text);
+	void draw(Sprite sprite);
+	void draw(Animation* animation, float elapsedTime);
+	void draw(GameWindow* gameWindow);
+	void draw(Button* button);
 	void setView(int rectLeft, int rectTop, int rectWidth, int rectHeight);
+	void load();
+	void loadNewGame();
 
 	bool renderWindowIsOpen();
 	bool renderWindowPollEvent();
 	bool isRenderWindowFullscreen();
 	bool mouseContains(int rectLeft, int rectTop, int rectWidth, int rectHeight);
+	bool mouseContains(FloatRect rect);
+	bool mouseContains(Sprite sprite);
 	bool isNewPlayerLevel();
 	bool isEndOfLevel();
+	bool isNewGame();
 
 	int input();
 	int getCurrPlayerHealthPoints();
@@ -95,9 +108,11 @@ public:
 	int getCurrPlayerPosX();
 	int getCurrPlayerPosY();
 	int getDDTimer();
-	int getNewPlayerLevel();
-	int getPlayerPoints();
+	int getPlayerLevel();
+	int getPlayerLevelPoints();
 	int getCurrLevelNumber();
+	int getTreasurePoints();
+	int getPlayerExp();
 
 	string getClickedButtonId(GameWindow* gameWindow);
 	string getCurrPlayerShellName();
@@ -111,5 +126,5 @@ public:
 
 	struct resolutions getResolutions();
 
-	//Level* getLevel();
+	struct perksInfo getPlayerPerksInfo();
 };

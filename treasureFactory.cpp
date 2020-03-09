@@ -8,6 +8,15 @@ TreasureFactory::TreasureFactory()
 TreasureFactory::~TreasureFactory()
 {
 	cout << "In TreasureFactory destructor" << endl;
+
+	map<pair<int, int>, Treasure*>::iterator it;
+
+	for (it = treasures_.begin(); it != treasures_.end(); it++)
+	{
+		Treasure* treasure = it->second;
+		delete treasure;
+		treasures_.erase(it);
+	}
 }
 
 Treasure* TreasureFactory::getTreasure(Vector2f position, int tileWidth, int tileHeight)

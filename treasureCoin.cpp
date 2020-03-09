@@ -18,11 +18,12 @@ TreasureCoin::TreasureCoin(Vector2f position)
 	sprite_.setTexture(texture1_);
 	sprite_.setPosition(position_);
 
-	life_ = true;
+	//life_ = true;
 
 	currentFrame_ = 1;
 	numberOfFrames_ = 10;
 	frameSpeed_ = 12;
+	points_ = 100;
 }
 
 TreasureCoin::~TreasureCoin()
@@ -69,10 +70,15 @@ void TreasureCoin::spriteUpdate()
 		sprite_.setTexture(texture10_);
 }
 
-void TreasureCoin::setLife(bool flag)
+int TreasureCoin::getTreasurePoints()
 {
-	life_ = flag;
+	return points_;
 }
+
+//void TreasureCoin::setLife(bool flag)
+//{
+//	life_ = flag;
+//}
 
 Vector2f TreasureCoin::getCurrPosition()
 {

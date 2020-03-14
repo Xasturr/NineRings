@@ -29,8 +29,6 @@ public:
 	Button(string id, map<pair<size_t, size_t>, pair<pair<size_t, size_t>, pair<size_t, size_t>>> sizePosMap, string mouseContainsTexturePath, string mouseNotContainsTexturePath, string mouseClickedTexturePath, Vector2i resolution);
 	~Button();
 
-	//void setTextureMouseContains();
-	//void setTextureMouseNotContains();
 	void draw(RenderWindow* window);
 	bool containsCursor(RenderWindow* window);
 	string getId();

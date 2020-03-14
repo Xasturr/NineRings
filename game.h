@@ -27,6 +27,7 @@ class Game
 	bool iPressed_;
 	bool tabPressed_;
 	bool mouseButtonPressed_;
+	bool escPressed_;
 	//bool showNewLevel_;
 
 	Text textFPS_;
@@ -56,6 +57,7 @@ class Game
 
 	resolutions resolutions_;
 
+	//mainMenu
 	Animation* mainMenuBackgroundAnim_;
 	Text textContinue, textNewGame, textSettings, textExit;
 
@@ -111,6 +113,10 @@ class Game
 	Text textCurrPerkLevel_;
 	Text textPerkDescription_;
 
+	//inGameMenu
+	Text textResume_, textSettings2_, textQuit_;
+	Animation* inGameMenuBackgroundAnim_;
+
 	string clickedButtonId_;
 
 	void mainMenu();
@@ -118,6 +124,8 @@ class Game
 	void chooseLevelMenu(); //
 	void settings();
 	void perksMenu();
+
+	int inGameMenu();
 
 	void loadNextLevel();
 	void drawPerksMenu();

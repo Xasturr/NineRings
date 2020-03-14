@@ -60,7 +60,7 @@ CharacterBat::CharacterBat(float posX, float posY)
 
 	currSpriteSide_ = "right";
 	state_ = "flying";
-	currShellName_ = "FireBall";
+	currShellName_ = Shells::fireBallShell_name;
 }
 
 CharacterBat::~CharacterBat()
@@ -133,11 +133,6 @@ float CharacterBat::getCurrMana()
 	return currentMana_;
 }
 
-float CharacterBat::getMaxStamina()
-{
-	return maxStamina_;
-}
-
 float CharacterBat::getMaxMana()
 {
 	return maxMana_;
@@ -148,7 +143,17 @@ float CharacterBat::getCurrShellAngle()
 	return currAngle_;
 }
 
+float CharacterBat::getCurrHealthPoints()
+{
+	return currHealthPoints_;
+}
+
 int CharacterBat::getCurrIdleFrame() {}
+
+int CharacterBat::getMaxStamina()
+{
+	return maxStamina_;
+}
 
 int CharacterBat::getUpperGap()
 {
@@ -180,11 +185,6 @@ int CharacterBat::getAttackRange()
 	{
 		return runAttackRange_;
 	}
-}
-
-int CharacterBat::getCurrHealthPoints()
-{
-	return int(currHealthPoints_);
 }
 
 int CharacterBat::getMaxHealthPoints()
@@ -224,7 +224,7 @@ int CharacterBat::getCurrFlyingShellAmount()
 
 int CharacterBat::getCurrShellAmount()
 {
-	if (currShellName_ == "FireBall")
+	if (currShellName_ == Shells::fireBallShell_name)
 	{
 		return currFireBallAmount_;
 	}
@@ -455,7 +455,7 @@ void CharacterBat::setRunAttackState(bool flag)
 	runAttack_ = flag;
 }
 
-void CharacterBat::setCurrHealthPoints(int currHealthPoints)
+void CharacterBat::setCurrHealthPoints(float currHealthPoints)
 {
 	currHealthPoints_ = currHealthPoints;
 }
@@ -470,23 +470,28 @@ void CharacterBat::setCurrMana(float currMana)
 	currentMana_ = currMana;
 }
 
-void CharacterBat::addFlyingShell(string shellName, float angle)
+Shell* CharacterBat::addFlyingShell(int shellName, float angle)
 {
-	if (shellName == "FireBall" && currFireBallAmount_ > 0)
+	Shell* shell = nullptr;
+
+	if (shellName == Shells::fireBallShell_name && currFireBallAmount_ > 0)
 	{
 		currFireBallAmount_ -= 1;
 
-		Shell* shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
+		shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
 		flyingShells_.push_back(shell);
 	}
+
+	return shell;
 }
 
-void CharacterBat::addFlyingShell(string shellName, bool doubleDamage, float angle)
+Shell* CharacterBat::addFlyingShell(int shellName, bool doubleDamage, float angle)
 {
-	if (shellName == "FireBall" && currFireBallAmount_ > 0)
+	Shell* shell = nullptr;
+
+	if (shellName == Shells::fireBallShell_name && currFireBallAmount_ > 0)
 	{
 		currFireBallAmount_ -= 1;
-		Shell* shell;
 
 		if (doubleDamage)
 		{
@@ -499,6 +504,8 @@ void CharacterBat::addFlyingShell(string shellName, bool doubleDamage, float ang
 
 		flyingShells_.push_back(shell);
 	}
+
+	return shell;
 }
 
 void CharacterBat::flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window)
@@ -640,7 +647,7 @@ string CharacterBat::getCurrState()
 	return state_;
 }
 
-string CharacterBat::getCurrShellName()
+int CharacterBat::getCurrShellName()
 {
 	return currShellName_;
 }

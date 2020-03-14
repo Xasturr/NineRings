@@ -24,8 +24,6 @@ class CharacterBat : public Character
 	bool shoot_;
 
 	float maxMoveSpeed_;
-	float maxStamina_;
-	float maxMana_;
 	float currentFlyFrame_;
 	float currentDeathFrame_;
 	float currentHurtFrame_;
@@ -41,6 +39,8 @@ class CharacterBat : public Character
 	float maxShotCoolDown_;
 	float attackDamage_;
 
+	int maxStamina_;
+	int maxMana_;
 	int numberOfFlyFrames_;
 	int numberOfDeathFrames_;
 	int numberOfHurtFrames_;
@@ -63,10 +63,10 @@ class CharacterBat : public Character
 	int killExp_;
 	int armor_;
 	int name_;
+	int currShellName_;
 
 	string currSpriteSide_;
 	string state_;
-	string currShellName_;
 
 	vector<Shell*> flyingShells_;
 
@@ -89,10 +89,10 @@ public:
 	float getMaxShotCoolDown();
 	float getCurrStamina();
 	float getCurrMana();
-	float getMaxStamina();
 	float getMaxMana();
 	float getCurrShellAngle();
 	float getAttackDamage();
+	float getCurrHealthPoints();
 
 	int getCurrIdleFrame();
 	int getUpperGap();
@@ -100,7 +100,6 @@ public:
 	int getLeftGap();
 	int getRightGap();
 	int getAttackRange();
-	int getCurrHealthPoints();
 	int getNumberOfAttackFrames();
 	int getHeight();
 	int getWidth();
@@ -116,6 +115,8 @@ public:
 	int getKillExp();
 	int getArmor();
 	int getName();
+	int getCurrShellName();
+	int getMaxStamina();
 
 	Vector2f getCurrPosition();
 
@@ -150,11 +151,9 @@ public:
 	void setSpriteSide(string spriteSide);
 	void setLife(float flag);
 	void setHurt(bool flag);
-	void setCurrHealthPoints(int currHealthPoints);
+	void setCurrHealthPoints(float currHealthPoints);
 	void setCurrStamina(float currStamina);
 	void setCurrMana(float currMana);
-	void addFlyingShell(string shellName, float angle);
-	void addFlyingShell(string shellName, bool doubleDamage, float angle);
 	void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window);
 	void setCurrShotCoolDown(float currShotCoolDown);
 	void setCurrShellAgle(float angle);
@@ -173,8 +172,10 @@ public:
 	bool getHurt();
 	bool calculateAngryState(Vector2f playerPos);
 
+	Shell* addFlyingShell(int shellName, bool doubleDamage, float angle);
+	Shell* addFlyingShell(int shellName, float angle);
+
 	string getCurrSpriteSide();
 	string getCurrState();
-	string getCurrShellName();
 };
 

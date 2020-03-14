@@ -2,7 +2,7 @@
 
 Settings::Settings()
 {
-	const int numOfParams = 5;
+	const int numOfParams = 9;
 	int settingsArray[numOfParams] = { 0 };
 	ifstream ifs;
 	ifs.open("./settings/settings.txt", ios::in);
@@ -36,12 +36,20 @@ Settings::Settings()
 			ofs << 3 << endl; //D
 			ofs << 15 << endl; //P
 			ofs << 57 << endl; //Space
+			ofs << 21 << endl;
+			ofs << 1 << endl; 
+			ofs << 13 << endl;
+			ofs << 12 << endl;
 		
 			settingsArray[0] = 22;
 			settingsArray[1] = 0;
 			settingsArray[2] = 3;
 			settingsArray[3] = 15;
 			settingsArray[4] = 57;
+			settingsArray[5] = 21;
+			settingsArray[6] = 1;
+			settingsArray[7] = 13;
+			settingsArray[8] = 12;
 
 			ofs.close();
 		}
@@ -57,6 +65,10 @@ Settings::Settings()
 	moveRight_ = settingsArray[2];
 	shoot_ = settingsArray[3];
 	attack_ = settingsArray[4];
+	fireBallPerk_ = settingsArray[5];
+	iceBallPerk_ = settingsArray[6];
+	foamyDiscPerk_ = settingsArray[7];
+	halfDeadPerk_ = settingsArray[8];
 }
 
 void Settings::setMoveUp(char c)
@@ -64,7 +76,7 @@ void Settings::setMoveUp(char c)
 	if (c >= 65 && c <= 90 && isFree(c))
 	{
 		moveUp_ = c - 65;
-		saveSattings();
+		saveSettings();
 	}
 }
 
@@ -73,7 +85,7 @@ void Settings::setMoveLeft(char c)
 	if (c >= 65 && c <= 90 && isFree(c))
 	{
 		moveLeft_ = c - 65;
-		saveSattings();
+		saveSettings();
 	}
 }
 
@@ -82,7 +94,7 @@ void Settings::setMoveRight(char c)
 	if (c >= 65 && c <= 90 && isFree(c))
 	{
 		moveRight_ = c - 65;
-		saveSattings();
+		saveSettings();
 	}
 }
 
@@ -91,7 +103,7 @@ void Settings::setShoot(char c)
 	if (c >= 65 && c <= 90 && isFree(c))
 	{
 		shoot_ = c - 65;
-		saveSattings();
+		saveSettings();
 	}
 }
 
@@ -100,11 +112,47 @@ void Settings::setAttack(char c)
 	if (c >= 65 && c <= 90 && isFree(c))
 	{
 		shoot_ = c - 65;
-		saveSattings();
+		saveSettings();
 	}
 }
 
-void Settings::saveSattings()
+void Settings::setFireBallPerk(char c)
+{
+	if (c >= 65 && c <= 90 && isFree(c))
+	{
+		fireBallPerk_ = c - 65;
+		saveSettings();
+	}
+}
+
+void Settings::setIceBallPerk(char c)
+{
+	if (c >= 65 && c <= 90 && isFree(c))
+	{
+		iceBallPerk_ = c - 65;
+		saveSettings();
+	}
+}
+
+void Settings::setFoamyDiscPerk(char c)
+{
+	if (c >= 65 && c <= 90 && isFree(c))
+	{
+		foamyDiscPerk_ = c - 65;
+		saveSettings();
+	}
+}
+
+void Settings::setHalfDeadPerk(char c)
+{
+	if (c >= 65 && c <= 90 && isFree(c))
+	{
+		halfDeadPerk_ = c - 65;
+		saveSettings();
+	}
+}
+
+void Settings::saveSettings()
 {
 	ofstream ofs;
 	ofs.open("./settings/settings.txt", ios::out);
@@ -115,6 +163,10 @@ void Settings::saveSattings()
 		ofs << moveRight_ << endl; 
 		ofs << shoot_ << endl; 
 		ofs << attack_ << endl;
+		ofs << fireBallPerk_ << endl;
+		ofs << iceBallPerk_ << endl;
+		ofs << foamyDiscPerk_ << endl;
+		ofs << halfDeadPerk_ << endl;
 
 		ofs.close();
 	}
@@ -150,6 +202,26 @@ int Settings::getAttack()
 	return attack_;
 }
 
+int Settings::getFireBallPerk()
+{
+	return fireBallPerk_;
+}
+
+int Settings::getIceBallPerk()
+{
+	return iceBallPerk_;
+}
+
+int Settings::getFoamyDiscPerk()
+{
+	return foamyDiscPerk_;
+}
+
+int Settings::getHalfDeadPerk()
+{
+	return halfDeadPerk_;
+}
+
 bool Settings::isFree(char c)
 {
 	if (moveUp_ == c - 65)
@@ -159,6 +231,14 @@ bool Settings::isFree(char c)
 	if (moveRight_ == c - 65)
 		return false;
 	if (shoot_ == c - 65)
+		return false;
+	if (fireBallPerk_ == c - 65)
+		return false;
+	if (iceBallPerk_ == c - 65)
+		return false;
+	if (foamyDiscPerk_ == c - 65)
+		return false;
+	if (halfDeadPerk_ == c - 65)
 		return false;
 
 	return true;

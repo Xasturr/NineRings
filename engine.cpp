@@ -220,20 +220,41 @@ int Engine::input()
 		player_->setDoubleDamage();
 	}
 
+	if (Keyboard::isKeyPressed(Keyboard::Key(settings_.getFireBallPerk())))
+	{
+		player_->setCurrShellName(Shells::fireBallShell_name);
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Key(settings_.getIceBallPerk())))
+	{
+		player_->setCurrShellName(Shells::iceBallShell_name);
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Key(settings_.getFoamyDiscPerk())))
+	{
+		player_->setCurrShellName(Shells::foamyDiscShell_name);
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Key(settings_.getHalfDeadPerk())))
+	{
+		player_->activateHalfDeadPerk();
+	}
+	else
+	{
+		player_->stopHalfDeadPerk();
+	}
+
 	return 0;
 }
 
-int Engine::getCurrPlayerHealthPoints()
+float Engine::getCurrPlayerHealthPoints()
 {
 	return player_->getCurrHealthPoints();
 }
 
-int Engine::getCurrPlayerMana()
+float Engine::getCurrPlayerMana()
 {
 	return player_->getCurrMana();
 }
 
-int Engine::getCurrPlayerStamina()
+float Engine::getCurrPlayerStamina()
 {
 	return player_->getCurrStamina();
 }
@@ -298,6 +319,11 @@ int Engine::getPlayerExp()
 	return player_->getCurrExp();
 }
 
+int Engine::getCurrPlayerShellName()
+{
+	return player_->getCurrShellName();
+}
+
 void Engine::changeRenderWindowMode()
 {
 	if (isFullscreen_)
@@ -329,11 +355,6 @@ gameWindow->setInvisible();
 string Engine::getClickedButtonId(GameWindow* gameWindow)
 {
 	return gameWindow->getClickedButtonId(&window_);
-}
-
-string Engine::getCurrPlayerShellName()
-{
-	return player_->getCurrShellName();
 }
 
 Event* Engine::getEvent()
@@ -420,7 +441,6 @@ void Engine::update(float elapsedTime)
 void Engine::draw(float elapsedTime)
 {
 	level_->buildMap(&window_, player_->getSprite().getPosition(), view_.getSize(), player_->getWidth(), player_->getHeight(), elapsedTime);
-	//level_->buildMap(&window_);
 	level_->updateAndDrawEnemies(&window_, player_, view_.getSize(), elapsedTime);
 	player_->flyingShellsUpdateAndDraw(elapsedTime, level_->getMap(), &window_);
 

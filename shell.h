@@ -5,6 +5,8 @@
 
 class Shell
 {
+protected:
+	bool doubleDamage_;
 public:
 	virtual ~Shell() {};
 
@@ -15,9 +17,12 @@ public:
 	virtual void spriteUpdate() = 0;
 	virtual void setCurrFrame(float increase) = 0;
 	virtual void setExplosed(bool flag) = 0;
+	virtual void setAlphaStrike(int alphaStrike) = 0;
+	virtual void setIsDoubleDamage(bool flag) = 0;
 
 	virtual bool getLife() = 0;
 	virtual bool getExplosed() = 0;
+	virtual bool isDoubleDamage() = 0;
 
 	virtual Vector2f getPosition() = 0;
 

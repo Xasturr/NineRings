@@ -67,6 +67,16 @@ void MagicDecorator::setExplosed(bool flag)
 	}
 }
 
+void MagicDecorator::setAlphaStrike(int alphaStrike)
+{
+	shell_->setAlphaStrike(alphaStrike);
+}
+
+void MagicDecorator::setIsDoubleDamage(bool flag)
+{
+	doubleDamage_ = flag;
+}
+
 bool MagicDecorator::getLife()
 {
 	if (shell_ != NULL)
@@ -81,6 +91,11 @@ bool MagicDecorator::getExplosed()
 	{
 		return shell_->getExplosed();
 	}
+}
+
+bool MagicDecorator::isDoubleDamage()
+{
+	return doubleDamage_;
 }
 
 Vector2f MagicDecorator::getPosition()

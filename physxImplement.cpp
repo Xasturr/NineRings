@@ -21,12 +21,4 @@ Strategy* PhysxImplement::makeStrategy(int param, int charName)
 			return new StrategyPeace1();
 		}
 	}
-	//if (param == StrategyType::StrategyPeace1_type)
-	//{
-	//	if (charName == Characters::Character1_name
-	//		|| charName == Characters::CharacterBat_name)
-	//	{
-	//		return new StrategyPeace1();
-	//	}
-	//}
 }

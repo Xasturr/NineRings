@@ -157,7 +157,6 @@
     <ClCompile Include="button.cpp" />
     <ClCompile Include="character1.cpp" />
     <ClCompile Include="characterBat.cpp" />
-    <ClCompile Include="collision.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="game.cpp" />
@@ -175,11 +174,13 @@
     <ClCompile Include="saveLoad.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="shellFireBall.cpp" />
+    <ClCompile Include="shellFoamyDisc.cpp" />
     <ClCompile Include="shellIceBall.cpp" />
     <ClCompile Include="strategyAnger1.cpp" />
     <ClCompile Include="strategyAnger2.cpp" />
     <ClCompile Include="strategyPeace1.cpp" />
     <ClCompile Include="treasureCoin.cpp" />
+    <ClCompile Include="treasureCoinInner.cpp" />
     <ClCompile Include="treasureFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +190,6 @@
     <ClInclude Include="character1.h" />
     <ClInclude Include="characterBat.h" />
     <ClInclude Include="Characters.h" />
-    <ClInclude Include="collision.h" />
     <ClInclude Include="decisionParams.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="engine.h" />
@@ -200,7 +200,9 @@
     <ClInclude Include="physxImplEnFly.h" />
     <ClInclude Include="resolutions.h" />
     <ClInclude Include="saveLoad.h" />
+    <ClInclude Include="shellFoamyDisc.h" />
     <ClInclude Include="shellIceBall.h" />
+    <ClInclude Include="Shells.h" />
     <ClInclude Include="states.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="level1.h" />
@@ -222,6 +224,7 @@
     <ClInclude Include="strategyTypes.h" />
     <ClInclude Include="treasure.h" />
     <ClInclude Include="treasureCoin.h" />
+    <ClInclude Include="treasureCoinInner.h" />
     <ClInclude Include="treasureFactory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

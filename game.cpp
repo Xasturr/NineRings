@@ -13,6 +13,7 @@ Game::Game()
 	iPressed_ = false;
 	tabPressed_ = false;
 	mouseButtonPressed_ = false;
+	escPressed_ = false;
 	//showNewLevel_ = false;
 
 	clickedButtonId_ = "";
@@ -110,6 +111,19 @@ Game::Game()
 	mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/6.gif");
 	mainMenuBackgroundAnim_->addTexture("./textures/backgrounds/mainMenu/7.gif");
 	mainMenuBackgroundAnim_->setSpriteScale(engineResX / texture.getSize().x, engineResY / texture.getSize().y);
+
+	texture.loadFromFile("./textures/backgrounds/inGameMenu/0001.png");
+
+	inGameMenuBackgroundAnim_ = new Animation(10);
+	inGameMenuBackgroundAnim_->addTexture("./textures/backgrounds/inGameMenu/0001.png");
+	inGameMenuBackgroundAnim_->addTexture("./textures/backgrounds/inGameMenu/0002.png");
+	inGameMenuBackgroundAnim_->addTexture("./textures/backgrounds/inGameMenu/0003.png");
+	inGameMenuBackgroundAnim_->addTexture("./textures/backgrounds/inGameMenu/0004.png");
+	inGameMenuBackgroundAnim_->addTexture("./textures/backgrounds/inGameMenu/0005.png");
+	inGameMenuBackgroundAnim_->addTexture("./textures/backgrounds/inGameMenu/0006.png");
+	inGameMenuBackgroundAnim_->addTexture("./textures/backgrounds/inGameMenu/0007.png");
+	inGameMenuBackgroundAnim_->addTexture("./textures/backgrounds/inGameMenu/0008.png");
+	inGameMenuBackgroundAnim_->setSpriteScale(engineResX / texture.getSize().x, engineResY / texture.getSize().y);
 	
 	textContinue.setFont(karmaSuture_);
 	textContinue.setCharacterSize(60);
@@ -134,6 +148,24 @@ Game::Game()
 	textExit.setOutlineThickness(4);
 	textExit.setPosition(90, 980);
 	textExit.setString("EXIT");
+
+	textResume_.setFont(karmaSuture_);
+	textResume_.setCharacterSize(60);
+	textResume_.setOutlineThickness(4);
+	textResume_.setPosition(90, 860);
+	textResume_.setString("Resume");
+
+	textSettings2_.setFont(karmaSuture_);
+	textSettings2_.setCharacterSize(60);
+	textSettings2_.setOutlineThickness(4);
+	textSettings2_.setPosition(90, 920);
+	textSettings2_.setString("Settings");
+
+	textQuit_.setFont(karmaSuture_);
+	textQuit_.setCharacterSize(60);
+	textQuit_.setOutlineThickness(4);
+	textQuit_.setPosition(90, 980);
+	textQuit_.setString("Quit");
 
 ////////////////////////////////////////////////////////////////
 
@@ -168,8 +200,8 @@ Game::Game()
 	spriteDrippingBladePerkDisable_.setTexture(textureDrippingBladePerkDisable_);
 	spriteFairyWandPerkAble_.setTexture(textureFairyWandPerkAble_);
 	spriteFairyWandPerkDisable_.setTexture(textureFairyWandPerkDisable_);
-	spriteFoamyDiscPerkAble_.setTexture(textureFairyWandPerkAble_);
-	spriteFoamyDiscPerkDisable_.setTexture(textureFairyWandPerkDisable_);
+	spriteFoamyDiscPerkAble_.setTexture(textureFoamyDiscPerkAble_);
+	spriteFoamyDiscPerkDisable_.setTexture(textureFoamyDiscPerkDisable_);
 	spriteHalfDeadPerkAble_.setTexture(textureHalfDeadPerkAble_);
 	spriteHalfDeadPerkDisable_.setTexture(textureHalfDeadPerkDisable_);
 	spriteHeartPlusPerkAble_.setTexture(textureHeartPlusPerkAble_);
@@ -559,6 +591,10 @@ void Game::play()
 				{
 					tabPressed_ = true;
 				}
+				if (event.key.code == Keyboard::Escape)
+				{
+					escPressed_ = true;
+				}
 			}
 			if (event.type == Event::KeyReleased)
 			{
@@ -576,19 +612,17 @@ void Game::play()
 				}
 				if (tabPressed_)
 				{
-					//if (showNewLevel_)
-					//{
-					//	showNewLevel_ = false;
-					//}
-					//else
-					//{
-					//	showNewLevel_ = true;
-					//}
 					perksMenu();
 					clock_.restart();
-					//elapsedTime_ = 0;
 					tabPressed_ = false;
-					//showNewLevel_ = true;
+				}
+				if (escPressed_)
+				{
+					escPressed_ = false;
+					if (inGameMenu() == 1)
+					{
+						return;
+					}
 				}
 			}
 		}
@@ -662,9 +696,9 @@ void Game::play()
 			textLevel_.setPosition(engine_->getViewCenter().x - 620, engine_->getViewCenter().y - 65);
 			textExp_.setPosition(engine_->getViewCenter().x - 620, engine_->getViewCenter().y - 35);
 
-			textHP_.setString("HP: " + to_string(engine_->getCurrPlayerHealthPoints()) + " of " + to_string(engine_->getMaxPlayerHealthPoints()));
-			textStamina_.setString("Stamina: " + to_string(engine_->getCurrPlayerStamina()) + " of " + to_string(engine_->getMaxPlayerStamina()));
-			textMana_.setString("Mana: " + to_string(engine_->getCurrPlayerMana()) + " of " + to_string(engine_->getMaxPlayerMana()));
+			textHP_.setString("HP: " + to_string((int)engine_->getCurrPlayerHealthPoints()) + " of " + to_string(engine_->getMaxPlayerHealthPoints()));
+			textStamina_.setString("Stamina: " + to_string((int)engine_->getCurrPlayerStamina()) + " of " + to_string(engine_->getMaxPlayerStamina()));
+			textMana_.setString("Mana: " + to_string((int)engine_->getCurrPlayerMana()) + " of " + to_string(engine_->getMaxPlayerMana()));
 			textShellsAmount_.setString(engine_->getCurrPlayerShellName() + " " + to_string(engine_->getCurrPlayerShellAmount()));
 			textPosX_.setString("PosX: " + to_string(engine_->getCurrPlayerPosX()));
 			textPosY_.setString("PosY: " + to_string(engine_->getCurrPlayerPosY()));
@@ -792,75 +826,111 @@ void Game::chooseLevelMenu()
 
 void Game::settings()
 {
+	engine_->setView(0, 0, engine_->getResolution().x, engine_->getResolution().y);
 	//window_.setMouseCursorVisible(true);
 
-	//view_.reset(sf::FloatRect(0, 0, resolution_.x, resolution_.y));
-	//window_.setView(view_);
-
-	Text jumpText, turnLeftText, turnRightText, shootText, backText;
-	Text jumpOptionText, turnLeftOptionText, turnRightOptionText, shootOptionText;
+	Text jumpText, turnLeftText, turnRightText, shootText, backText, fireBallText, iceBallText, foamyDiscText, halfDeadText;
+	Text jumpOptionText, turnLeftOptionText, turnRightOptionText, shootOptionText, fireBallOptionText, iceBallOptionText, foamyDiscOptionText, halfDeadOptionText;
 
 	jumpText.setFont(karmaSuture_);
 	jumpText.setString("Jump");
-	jumpText.setPosition(130, 210);
+	jumpText.setPosition(130, 140);
 	jumpText.setOutlineThickness(3);
-	jumpText.setCharacterSize(70);
+	jumpText.setCharacterSize(60);
 
 	jumpOptionText.setFont(karmaSuture_);
-	jumpOptionText.setPosition(590, 210); //740
+	jumpOptionText.setPosition(590, 140); 
 	jumpOptionText.setOutlineThickness(3);
-	jumpOptionText.setCharacterSize(70);
+	jumpOptionText.setCharacterSize(60);
 
 	turnLeftOptionText.setFont(karmaSuture_);
-	turnLeftOptionText.setPosition(590, 350); //550
+	turnLeftOptionText.setPosition(590, 230); 
 	turnLeftOptionText.setOutlineThickness(3);
-	turnLeftOptionText.setCharacterSize(70);
+	turnLeftOptionText.setCharacterSize(60);
 
 	turnLeftText.setFont(karmaSuture_);
 	turnLeftText.setString("Turn left");
-	turnLeftText.setPosition(130, 350);
+	turnLeftText.setPosition(130, 230);
 	turnLeftText.setOutlineThickness(3);
-	turnLeftText.setCharacterSize(70);
+	turnLeftText.setCharacterSize(60);
 
 	turnRightOptionText.setFont(karmaSuture_);
-	turnRightOptionText.setPosition(590, 490);
+	turnRightOptionText.setPosition(590, 320);
 	turnRightOptionText.setOutlineThickness(3);
-	turnRightOptionText.setCharacterSize(70);
+	turnRightOptionText.setCharacterSize(60);
 
 	turnRightText.setFont(karmaSuture_);
 	turnRightText.setString("Turn right");
-	turnRightText.setPosition(130, 490);
+	turnRightText.setPosition(130, 320);
 	turnRightText.setOutlineThickness(3);
-	turnRightText.setCharacterSize(70);
+	turnRightText.setCharacterSize(60);
 
 	shootOptionText.setFont(karmaSuture_);
-	shootOptionText.setPosition(590, 630); //405
+	shootOptionText.setPosition(590, 410); 
 	shootOptionText.setOutlineThickness(3);
-	shootOptionText.setCharacterSize(70);
+	shootOptionText.setCharacterSize(60);
 
 	shootText.setFont(karmaSuture_);
 	shootText.setString("Shoot");
-	shootText.setPosition(130, 630);
+	shootText.setPosition(130, 410);
 	shootText.setOutlineThickness(3);
-	shootText.setCharacterSize(70);
+	shootText.setCharacterSize(60);
+
+	fireBallText.setFont(karmaSuture_);
+	fireBallText.setString("Fireball");
+	fireBallText.setPosition(130, 500);
+	fireBallText.setOutlineThickness(3);
+	fireBallText.setCharacterSize(60);
+
+	fireBallOptionText.setFont(karmaSuture_);
+	fireBallOptionText.setPosition(590, 500);
+	fireBallOptionText.setOutlineThickness(3);
+	fireBallOptionText.setCharacterSize(60);
+
+	iceBallOptionText.setFont(karmaSuture_);
+	iceBallOptionText.setPosition(590, 590);
+	iceBallOptionText.setOutlineThickness(3);
+	iceBallOptionText.setCharacterSize(60);
+
+	iceBallText.setFont(karmaSuture_);
+	iceBallText.setString("Iceball");
+	iceBallText.setPosition(130, 590);
+	iceBallText.setOutlineThickness(3);
+	iceBallText.setCharacterSize(60);
+
+	foamyDiscOptionText.setFont(karmaSuture_);
+	foamyDiscOptionText.setPosition(590, 680);
+	foamyDiscOptionText.setOutlineThickness(3);
+	foamyDiscOptionText.setCharacterSize(60);
+	
+	foamyDiscText.setFont(karmaSuture_);
+	foamyDiscText.setString("Poisonball");
+	foamyDiscText.setPosition(130, 680);
+	foamyDiscText.setOutlineThickness(3);
+	foamyDiscText.setCharacterSize(60);
+
+	halfDeadOptionText.setFont(karmaSuture_);
+	halfDeadOptionText.setPosition(590, 770);
+	halfDeadOptionText.setOutlineThickness(3);
+	halfDeadOptionText.setCharacterSize(60);
+
+	halfDeadText.setFont(karmaSuture_);
+	halfDeadText.setString("Halfdead");
+	halfDeadText.setPosition(130, 770);
+	halfDeadText.setOutlineThickness(3);
+	halfDeadText.setCharacterSize(60);
 
 	backText.setFont(karmaSuture_);
 	backText.setString("BACK");
-	backText.setPosition(1640, 900);
+	backText.setPosition(1650, 920);
 	backText.setOutlineThickness(3);
-	backText.setCharacterSize(70);
+	backText.setCharacterSize(60);
 
 	int menuState;
 	clock_.restart();
-	Time time;
 
 	while (engine_->renderWindowIsOpen())
 	{
-		if (time.asSeconds() > 100000)
-			time = clock_.restart();
-		else
-			time += clock_.restart();
-
 		menuState = -1;
 
 		jumpOptionText.setFillColor(Color::Black);
@@ -891,21 +961,50 @@ void Game::settings()
 		shootText.setFillColor(Color::Black);
 		shootText.setOutlineColor(Color::Red);
 
+		fireBallText.setFillColor(Color::Black);
+		fireBallText.setOutlineColor(Color::Red);
+
+		fireBallOptionText.setFillColor(Color::Black);
+		fireBallOptionText.setOutlineColor(Color::Red);
+		fireBallOptionText.setString((char)(engine_->getSettings()->getFireBallPerk() + 65));
+
+		iceBallText.setFillColor(Color::Black);
+		iceBallText.setOutlineColor(Color::Red);
+
+		iceBallOptionText.setFillColor(Color::Black);
+		iceBallOptionText.setOutlineColor(Color::Red);
+		iceBallOptionText.setString((char)(engine_->getSettings()->getIceBallPerk() + 65));
+
+		foamyDiscText.setFillColor(Color::Black);
+		foamyDiscText.setOutlineColor(Color::Red);
+
+		foamyDiscOptionText.setFillColor(Color::Black);
+		foamyDiscOptionText.setOutlineColor(Color::Red);
+		foamyDiscOptionText.setString((char)(engine_->getSettings()->getFoamyDiscPerk() + 65));
+
+		halfDeadText.setFillColor(Color::Black);
+		halfDeadText.setOutlineColor(Color::Red);
+
+		halfDeadOptionText.setFillColor(Color::Black);
+		halfDeadOptionText.setOutlineColor(Color::Red);
+		halfDeadOptionText.setString((char)(engine_->getSettings()->getHalfDeadPerk() + 65));
+
 		backText.setFillColor(Color::Black);
 		backText.setOutlineColor(Color::Red);
+
 
 		if (engine_->getEvent()->type == Event::Closed)
 		{
 			engine_->closeRenderWindow();
 		}
 		
-		if (engine_->mouseContains(1512, 905, 400, 90))
+		if (engine_->mouseContains(backText.getGlobalBounds()))
 		{
 			backText.setFillColor(Color::Red);
 			backText.setOutlineColor(Color::Black);
 			menuState = 0;
 		}
-		if (engine_->mouseContains(100, 215, 1720, 90))
+		else if (engine_->mouseContains(jumpText.getGlobalBounds()))
 		{
 			jumpOptionText.setFillColor(Color::Red);
 			jumpOptionText.setOutlineColor(Color::Black);
@@ -915,8 +1014,7 @@ void Game::settings()
 
 			menuState = 1;
 		}
-//355
-		if (engine_->mouseContains(100, 355, 1720, 90))
+		else if (engine_->mouseContains(turnLeftText.getGlobalBounds()))
 		{
 			turnLeftOptionText.setFillColor(Color::Red);
 			turnLeftOptionText.setOutlineColor(Color::Black);
@@ -924,9 +1022,9 @@ void Game::settings()
 			turnLeftText.setFillColor(Color::Red);
 			turnLeftText.setOutlineColor(Color::Black);
 
-			menuState = 3;
+			menuState = 2;
 		}
-		if (engine_->mouseContains(100, 495, 1720, 90))
+		else if (engine_->mouseContains(turnRightText.getGlobalBounds()))
 		{
 			turnRightOptionText.setFillColor(Color::Red);
 			turnRightOptionText.setOutlineColor(Color::Black);
@@ -934,9 +1032,9 @@ void Game::settings()
 			turnRightText.setFillColor(Color::Red);
 			turnRightText.setOutlineColor(Color::Black);
 
-			menuState = 4;
+			menuState = 3;
 		}
-		if (engine_->mouseContains(100, 635, 1720, 90))
+		else if (engine_->mouseContains(shootText.getGlobalBounds()))
 		{
 			shootOptionText.setFillColor(Color::Red);
 			shootOptionText.setOutlineColor(Color::Black);
@@ -944,7 +1042,96 @@ void Game::settings()
 			shootText.setFillColor(Color::Red);
 			shootText.setOutlineColor(Color::Black);
 
+			menuState = 4;
+		}
+		else if (engine_->mouseContains(fireBallText.getGlobalBounds()))
+		{
+			fireBallOptionText.setFillColor(Color::Red);
+			fireBallOptionText.setOutlineColor(Color::Black);
+
+			fireBallText.setFillColor(Color::Red);
+			fireBallText.setOutlineColor(Color::Black);
+
 			menuState = 5;
+		}
+		else if (engine_->mouseContains(iceBallText.getGlobalBounds()))
+		{
+			iceBallOptionText.setFillColor(Color::Red);
+			iceBallOptionText.setOutlineColor(Color::Black);
+
+			iceBallText.setFillColor(Color::Red);
+			iceBallText.setOutlineColor(Color::Black);
+
+			menuState = 6;
+		}
+		else if (engine_->mouseContains(foamyDiscText.getGlobalBounds()))
+		{
+			foamyDiscOptionText.setFillColor(Color::Red);
+			foamyDiscOptionText.setOutlineColor(Color::Black);
+
+			foamyDiscText.setFillColor(Color::Red);
+			foamyDiscText.setOutlineColor(Color::Black);
+
+			menuState = 7;
+		}
+		else if (engine_->mouseContains(halfDeadText.getGlobalBounds()))
+		{
+			halfDeadOptionText.setFillColor(Color::Red);
+			halfDeadOptionText.setOutlineColor(Color::Black);
+
+			halfDeadText.setFillColor(Color::Red);
+			halfDeadText.setOutlineColor(Color::Black);
+
+			menuState = 8;
+		}
+
+		while (engine_->renderWindowPollEvent())
+		{
+			Event event = *engine_->getEvent();
+
+			if (event.type == Event::Closed)
+			{
+				engine_->closeRenderWindow();
+			}
+
+			if (event.type == Event::MouseButtonPressed && event.key.code == Mouse::Left)
+			{
+				mouseButtonPressed_ = true;
+			}
+			if (event.type == Event::MouseButtonReleased && mouseButtonPressed_)
+			{
+				if (menuState > 0)
+				{
+					while (true)
+					{
+						engine_->renderWindowPollEvent();
+
+						if (engine_->getEvent()->type == Event::TextEntered)
+						{
+							if (menuState == 1)
+								engine_->getSettings()->setMoveUp(engine_->getEvent()->text.unicode - 32);
+							else if (menuState == 2)
+								engine_->getSettings()->setMoveLeft(engine_->getEvent()->text.unicode - 32);
+							else if (menuState == 3)
+								engine_->getSettings()->setMoveRight(engine_->getEvent()->text.unicode - 32);
+							else if (menuState == 4)
+								engine_->getSettings()->setShoot(engine_->getEvent()->text.unicode - 32);
+							else if (menuState == 5)
+								engine_->getSettings()->setFireBallPerk(engine_->getEvent()->text.unicode - 32);
+							else if (menuState == 6)
+								engine_->getSettings()->setIceBallPerk(engine_->getEvent()->text.unicode - 32);
+							else if (menuState == 7)
+								engine_->getSettings()->setFoamyDiscPerk(engine_->getEvent()->text.unicode - 32);
+							else if (menuState == 8)
+								engine_->getSettings()->setHalfDeadPerk(engine_->getEvent()->text.unicode - 32);
+
+							break;
+						}
+					}
+				}
+
+				mouseButtonPressed_ = false;
+			}
 		}
 
 		if (Mouse::isButtonPressed(Mouse::Left) && menuState == 0)
@@ -952,32 +1139,31 @@ void Game::settings()
 			break;
 		}
 
-		if (Mouse::isButtonPressed(Mouse::Left) && menuState > 0 && time.asSeconds() > 1)
-		{
-			while (1)
-			{
-				//window_.pollEvent(event);
-				engine_->renderWindowPollEvent();
-				
-				if (engine_->getEvent()->type == Event::TextEntered)
-				{
-					if (menuState == 1)
-						engine_->getSettings()->setMoveUp(engine_->getEvent()->text.unicode - 32);
-					if (menuState == 3)
-						engine_->getSettings()->setMoveLeft(engine_->getEvent()->text.unicode - 32);
-					if (menuState == 4)
-						engine_->getSettings()->setMoveRight(engine_->getEvent()->text.unicode - 32);
-					if (menuState == 5)
-						engine_->getSettings()->setShoot(engine_->getEvent()->text.unicode - 32);
+		//if (Mouse::isButtonPressed(Mouse::Left) && menuState > 0 && time.asSeconds() > 1)
+		//{
+		//	while (1)
+		//	{
+		//		//window_.pollEvent(event);
+		//		engine_->renderWindowPollEvent();
+		//		
+		//		if (engine_->getEvent()->type == Event::TextEntered)
+		//		{
+		//			if (menuState == 1)
+		//				engine_->getSettings()->setMoveUp(engine_->getEvent()->text.unicode - 32);
+		//			if (menuState == 3)
+		//				engine_->getSettings()->setMoveLeft(engine_->getEvent()->text.unicode - 32);
+		//			if (menuState == 4)
+		//				engine_->getSettings()->setMoveRight(engine_->getEvent()->text.unicode - 32);
+		//			if (menuState == 5)
+		//				engine_->getSettings()->setShoot(engine_->getEvent()->text.unicode - 32);
 
-					break;
-				}
-			}
-		}
+		//			break;
+		//		}
+		//	}
+		//}
 
 		engine_->renderWindowClear();
 
-		//engine_->drawSprite(spriteSettings_);
 		engine_->draw(mainMenuBackgroundAnim_, elapsedTime_);
 
 		engine_->draw(jumpOptionText);
@@ -989,6 +1175,14 @@ void Game::settings()
 		engine_->draw(shootOptionText);
 		engine_->draw(shootText);
 		engine_->draw(backText);
+		engine_->draw(fireBallText);
+		engine_->draw(fireBallOptionText);
+		engine_->draw(iceBallText);
+		engine_->draw(iceBallOptionText);
+		engine_->draw(foamyDiscText);
+		engine_->draw(foamyDiscOptionText);
+		engine_->draw(halfDeadText);
+		engine_->draw(halfDeadOptionText);
 
 		engine_->renderWindowDisplay();
 	}
@@ -999,9 +1193,6 @@ void Game::perksMenu()
 	int menuState;
 	int currMenuState = 0;
 	clock_.restart();
-	Time time;
-
-	Player* player = engine_->getPlayer();
 
 	engine_->setView(0, 0, engine_->getResolution().x, engine_->getResolution().y);
 
@@ -1072,11 +1263,6 @@ void Game::perksMenu()
 
 	while (engine_->renderWindowIsOpen())
 	{
-		if (time.asSeconds() > 100000)
-			time = clock_.restart();
-		else
-			time += clock_.restart();
-
 		menuState = -1;
 
 		textPerksMenuBack_.setFillColor(Color::Red);
@@ -1100,65 +1286,42 @@ void Game::perksMenu()
 		}
 		else if (engine_->mouseContains(spriteChestArmorPerkAble_))
 		{
-			//cout << "chestArmorPerk" << endl;
-
 			menuState = 1;
-			currMenuState = 1;
 		}
 		else if (engine_->mouseContains(spriteHeartPlusPerkAble_))
 		{
-			//cout << "heartPlusPerk" << endl;
-
 			menuState = 2;
-			currMenuState = 2;
 		}
 		else if (engine_->mouseContains(spriteFairyWandPerkAble_))
 		{
-			cout << "fairyWandPerk" << endl;
-
 			menuState = 3;
-			currMenuState = 3;
 		}
 		else if (engine_->mouseContains(spriteFoamyDiscPerkAble_))
 		{
-			cout << "foamyDiscPerk" << endl;
-
 			menuState = 4;
 		}
 		else if (engine_->mouseContains(spriteIceBoltPerkAble_))
 		{
-			cout << "iceBoltPerk" << endl;
-
 			menuState = 5;
 		}
 		else if (engine_->mouseContains(spriteJugglerPerkAble_))
 		{
-			cout << "jugglerPerk" << endl;
-
 			menuState = 6;
 		}
 		else if (engine_->mouseContains(spriteDrippingBladePerkAble_))
 		{
-			cout << "drippingBladePerk" << endl;
-
 			menuState = 7;
 		}
 		else if (engine_->mouseContains(spriteHalfDeadPerkAble_))
 		{
-			//cout << "halfDeadPerk" << endl;
-
 			menuState = 8;
 		}
 		else if (engine_->mouseContains(spriteTripleScratchesPerkAble_))
 		{
-			//cout << "tripleScratchesPerk" << endl;
-
 			menuState = 9;
 		}
 		else if (engine_->mouseContains(spriteVampireDraculaPerkAble_))
 		{
-			//cout << "vampireDraculaPerk" << endl;
-
 			menuState = 10;
 		}
 
@@ -1202,6 +1365,34 @@ void Game::perksMenu()
 							{
 								engine_->getPlayer()->setFairyWandPerk();
 							}
+							else if (currMenuState == 4)
+							{
+								engine_->getPlayer()->setFoamyDiscPerk();
+							}
+							else if (currMenuState == 5)
+							{
+								engine_->getPlayer()->setIceBallPerk();
+							}
+							else if (currMenuState == 6)
+							{
+								engine_->getPlayer()->setJugglerPerk();
+							}
+							else if (currMenuState == 7)
+							{
+								engine_->getPlayer()->setDrippingBladePerk();
+							}
+							else if (currMenuState == 8)
+							{
+								engine_->getPlayer()->setHalfDeadPerk();
+							}
+							else if (currMenuState == 9)
+							{
+								engine_->getPlayer()->setTripleScratchesPerk();
+							}
+							else if (currMenuState == 10)
+							{
+								engine_->getPlayer()->setVampireDraculaPerk();
+							}
 						}
 					}
 
@@ -1212,11 +1403,14 @@ void Game::perksMenu()
 
 				if (menuState == 0 && mouseButtonPressed_)
 				{
+					currMenuState = 0;
 					//player->setFairyWandPerk();
 					return;
 				}
 				else if (menuState == 1 && mouseButtonPressed_)
 				{
+					currMenuState = 1;
+
 					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.chestArmorPerkLevel_) + " max -");
 					textPerkDescription_.setString("Description:\n+" + to_string(playerPerks.chestArmorPerkBonus_) + "% damage resistance");
 
@@ -1227,6 +1421,8 @@ void Game::perksMenu()
 				}
 				else if (menuState == 2 && mouseButtonPressed_)
 				{
+					currMenuState = 2;
+
 					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.heartPlusPerkLevel_) + " max -");
 					textPerkDescription_.setString("Description:\n+" + to_string(playerPerks.heartPlusPerkBonus_) + " hp");
 
@@ -1237,6 +1433,8 @@ void Game::perksMenu()
 				}
 				else if (menuState == 3 && mouseButtonPressed_)
 				{
+					currMenuState = 3;
+
 					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.fairyWandPerkLevel_) + " max -");
 					textPerkDescription_.setString("Description:\n+" + to_string(playerPerks.fairyWandPerkBonus_) + " mana");
 
@@ -1247,30 +1445,86 @@ void Game::perksMenu()
 				}
 				else if (menuState == 4 && mouseButtonPressed_)
 				{
+					currMenuState = 4;
+
+					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.foamyDiscPerkLevel_) + " max 1");
+					textPerkDescription_.setString("Description:\nPoisoning magical skill");
+
+					gameWindowPerk->deleteTexts();
+					gameWindowPerk->addText(textCurrPerkLevel_);
+					gameWindowPerk->addText(textPerkDescription_);
 					engine_->setGameWindowVisible(gameWindowPerk);
 				}
 				else if (menuState == 5 && mouseButtonPressed_)
 				{
+					currMenuState = 5;
+
+					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.iceBallPerkLevel_) + " max 1");
+					textPerkDescription_.setString("Description:\nFreezing magical skill");
+
+					gameWindowPerk->deleteTexts();
+					gameWindowPerk->addText(textCurrPerkLevel_);
+					gameWindowPerk->addText(textPerkDescription_);
 					engine_->setGameWindowVisible(gameWindowPerk);
 				}
 				else if (menuState == 6 && mouseButtonPressed_)
 				{
+					currMenuState = 6;
+
+					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.jugglerPerkLevel_) + " max 3");
+					textPerkDescription_.setString("Description:\nGives more magical damage:\nLevel 1: +50 damage\nLevel 2: +100 damage\nLevel 3: +150 damage\n");
+
+					gameWindowPerk->deleteTexts();
+					gameWindowPerk->addText(textCurrPerkLevel_);
+					gameWindowPerk->addText(textPerkDescription_);
 					engine_->setGameWindowVisible(gameWindowPerk);
 				}
 				else if (menuState == 7 && mouseButtonPressed_)
 				{
+					currMenuState = 7;
+
+					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.drippingBladePerkLevel_) + " max 3");
+					textPerkDescription_.setString("Description:\nGives more hand damage:\nLevel 1: +100 damage\nLevel 2: +175 damage\nLevel 3: +250 damage\n");
+
+					gameWindowPerk->deleteTexts();
+					gameWindowPerk->addText(textCurrPerkLevel_);
+					gameWindowPerk->addText(textPerkDescription_);
 					engine_->setGameWindowVisible(gameWindowPerk);
 				}
 				else if (menuState == 8 && mouseButtonPressed_)
 				{
+					currMenuState = 8;
+
+					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.halfDeadPerkLevel_) + " max 1");
+					textPerkDescription_.setString("Description:\nConverts mana into hp");
+
+					gameWindowPerk->deleteTexts();
+					gameWindowPerk->addText(textCurrPerkLevel_);
+					gameWindowPerk->addText(textPerkDescription_);
 					engine_->setGameWindowVisible(gameWindowPerk);
 				}
 				else if (menuState == 9 && mouseButtonPressed_)
 				{
+					currMenuState = 9;
+
+					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.tripleScratchesPerkLevel_) + " max 1");
+					textPerkDescription_.setString("Description:\nIncreases player's damage on 30%\nif hp is lower than 50%");
+
+					gameWindowPerk->deleteTexts();
+					gameWindowPerk->addText(textCurrPerkLevel_);
+					gameWindowPerk->addText(textPerkDescription_);
 					engine_->setGameWindowVisible(gameWindowPerk);
 				}
 				else if (menuState == 10 && mouseButtonPressed_)
 				{
+					currMenuState = 10;
+
+					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.vampireDraculaPerkLevel_) + " max 1");
+					textPerkDescription_.setString("Description:\n15% vampirism");
+
+					gameWindowPerk->deleteTexts();
+					gameWindowPerk->addText(textCurrPerkLevel_);
+					gameWindowPerk->addText(textPerkDescription_);
 					engine_->setGameWindowVisible(gameWindowPerk);
 				}
 				mouseButtonPressed_ = false;
@@ -1283,6 +1537,141 @@ void Game::perksMenu()
 		drawPerksMenu();
 
 		engine_->draw(gameWindowPerk);
+
+		engine_->renderWindowDisplay();
+	}
+}
+
+int Game::inGameMenu()
+{
+	engine_->setView(0, 0, engine_->getResolution().x, engine_->getResolution().y);
+	//engine_->load();
+
+	int menuState = 0;
+
+	Vector2f rectSize;
+	rectSize.x = 380;
+	rectSize.y = 200;
+
+	//clickTime_ = 2;
+	clock_.restart();
+
+	while (engine_->renderWindowIsOpen())
+	{
+		Event event;
+		menuState = -1;
+		elapsedTime_ = clock_.restart().asSeconds();
+
+		//TextColor////////////////////////////////////
+
+		textResume_.setFillColor(Color::Black);
+		textResume_.setOutlineColor(Color::Red);
+
+		textSettings2_.setFillColor(Color::Black);
+		textSettings2_.setOutlineColor(Color::Red);
+
+		textQuit_.setFillColor(Color::Black);
+		textQuit_.setOutlineColor(Color::Red);
+
+		///////////////////////////////////////////////
+
+		//Containing///////////////////////////////////
+
+	
+		if (engine_->mouseContains(textResume_.getGlobalBounds()))
+		{
+			textResume_.setFillColor(Color::Red);
+			textResume_.setOutlineColor(Color::Black);
+			menuState = 0;
+		}
+		if (engine_->mouseContains(textSettings2_.getGlobalBounds()))
+		{
+			textSettings2_.setFillColor(Color::Red);
+			textSettings2_.setOutlineColor(Color::Black);
+			menuState = 1;
+		}
+		if (engine_->mouseContains(textQuit_.getGlobalBounds()))
+		{
+			textQuit_.setFillColor(Color::Red);
+			textQuit_.setOutlineColor(Color::Black);
+			menuState = 2;
+		}
+
+		////////////////////////////////////////////
+
+		//PollEvent/////////////////////////////
+
+		while (engine_->renderWindowPollEvent())
+		{
+			Event event = *engine_->getEvent();
+			if (event.type == Event::Closed)
+			{
+				engine_->closeRenderWindow();
+			}
+
+			if (event.type == Event::MouseButtonPressed)
+			{
+				if (event.key.code == Mouse::Left)
+				{
+					mouseButtonPressed_ = true;
+				}
+			}
+			else if (event.type == Event::KeyPressed)
+			{
+				if (event.key.code == Keyboard::Escape)
+				{
+					escPressed_ = true;
+				}
+			}
+			else if (event.type == Event::KeyReleased)
+			{
+				if (escPressed_)
+				{
+					escPressed_ = false;
+					return 0;
+				}
+			}
+			if (event.type == Event::MouseButtonReleased)
+			{
+				if (menuState == 0 && mouseButtonPressed_)
+				{
+					return 0;
+				}
+				else if (menuState == 1 && mouseButtonPressed_)
+				{
+					settings();
+					clock_.restart();
+				}
+				else if (menuState == 2 && mouseButtonPressed_)
+				{
+					return 1;
+					clock_.restart();
+				}
+
+				mouseButtonPressed_ = false;
+			}
+		}
+
+		///////////////////////////////////////////
+
+		if (Keyboard::isKeyPressed(Keyboard::LAlt) && Keyboard::isKeyPressed(Keyboard::Enter) && engine_->isRenderWindowFullscreen() == false)
+		{
+			engine_->createRenderWindow(VideoMode::getDesktopMode(), "NineRings", "Fullscreen");
+			engine_->changeRenderWindowMode();
+		}
+
+		if (Keyboard::isKeyPressed(Keyboard::LAlt) && Keyboard::isKeyPressed(Keyboard::Enter) && engine_->isRenderWindowFullscreen() == true)
+		{
+			engine_->createRenderWindow(VideoMode::getDesktopMode(), "NineRings", "Close");
+			engine_->changeRenderWindowMode();
+		}
+
+		engine_->renderWindowClear();
+
+		engine_->draw(inGameMenuBackgroundAnim_, elapsedTime_);
+		engine_->draw(textResume_);
+		engine_->draw(textSettings2_);
+		engine_->draw(textQuit_);
 
 		engine_->renderWindowDisplay();
 	}

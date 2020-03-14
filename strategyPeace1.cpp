@@ -1,5 +1,10 @@
 #include "strategyPeace1.h"
 
+StrategyPeace1::StrategyPeace1()
+{
+	cout << "In StrategyPeace constructor" << endl;
+}
+
 StrategyPeace1::~StrategyPeace1()
 {
 	cout << "In StrategyPeace destructor" << endl;
@@ -29,4 +34,9 @@ void StrategyPeace1::decision(Player* player, Character* character, states* stat
 		//	character->setState("staying");
 		//}
 	}
+}
+
+int StrategyPeace1::getStrategyParam()
+{
+	return StrategyParams::peacful;
 }

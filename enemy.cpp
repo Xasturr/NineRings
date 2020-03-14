@@ -20,18 +20,6 @@ Enemy::Enemy(int charName, float posX, float posY, PhysxImplement* physx)
 
 	physx_ = physx;
 	character_->setPosition(posX, posY);
-	//states_.leftPressed_ = false;
-	//states_.rightPressed_ = false;
-	//states_.upPressed_ = false;
-	//states_.downPressed_ = false;
-	//states_.attack_ = false;
-	//states_.runAttack_ = false;
-	//states_.angryState_ = false;
-	//states_.onEdge_ = false;
-
-	//stayingTime_ = 0;
-	//runningTime_ = 0;
-
 }
 
 Enemy::~Enemy()
@@ -44,6 +32,11 @@ Enemy::~Enemy()
 bool Enemy::getEnemyLife()
 {
 	return character_->getLife();
+}
+
+bool Enemy::getHurt()
+{
+	return character_->getHurt();
 }
 
 void Enemy::updatePosition(float elapsedTime)
@@ -184,14 +177,24 @@ void Enemy::checkDamage(Player* player)
 	{
 		if (player->getCurrPosition().y - player->getHeight() < character_->getCurrPosition().y && player->getCurrPosition().y > character_->getCurrPosition().y - character_->getHeight())
 		{
+			cout << player->getAttackDamage() + (float)player->getAttackDamage() / 100 * (float)player->getTripleScratchesPerkBonus() << endl;
+			cout << player->getAttackDamage() << endl;
 			if (player->getCurrSpriteSide() == "left")
 			{
 				if (player->getCurrPosition().x - player->getAttackRange() <= character_->getCurrPosition().x + character_->getWidth() / 2 && player->getCurrPosition().x > character_->getCurrPosition().x)
 				{
 					player->setEnemyDamaged(true);
 					int oldHp = character_->getCurrHealthPoints();
-					character_->setCurrHealthPoints(character_->getCurrHealthPoints() - player->getAttackDamage());
-					if (player->getVampireDraculaPerkLevel() == 1 && player->getCurrHealthPoints() < player->getMaxHealthPoints())
+					if (player->getCurrHealthPoints() * 2 <= player->getMaxHealthPoints() && player->getTripleScratchesPerkLevel())
+					{
+						character_->setCurrHealthPoints(character_->getCurrHealthPoints() - player->getAttackDamage() - (float)player->getAttackDamage() / 100 * (float)player->getTripleScratchesPerkBonus());
+					}
+					else
+					{
+						character_->setCurrHealthPoints(character_->getCurrHealthPoints() - player->getAttackDamage());
+					}
+
+					if (player->getCurrVampireDraculaPerkLevel() == 1 && player->getCurrHealthPoints() < player->getMaxHealthPoints())
 					{
 						player->setCurrHealthPoints(player->getCurrHealthPoints() + player->getVampireDraculaPerkBonus() * float(oldHp - character_->getCurrHealthPoints()) / 100);
 						if (player->getMaxHealthPoints() < player->getCurrHealthPoints())
@@ -199,6 +202,7 @@ void Enemy::checkDamage(Player* player)
 							player->setCurrHealthPoints(player->getMaxHealthPoints());
 						}
 					}
+					
 					cout << "Enemy health: " << character_->getCurrHealthPoints() << endl;
 					character_->setHurt(true);
 				}
@@ -209,8 +213,15 @@ void Enemy::checkDamage(Player* player)
 				{
 					player->setEnemyDamaged(true);
 					int oldHp = character_->getCurrHealthPoints();
-					character_->setCurrHealthPoints(character_->getCurrHealthPoints() - player->getAttackDamage());
-					if (player->getVampireDraculaPerkLevel() == 1 && player->getCurrHealthPoints() < player->getMaxHealthPoints())
+					if (player->getCurrHealthPoints() * 2 <= player->getMaxHealthPoints() && player->getTripleScratchesPerkLevel())
+					{
+						character_->setCurrHealthPoints(character_->getCurrHealthPoints() - player->getAttackDamage() - (float)player->getAttackDamage() / 100 * (float)player->getTripleScratchesPerkBonus());
+					}
+					else
+					{
+						character_->setCurrHealthPoints(character_->getCurrHealthPoints() - player->getAttackDamage());
+					}
+					if (player->getCurrVampireDraculaPerkLevel() && player->getCurrHealthPoints() < player->getMaxHealthPoints())
 					{
 						player->setCurrHealthPoints(player->getCurrHealthPoints() + player->getVampireDraculaPerkBonus() * float(oldHp - character_->getCurrHealthPoints()) / 100);
 						if (player->getMaxHealthPoints() < player->getCurrHealthPoints())
@@ -250,8 +261,3 @@ void Enemy::checkDamage(Player* player)
 		}
 	}
 }
-
-//void Enemy::makeStrategy(int choice)
-//{
-//	physx_->makeStrategy(choice, character_->getName());
-//}

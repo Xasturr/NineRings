@@ -1,5 +1,10 @@
 #include "strategyAnger2.h"
 
+StrategyAnger2::StrategyAnger2()
+{
+	cout << "In strategyAnger2 constructor" << endl;
+}
+
 StrategyAnger2::~StrategyAnger2()
 {
 	cout << "In StrategyAnger2 destructor" << endl;
@@ -49,4 +54,9 @@ void StrategyAnger2::decision(Player* player, Character* character, states* stat
 
 		return;
 	}
+}
+
+int StrategyAnger2::getStrategyParam()
+{
+	return StrategyParams::angry;
 }

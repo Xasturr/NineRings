@@ -7,7 +7,6 @@
 #include "gameWindow.h"
 #include "level.h"
 #include "player.h"
-#include "collision.h"
 #include "settings.h"
 #include "resolutions.h"
 #include "animation.h"
@@ -63,6 +62,10 @@ public:
 
 	Settings* getSettings();
 
+	float getCurrPlayerHealthPoints();
+	float getCurrPlayerStamina();
+	float getCurrPlayerMana();
+
 	void createRenderWindow(VideoMode videoMode, string title, string windowStyle);
 	void renderWindowClear();
 	void renderWindowDisplay();
@@ -98,9 +101,6 @@ public:
 	bool isNewGame();
 
 	int input();
-	int getCurrPlayerHealthPoints();
-	int getCurrPlayerMana();
-	int getCurrPlayerStamina();
 	int getMaxPlayerHealthPoints();
 	int getMaxPlayerMana();
 	int getMaxPlayerStamina();
@@ -113,9 +113,9 @@ public:
 	int getCurrLevelNumber();
 	int getTreasurePoints();
 	int getPlayerExp();
+	int getCurrPlayerShellName();
 
 	string getClickedButtonId(GameWindow* gameWindow);
-	string getCurrPlayerShellName();
 
 	Vector2i getResolution();
 	Vector2i getViewSize();

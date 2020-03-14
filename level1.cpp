@@ -2,6 +2,7 @@
 
 Level1::Level1()
 {
+	cout << "In Level1 constructor" << endl;
 	map_ = new Map1();
 
 	enemies_.push_back(new Enemy(Characters::Character1_name, 640, 960, new PhysxImplEnWalk(Characters::Character1_name)));
@@ -9,7 +10,9 @@ Level1::Level1()
 	enemies_.push_back(new Enemy(Characters::Character1_name, 448, 2176, new PhysxImplEnWalk(Characters::Character1_name)));
 	enemies_.push_back(new Enemy(Characters::Character1_name, 666, 2176, new PhysxImplEnWalk(Characters::Character1_name)));
 	enemies_.push_back(new Enemy(Characters::Character1_name, 1600, 576, new PhysxImplEnWalk(Characters::Character1_name)));
+	enemies_.push_back(new Enemy(Characters::Character1_name, 1602, 576, new PhysxImplEnWalk(Characters::Character1_name)));
 	enemies_.push_back(new Enemy(Characters::CharacterBat_name, 666, 2176-64*2, new PhysxImplEnFly(400, 40 * 64, Characters::CharacterBat_name)));
+	enemies_.push_back(new Enemy(Characters::CharacterBat_name, 686, 2176 - 64 * 2, new PhysxImplEnFly(420, 40 * 64, Characters::CharacterBat_name)));
 }
 
 Level1::~Level1() 
@@ -26,7 +29,13 @@ Level1::~Level1()
 
 const size_t Level1::getHeightMap()
 {
+	if (!map_)
+	{
+		cout << "Map == nullptr" << endl;
+		//return 0;
+	}
 	return map_->getHeightMap();
+
 }
 
 const size_t Level1::getWidthMap()
@@ -127,9 +136,19 @@ void Level1::updateAndDrawEnemies(RenderWindow* window, Player* player, Vector2f
 			enemies_[i]->interactionWithMap(oldEnemyPosition, map_, elapsedTime);
 			enemies_[i]->draw(window, player, viewSize, elapsedTime);
 			int damage = player->flyingShellsMakeDamage(enemies_[i]->getPosition(), enemies_[i]->getWidth(), enemies_[i]->getHeight());
-			if (damage > 0)
+			if (damage > 0 && !enemies_[i]->getHurt())
 			{
+				cout << "Damage: " << damage << endl;
+				int oldHp = enemies_[i]->getCurrHealthPoints();
 				enemies_[i]->setCurrHealthPoints(enemies_[i]->getCurrHealthPoints() - damage);
+				if (player->getCurrVampireDraculaPerkLevel() && player->getCurrHealthPoints() < player->getMaxHealthPoints())
+				{
+					player->setCurrHealthPoints(player->getCurrHealthPoints() + player->getVampireDraculaPerkBonus() * float(oldHp - enemies_[i]->getCurrHealthPoints()) / 100);
+					if (player->getMaxHealthPoints() < player->getCurrHealthPoints())
+					{
+						player->setCurrHealthPoints(player->getMaxHealthPoints());
+					}
+				}
 				enemies_[i]->setHurt(true);
 				cout << "Enemy " << i << " health: " << enemies_[i]->getCurrHealthPoints() << endl;
 			}

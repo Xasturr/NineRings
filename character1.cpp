@@ -78,7 +78,7 @@ Character1::Character1(float posX, float posY)
 	hurt_ = false;
 	shoot_ = false;
 
-	maxMoveSpeed_ = 450;
+	maxMoveSpeed_ = 440;
 	currentIdleFrame_ = 1;
 	currentRunFrame_ = 1;
 	currentJumpFrame_ = 1;
@@ -96,7 +96,7 @@ Character1::Character1(float posX, float posY)
 	numberOfDeathFrames_ = 10;
 	numberOfHurtFrames_ = 4;
 	frameSpeed_ = 10;
-	gravity_ = 1700.f;
+	gravity_ = 1900.f;
 	jumpForce_ = 900.f;
 	currJumpAccel_ = 0.f;
 	leftGap_ = 20; //from center to left edge
@@ -105,17 +105,20 @@ Character1::Character1(float posX, float posY)
 	//upperGap_ = 52;
 	currGravityAccel_ = jumpForce_;
 	maxHealthPoints_ = currHealthPoints_ =  1000;
-	maxStamina_ = currentStamina_ = 1000;
+	maxStamina_ = 1000; 
+	currentStamina_ = 1000.f;
 	maxMana_ = currentMana_ = 1000;
-	attackDamage_ = 200;
+	attackDamage_ = 500;
 	attackRange_ = 60;
 	runAttackRange_ = 58;
 	height_ = 60; //height of character
 	width_ = 40; //width of caracter
 	overview_ = 330;
 	currFireBallAmount_ = 100;
+	currIceBallAmount_ = 100;
+	currFoamyDiscAmount_ = 100;
 	currAngle_ = 90;
-	maxShotCoolDown_ = 2;
+	maxShotCoolDown_ = 0.2;
 	currShotCoolDown_ = 0;
 	manaRegen_ = 100;
 	staminaRegen_ = 150;
@@ -129,7 +132,7 @@ Character1::Character1(float posX, float posY)
 
 	currSpriteSide_ = "right";
 	state_ = "falling";
-	currShellName_ = "FireBall";	
+	currShellName_ = Shells::fireBallShell_name;	
 }
 
 Character1::~Character1()
@@ -202,9 +205,9 @@ float Character1::getCurrMana()
 	return currentMana_;
 }
 
-float Character1::getMaxStamina()
+float Character1::getCurrHealthPoints()
 {
-	return maxStamina_;
+	return currHealthPoints_;
 }
 
 float Character1::getMaxMana()
@@ -215,6 +218,11 @@ float Character1::getMaxMana()
 float Character1::getCurrShellAngle()
 {
 	return currAngle_;
+}
+
+int Character1::getMaxStamina()
+{
+	return maxStamina_;
 }
 
 int Character1::getCurrIdleFrame()
@@ -254,11 +262,6 @@ int Character1::getAttackRange()
 	}
 }
 
-int Character1::getCurrHealthPoints()
-{
-	return int(currHealthPoints_);
-}
-
 int Character1::getMaxHealthPoints()
 {
 	return maxHealthPoints_;
@@ -296,9 +299,13 @@ int Character1::getCurrFlyingShellAmount()
 
 int Character1::getCurrShellAmount()
 {
-	if (currShellName_ == "FireBall")
+	if (currShellName_ == Shells::fireBallShell_name)
 	{
 		return currFireBallAmount_;
+	}
+	else if (currShellName_ == Shells::iceBallShell_name)
+	{
+		return currIceBallAmount_;
 	}
 
 	return 0;
@@ -315,7 +322,6 @@ int Character1::flyingShellsMakeDamage(Vector2f charPos, int charWidth, int char
 				&& charPos.y - charHeight <= flyingShells_[i]->getPosition().y
 				&& charPos.y >= flyingShells_[i]->getPosition().y)
 			{
-				//cout << "DAMAGED ENEMY" << endl;
 				//flyingShells_[i]->setLife(false);
 				flyingShells_[i]->setExplosed(true);
 				//hurt_ = true;
@@ -360,6 +366,11 @@ int Character1::getArmor()
 int Character1::getName()
 {
 	return name_;
+}
+
+int Character1::getCurrShellName()
+{
+	return currShellName_;
 }
 
 Vector2f Character1::getCurrPosition()
@@ -728,7 +739,7 @@ void Character1::setRunAttackState(bool flag)
 	runAttack_ = flag;
 }
 
-void Character1::setCurrHealthPoints(int currHealthPoints)
+void Character1::setCurrHealthPoints(float currHealthPoints)
 {
 	currHealthPoints_ = currHealthPoints;
 }
@@ -743,23 +754,41 @@ void Character1::setCurrMana(float currMana)
 	currentMana_ = currMana;
 }
 
-void Character1::addFlyingShell(string shellName, float angle)
+Shell* Character1::addFlyingShell(int shellName, float angle)
 {
-	if (shellName == "FireBall" && currFireBallAmount_ > 0)
+	Shell* shell = nullptr;
+	if (shellName == Shells::fireBallShell_name && currFireBallAmount_ > 0)
 	{
 		currFireBallAmount_ -= 1;
 
-		Shell* shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
+		shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
 		flyingShells_.push_back(shell);
 	}
+	else if (shellName == Shells::iceBallShell_name && currIceBallAmount_ > 0)
+	{
+		currIceBallAmount_ -= 1;
+
+		shell = new ShellIceBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
+		flyingShells_.push_back(shell);
+	}
+	else if (shellName == Shells::foamyDiscShell_name && foamyDiscShell_name > 0)
+	{
+		currFoamyDiscAmount_ -= 1;
+
+		shell = new ShellFoamyDisc(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
+		flyingShells_.push_back(shell);
+	}
+
+	return shell;
 }
 
-void Character1::addFlyingShell(string shellName, bool doubleDamage, float angle)
+Shell* Character1::addFlyingShell(int shellName, bool doubleDamage, float angle)
 {
-	if (shellName == "FireBall" && currFireBallAmount_ > 0)
+	Shell* shell = nullptr;
+
+	if (shellName == Shells::fireBallShell_name && currFireBallAmount_ > 0)
 	{
 		currFireBallAmount_ -= 1;
-		Shell* shell;
 
 		if (doubleDamage)
 		{
@@ -772,6 +801,38 @@ void Character1::addFlyingShell(string shellName, bool doubleDamage, float angle
 
 		flyingShells_.push_back(shell);
 	}
+	else if (shellName == Shells::iceBallShell_name && currIceBallAmount_ > 0)
+	{
+		currIceBallAmount_ -= 1;
+
+		if (doubleDamage)
+		{
+			shell = new DDMagicDecorator(new ShellIceBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_));
+		}
+		else
+		{
+			shell = new ShellIceBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
+		}
+
+		flyingShells_.push_back(shell);
+	}
+	else if (shellName == Shells::foamyDiscShell_name && currFoamyDiscAmount_ > 0)
+	{
+		currFoamyDiscAmount_ -= 1;
+
+		if (doubleDamage)
+		{
+			shell = new DDMagicDecorator(new ShellFoamyDisc(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_));
+		}
+		else
+		{
+			shell = new ShellFoamyDisc(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
+		}
+
+		flyingShells_.push_back(shell);
+	}
+
+	return shell;
 }
 
 void Character1::flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window)
@@ -911,9 +972,4 @@ string Character1::getCurrSpriteSide()
 string Character1::getCurrState()
 {
 	return state_;
-}
-
-string Character1::getCurrShellName()
-{
-	return currShellName_;
 }

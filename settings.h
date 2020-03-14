@@ -42,7 +42,7 @@ class Settings
 		BackSpace = Backspace, BackSlash = Backslash, SemiColon = Semicolon, Return = Enter
 	};
 
-	int moveUp_, moveLeft_, moveRight_, shoot_, attack_;
+	int moveUp_, moveLeft_, moveRight_, shoot_, attack_, fireBallPerk_, foamyDiscPerk_, iceBallPerk_, halfDeadPerk_;
 	bool isFree(char c);
 
 public:
@@ -53,11 +53,19 @@ public:
 	void setMoveRight(char c);
 	void setShoot(char c);
 	void setAttack(char c);
-	void saveSattings();
+	void setFireBallPerk(char c);
+	void setIceBallPerk(char c);
+	void setFoamyDiscPerk(char c);
+	void setHalfDeadPerk(char c);
+	void saveSettings();
 
 	int getMoveUp();
 	int getMoveLeft();
 	int getMoveRight();
 	int getShoot();
 	int getAttack();
+	int getFireBallPerk();
+	int getIceBallPerk();
+	int getFoamyDiscPerk();
+	int getHalfDeadPerk();
 };

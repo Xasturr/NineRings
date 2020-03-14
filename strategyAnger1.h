@@ -5,7 +5,9 @@
 class StrategyAnger1 : public Strategy //for character1
 {
 public:
+	StrategyAnger1();
 	~StrategyAnger1();
 
 	void decision(Player* player, Character* character, states* states, float elapsedTime);
+	int getStrategyParam();
 };

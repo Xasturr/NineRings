@@ -42,6 +42,16 @@ void DDMagicDecorator::setExplosed(bool flag)
 	MagicDecorator::setExplosed(flag);
 }
 
+void DDMagicDecorator::setAlphaStrike(int alphaStrike)
+{
+	MagicDecorator::setAlphaStrike(alphaStrike);
+}
+
+void DDMagicDecorator::setIsDoubleDamage(bool flag)
+{
+	MagicDecorator::setIsDoubleDamage(flag);
+}
+
 bool DDMagicDecorator::getLife()
 {
 	return MagicDecorator::getLife();
@@ -50,6 +60,11 @@ bool DDMagicDecorator::getLife()
 bool DDMagicDecorator::getExplosed()
 {
 	return MagicDecorator::getExplosed();
+}
+
+bool DDMagicDecorator::isDoubleDamage()
+{
+	return MagicDecorator::isDoubleDamage();
 }
 
 Vector2f DDMagicDecorator::getPosition()

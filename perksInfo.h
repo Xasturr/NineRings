@@ -11,8 +11,12 @@ struct perksInfo {
 	int vampireDraculaPerkLevel_;
 	int foamyDiscPerkLevel_;
 	int halfDeadPerkLevel_;
-	int iceBoltPerkLevel_;
+	int halfDeadPerkBonus_;
+	int iceBallPerkLevel_;
 	int jugglerPerkLevel_;
+	int jugglerPerkBonus_;
 	int tripleScratchesPerkLevel_;
-	int dripplingBladePerkLevel_;
+	int tripleScratchesPerkBonus_;
+	int drippingBladePerkLevel_;
+	int drippingBladePerkBonus_;
 };

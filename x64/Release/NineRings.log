@@ -1,32 +1,47 @@
-﻿  level1.cpp
-D:\Repos\NineRings\enemy.h(4,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-  physxImplEnWalk.cpp
-D:\Repos\NineRings\physxImplEnWalk.cpp(62,33): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-D:\Repos\NineRings\physxImplEnWalk.cpp(66,32): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-D:\Repos\NineRings\physxImplEnWalk.cpp(75,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+﻿  player.cpp
+D:\Repos\NineRings\player.cpp(171,69): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\Repos\NineRings\player.cpp(182,68): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\Repos\NineRings\player.cpp(218,56): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\player.cpp(230,52): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\player.cpp(364,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
           with
           [
               T=float
           ]
-D:\Repos\NineRings\physxImplEnWalk.cpp(77,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+D:\Repos\NineRings\player.cpp(366,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
           with
           [
               T=float
           ]
-D:\Repos\NineRings\physxImplEnWalk.cpp(101,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
+D:\Repos\NineRings\player.cpp(376,13): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
           with
           [
               T=float
           ]
-D:\Repos\NineRings\physxImplEnWalk.cpp(103,76): warning C4244: аргумент: преобразование "T" в "int", возможна потеря данных
+D:\Repos\NineRings\player.cpp(378,14): warning C4244: инициализация: преобразование "T" в "int", возможна потеря данных
           with
           [
               T=float
           ]
-  strategyAnger1.cpp
+D:\Repos\NineRings\player.cpp(399,22): warning C4244: =: преобразование "size_t" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\player.cpp(404,22): warning C4244: =: преобразование "size_t" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+D:\Repos\NineRings\player.cpp(444,56): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\Repos\NineRings\player.cpp(481,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\Repos\NineRings\player.cpp(560,51): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\player.cpp(889,40): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\player.cpp(893,37): warning C4244: return: преобразование "float" в "int", возможна потеря данных
+D:\Repos\NineRings\player.cpp(1094,34): warning C4244: return: преобразование "int" в "float", возможна потеря данных
   Создание кода
-  7 of 1299 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    39 functions had inline decision re-evaluated but remain unchanged
+  1 of 1399 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    11 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   NineRings.vcxproj -> D:\Repos\NineRings\x64\Release\NineRings.exe

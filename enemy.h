@@ -28,6 +28,7 @@ public:
 	~Enemy();
 
 	bool getEnemyLife();
+	bool getHurt();
 	//bool getAngryState();
 
 	void draw(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime);

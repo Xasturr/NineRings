@@ -42,9 +42,6 @@
     <ClCompile Include="character1.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="collision.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -99,6 +96,12 @@
     <ClCompile Include="shellIceBall.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="treasureCoinInner.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="shellFoamyDisc.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.h">
@@ -132,9 +135,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="character1.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="collision.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
@@ -219,6 +219,15 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="shellIceBall.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Shells.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="treasureCoinInner.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="shellFoamyDisc.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

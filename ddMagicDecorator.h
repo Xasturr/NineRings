@@ -15,9 +15,12 @@ public:
 	void spriteUpdate();
 	void setCurrFrame(float increase);
 	void setExplosed(bool flag);
+	void setAlphaStrike(int alphaStrike);
+	void setIsDoubleDamage(bool flag);
 
 	bool getLife();
 	bool getExplosed();
+	bool isDoubleDamage();
 
 	Vector2f getPosition();
 

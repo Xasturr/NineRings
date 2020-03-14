@@ -157,8 +157,18 @@ void PhysxImplEnFly::decision(Player* player, Character* character, float elapse
 
 void PhysxImplEnFly::setStrategy(int param, int charName)
 {
-	delete strategy_;
-	strategy_ = makeStrategy(param, charName);
+	if (strategy_)
+	{
+		if (strategy_->getStrategyParam() != param)
+		{
+			delete strategy_;
+			strategy_ = makeStrategy(param, charName);
+		}
+	}
+	else
+	{
+		strategy_ = makeStrategy(param, charName);
+	}
 
 	//if (param == strategyParams::angry)
 	//{

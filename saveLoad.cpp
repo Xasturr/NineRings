@@ -35,7 +35,12 @@ void SaveLoad::save(Level* level, Player* player)
 		}
 		ofs << endl;
 		ofs << player->getLevelPoints() << endl;
-		ofs << "false"; //new game
+		ofs << "false" << endl; //new game
+		ofs << player->getCurrIceBallPerkLevel() << endl;
+		ofs << player->getCurrFoamyDiscPerkLevel() << endl;
+		ofs << player->getCurrJugglerPerkLevel() << endl;
+		ofs << player->getCurrDrippingBladePerkLevel() << endl;
+		ofs << player->getCurrHalfDeadPerkLevel() << endl;
 
 		ofs.close();
 	}
@@ -129,11 +134,13 @@ void SaveLoad::load(Level** level, Player** player)
 					}
 				}
 
-				char tempStr[2];
+				const int tempStrSize = 4;
+				char tempStr[tempStrSize];
 				int temp = 0;
 				const char* str = s.c_str();
-				int posX, posY;
-				for (int i = 0; str[i] != '\0'; i++)
+				int posX = 0;
+				int posY = 0;
+				for (int i = 0; str[i] != '\0' && str[i] != '\n'; i++)
 				{
 					if (str[i] == '&')
 					{
@@ -142,8 +149,11 @@ void SaveLoad::load(Level** level, Player** player)
 					}
 					else if (str[i] == '|')
 					{
+						tempStr[temp] = '\0';
 						posY = atoi(tempStr);
 						temp = 0;
+						cout << "\nposX: " << posX << endl;
+						cout << "posY: " << posY << endl << endl;
 						(*level)->getTileMapTreasure()[posX][posY] = 'x';
 					}
 					else
@@ -167,6 +177,27 @@ void SaveLoad::load(Level** level, Player** player)
 				{
 					(*player)->setNewGame(false);
 				}
+			}
+			else if (i == 15)
+			{
+				(*player)->setIceBallPerkLevel(stoi(s));
+			}
+			else if (i == 16)
+			{
+				(*player)->setFoamyDiscPerkLevel(stoi(s));
+			}
+			else if (i == 17)
+			{
+				(*player)->setJugglerPerkLevel(stoi(s));
+				cout << "Juggler perk level: " << s << endl;
+			}
+			else if (i == 18)
+			{
+				(*player)->setDrippingBladePerkLevel(stoi(s));
+			}
+			else if (i == 19)
+			{
+				(*player)->setHalfDeadPerksLevel(stoi(s));
 			}
 			i++;
 		}
@@ -205,10 +236,15 @@ void SaveLoad::load(Level** level, Player** player)
 			}
 			ofs << endl;
 			ofs << (*player)->getLevelPoints() << endl;
-			ofs << "true"; //new game
+			ofs << "true" << endl; //new game
+			ofs << (*player)->getCurrIceBallPerkLevel() << endl;
+			ofs << (*player)->getCurrFoamyDiscPerkLevel() << endl;
+			ofs << (*player)->getCurrJugglerPerkLevel() << endl;
+			ofs << (*player)->getCurrDrippingBladePerkLevel() << endl;
+			ofs << (*player)->getCurrHalfDeadPerkLevel() << endl;
 
-			cout << "Save file created" << endl;
 			ofs.close();
+			cout << "Save file created" << endl;
 		}
 		else
 		{
@@ -248,10 +284,15 @@ void SaveLoad::loadNewGame(Level** level, Player** player)
 		}
 		ofs << endl;
 		ofs << (*player)->getLevelPoints() << endl;
-		ofs << "false"; //new game
+		ofs << "false" << endl; //new game
+		ofs << (*player)->getCurrIceBallPerkLevel() << endl;
+		ofs << (*player)->getCurrFoamyDiscPerkLevel() << endl;
+		ofs << (*player)->getCurrJugglerPerkLevel() << endl;
+		ofs << (*player)->getCurrDrippingBladePerkLevel() << endl;
+		ofs << (*player)->getCurrHalfDeadPerkLevel() << endl;
 
-		cout << "Save file created" << endl;
 		ofs.close();
+		cout << "Save file created" << endl;
 	}
 	else
 	{

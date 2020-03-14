@@ -2,6 +2,8 @@
 
 Map1::Map1()
 {
+	cout << "In Map1 constructor" << endl;
+
 	texture_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile5.png");
 	textureStatue_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Details/marker_statue1.png");
 

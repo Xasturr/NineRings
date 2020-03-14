@@ -19,6 +19,11 @@ Level2::~Level2()
 
 const size_t Level2::getHeightMap()
 {
+	if (!map_)
+	{
+		cout << "Map == nullptr" << endl;
+		//return 0;
+	}
 	return map_->getHeightMap();
 }
 

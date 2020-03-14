@@ -5,6 +5,8 @@
 
 #include "map.h"
 #include "Characters.h"
+#include "Shells.h"
+#include "shell.h"
 
 using namespace sf;
 using namespace std;
@@ -27,10 +29,10 @@ public:
 	virtual float getMaxShotCoolDown() = 0;
 	virtual float getCurrStamina() = 0;
 	virtual float getCurrMana() = 0;
-	virtual float getMaxStamina() = 0;
 	virtual float getMaxMana() = 0;
 	virtual float getCurrShellAngle() = 0;
 	virtual float getAttackDamage() = 0;
+	virtual float getCurrHealthPoints() = 0;
 	//virtual float getCurrentSpeed() = 0;
 
 	//virtual void spriteFrameUpdate(float currentFrame) = 0;
@@ -65,11 +67,9 @@ public:
 	virtual void setSpriteSide(string spriteSide) = 0;
 	virtual void setLife(float flag) = 0;
 	virtual void setHurt(bool flag) = 0;
-	virtual void setCurrHealthPoints(int currHealthPoints) = 0;
+	virtual void setCurrHealthPoints(float currHealthPoints) = 0;
 	virtual void setCurrStamina(float currStamina) = 0;
 	virtual void setCurrMana(float currMana) = 0;
-	virtual void addFlyingShell(string shellName, float angle) = 0;
-	virtual void addFlyingShell(string shellName, bool doubleDamage, float angle) = 0;
 	virtual void flyingShellsUpdateAndDraw(float elapsedTime, Map* map, RenderWindow* window) = 0;
 	virtual void setCurrShotCoolDown(float currCoolDown) = 0;
 	virtual void setCurrShellAgle(float angle) = 0;
@@ -83,7 +83,6 @@ public:
 	virtual int getLeftGap() = 0;
 	virtual int getRightGap() = 0;
 	virtual int getAttackRange() = 0;
-	virtual int getCurrHealthPoints() = 0;
 	virtual int getNumberOfAttackFrames() = 0;
 	virtual int getHeight() = 0;
 	virtual int getWidth() = 0;
@@ -99,6 +98,8 @@ public:
 	virtual int getKillExp() = 0;
 	virtual int getArmor() = 0;
 	virtual int getName() = 0;
+	virtual int getCurrShellName() = 0;
+	virtual int getMaxStamina() = 0;
 
 	virtual bool getJumpState() = 0;
 	virtual bool getAttackState() = 0;
@@ -111,9 +112,9 @@ public:
 
 	virtual string getCurrSpriteSide() = 0;
 	virtual string getCurrState() = 0;
-	virtual string getCurrShellName() = 0;
 
-	//virtual int getCurrFrame() = 0;
+	virtual Shell* addFlyingShell(int shellName, bool doubleDamage, float angle) = 0;
+	virtual Shell* addFlyingShell(int shellName, float angle) = 0;
 
 	virtual Vector2f getCurrPosition() = 0;
 };

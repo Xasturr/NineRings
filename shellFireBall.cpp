@@ -13,7 +13,7 @@ ShellFireBall::ShellFireBall(float posX, float posY, float angle, string spriteS
 	speed_ = 360;
 	currentFrame_ = 1;
 	currentExplosionFrame_ = 1;
-	numberOfFrames_ = 60;
+	numberOfFrames_ = 5;
 	numberOfExplosionFrames_ = 6;
 
 	texture1_.loadFromFile("./textures/skills/FB00_nyknck/FB001.png");
@@ -71,19 +71,28 @@ void ShellFireBall::updateAndDraw(float elapsedTime, Map* map, RenderWindow* win
 
 		int	gap = 0;
 		int gap2 = 0;
-
-		if (spriteSide_ == "right")
+		int gap3 = 0;
+		if (abs(angle_) != 90)
 		{
-			gap = map->getTileWidth() / 2;
+			gap3 = map->getTileWidth() / 2;
 		}
 		else
 		{
-			gap2 = map->getTileWidth() / 2;
+			gap3 = 30;
+		}
+
+		if (spriteSide_ == "right")
+		{
+			gap = map->getTileWidth() / 2 * 2;
+		}
+		else
+		{
+			//gap2 = map->getTileWidth() / 2;
 		}
 
 		for (int i = (position_.x + gap2) / map->getTileWidth(); i < (position_.x + gap + gap2) / map->getTileWidth(); i++)
 		{
-			for (int j = position_.y / map->getTileHeight(); j < (position_.y) / map->getTileHeight(); j++)
+			for (int j = (position_.y - gap3) / map->getTileHeight(); j < (position_.y + gap3) / map->getTileHeight(); j++)
 			{
 				if (!map->getCollision(j, i, ' '))
 				{
@@ -124,6 +133,7 @@ void ShellFireBall::spriteExplosionUpdate()
 	if (currentExplosionFrame_ == 1)
 	{
 		sprite_.setTexture(textureExplosion_);
+		sprite_.setOrigin(0, 24);
 	}
 
 	if (int(currentExplosionFrame_) == 1)
@@ -165,6 +175,16 @@ void ShellFireBall::setExplosed(bool flag)
 	explosed_ = flag;
 }
 
+void ShellFireBall::setAlphaStrike(int alphaStrike)
+{
+	alphaStrike_ = alphaStrike;
+}
+
+void ShellFireBall::setIsDoubleDamage(bool flag)
+{
+	doubleDamage_ = flag;
+}
+
 bool ShellFireBall::getLife()
 {
 	return life_;
@@ -173,6 +193,11 @@ bool ShellFireBall::getLife()
 bool ShellFireBall::getExplosed()
 {
 	return explosed_;
+}
+
+bool ShellFireBall::isDoubleDamage()
+{
+	return doubleDamage_;
 }
 
 Vector2f ShellFireBall::getPosition()

@@ -13,28 +13,32 @@ ShellIceBall::ShellIceBall(float posX, float posY, float angle, string spriteSid
 	speed_ = 360;
 	currentFrame_ = 1;
 	currentExplosionFrame_ = 1;
-	numberOfFrames_ = 5;
+	numberOfFrames_ = 60;
 	numberOfExplosionFrames_ = 6;
 
 	texture_.loadFromFile("./textures/skills/1/Small_Iceball_9x24.png");
 
-	textureExplosion_.loadFromFile("./textures/explosions/1/explosion-6.png");
+	textureExplosion_.loadFromFile("./textures/explosions/1/explosion-7.png");
 
 	sprite_.setTexture(texture_);
 	sprite_.setPosition(position_);
 	sprite_.setRotation(angle_ - 180);
+	sprite_.setScale(2.4, 2.4);
 
 	spriteSide_ = spriteSide;
 
-	sprite_.setOrigin(18, 4);
+	sprite_.setOrigin(4, 0);
+
 	if (spriteSide_ == "left")
 	{
+		//sprite_.setOrigin(18, 0);
 		//sprite_.setScale(-1.f, 1.f);
 	}
-	//else
-	//{
-	//	sprite_.setOrigin(texture1_.getSize().x, texture1_.getSize().y / 2);
-	//}
+	else
+	{
+		//sprite_.setOrigin(18, 0);
+		//sprite_.setOrigin(texture1_.getSize().x, texture1_.getSize().y / 2);
+	}
 }
 
 ShellIceBall::~ShellIceBall()
@@ -70,11 +74,11 @@ void ShellIceBall::updateAndDraw(float elapsedTime, Map* map, RenderWindow* wind
 
 		if (spriteSide_ == "right")
 		{
-			gap = map->getTileWidth() / 2;
+			gap = map->getTileWidth() / 2 * 2;
 		}
 		else
 		{
-			gap2 = map->getTileWidth() / 2;
+			//gap2 = map->getTileWidth() / 1;
 		}
 
 		for (int i = (position_.x + gap2) / map->getTileWidth(); i < (position_.x + gap + gap2) / map->getTileWidth(); i++)
@@ -103,44 +107,108 @@ void ShellIceBall::updateAndDraw(float elapsedTime, Map* map, RenderWindow* wind
 
 void ShellIceBall::spriteUpdate()
 {
-	if (int(currentFrame_) == 1)
-		sprite_.setTextureRect(IntRect(0, 0, 8, 23));
-	else if (int(currentFrame_) == 2)
-		sprite_.setTextureRect(IntRect(92, 0, 50, 48));
-	else if (int(currentFrame_) == 3)
-		sprite_.setTextureRect(IntRect(92, 0, 50, 48));
-	else if (int(currentFrame_) == 4)
-		sprite_.setTextureRect(IntRect(92, 0, 50, 48));
+	int width = 8;
+	int height = 23;
+	int rectTop = 0;
+	int rectLeft = 0;
+
+	if ((int)currentFrame_ <= 10)
+	{
+		rectTop = 0;
+	}
+	else if ((int)currentFrame_ <= 20)
+	{
+		rectTop = 24;
+	}
+	else if ((int)currentFrame_ <= 30)
+	{
+		rectTop = 49;
+	}
+	else if ((int)currentFrame_ <= 40)
+	{
+		rectTop = 72;
+	}
+	else if ((int)currentFrame_ <= 50)
+	{
+		rectTop = 96;
+	}
 	else
-		sprite_.setTextureRect(IntRect(92, 0, 50, 48));
+	{
+		rectTop = 120;
+	}
+
+	if ((int)currentFrame_ % 10 == 1)
+	{
+		rectLeft = 0;
+	}
+	else if ((int)currentFrame_ % 10 == 2)
+	{
+		rectLeft = 9;
+	}
+	else if ((int)currentFrame_ % 10 == 3)
+	{
+		rectLeft = 18;
+	}
+	else if ((int)currentFrame_ % 10 == 4)
+	{
+		rectLeft = 27;
+	}
+	else if ((int)currentFrame_ % 10 == 5)
+	{
+		rectLeft = 36;
+	}
+	else if ((int)currentFrame_ % 10 == 6)
+	{
+		rectLeft = 45;
+	}
+	else if ((int)currentFrame_ % 10 == 7)
+	{
+		rectLeft = 54;
+	}
+	else if ((int)currentFrame_ % 10 == 8)
+	{
+		rectLeft = 63;
+	}
+	else if ((int)currentFrame_ % 10 == 9)
+	{
+		rectLeft = 72;
+	}
+	else
+	{
+		rectLeft = 81;
+	}
+
+	sprite_.setTextureRect(IntRect(rectLeft, rectTop, width, height));
 }
 
 void ShellIceBall::spriteExplosionUpdate()
 {
 	if (currentExplosionFrame_ == 1)
 	{
+		sprite_.setScale(1, 1);
+		sprite_.setOrigin(25, 0);
 		sprite_.setTexture(textureExplosion_);
 	}
 
 	if (int(currentExplosionFrame_) == 1)
-		sprite_.setTextureRect(IntRect(92, 0, 50, 48));
+		sprite_.setTextureRect(IntRect(92, 0, 44, 48));
 	else if (int(currentExplosionFrame_) == 2)
-		sprite_.setTextureRect(IntRect(142, 0, 47, 48));
+		sprite_.setTextureRect(IntRect(136, 0, 48, 48));
 	else if (int(currentExplosionFrame_) == 3)
-		sprite_.setTextureRect(IntRect(190, 0, 48, 48));
+		sprite_.setTextureRect(IntRect(184, 0, 49, 48));
 	else if (int(currentExplosionFrame_) == 4)
-		sprite_.setTextureRect(IntRect(238, 0, 48, 48));
+		sprite_.setTextureRect(IntRect(233, 0, 49, 48));
 	else if (int(currentExplosionFrame_) == 5)
-		sprite_.setTextureRect(IntRect(286, 0, 49, 48));
+		sprite_.setTextureRect(IntRect(282, 0, 48, 48));
 	else
-		sprite_.setTextureRect(IntRect(335, 0, 49, 48));
+		sprite_.setTextureRect(IntRect(339, 0, 49, 48));
 }
 
 void ShellIceBall::setCurrFrame(float increase)
 {
-	currentFrame_ += increase * 20;
+	currentFrame_ += increase * 90;
 
-	if (currentFrame_ > numberOfFrames_)
+	if (currentFrame_ >= numberOfFrames_)
 	{
 		currentFrame_ = 1;
 	}
@@ -161,6 +229,16 @@ void ShellIceBall::setExplosed(bool flag)
 	explosed_ = flag;
 }
 
+void ShellIceBall::setAlphaStrike(int alphaStrike)
+{
+	alphaStrike_ = alphaStrike;
+}
+
+void ShellIceBall::setIsDoubleDamage(bool flag)
+{
+	doubleDamage_ = flag;
+}
+
 bool ShellIceBall::getLife()
 {
 	return life_;
@@ -169,6 +247,11 @@ bool ShellIceBall::getLife()
 bool ShellIceBall::getExplosed()
 {
 	return explosed_;
+}
+
+bool ShellIceBall::isDoubleDamage()
+{
+	return doubleDamage_;
 }
 
 Vector2f ShellIceBall::getPosition()

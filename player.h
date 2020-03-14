@@ -21,6 +21,7 @@ class Player
 	bool upPressed_;
 	bool downPressed_;
 	bool attack_;
+	bool halfDead_;
 	bool runAttack_;
 	bool shoot_;
 	bool doubleDamage_;
@@ -28,33 +29,23 @@ class Player
 	bool newLvl_;
 	bool newGame_;
 
-	string currShellName_;
-
 	int getJumpStaminaCost();
 	int getAttackStaminaCost();
 
+	int currShellName_;
 	int exp_;
 	int lvl_;
 	int levelPoints_;
 	int treasurePoints_;
-	//int heartPlusPerkBonus_;
-	//int heartPlusPerkLevel_;
-	//int chestArmorPerkBonus_;
-	//int chestArmorPerkLevel_;
-	//int fairyWandPerkBonus_;
-	//int fairyWandPerkLevel_;
-	//int vampireDraculaPerkBonus_;
-	//int vampireDraculaPerkLevel_;
-	//int foamyDiscPerkLevel_;
-	//int halfDeadPerkLevel_;
-	//int iceBoltPerkLevel_;
-	//int jugglerPerkLevel_;
-	//int tripleScratchesPerkLevel_;
-	//int dripplingBladePerkLevel_;
 
 	struct perksInfo perksInfo_;
 
 	void updateLevel(RenderWindow* window);
+	void updateJugglerPerkBonus();
+	void updateDrippingBladePerkBonus();
+	void updateHalfDeadPerkBonus();
+	void updateVampireDraculaPerkBonus();
+	void updateTripleScratchesPerkBonus();
 
 	float ddTimer_;
 	float ddDuration_;
@@ -69,6 +60,7 @@ public:
 	void moveDown();
 	void attack();
 	void shoot();
+	void activateHalfDeadPerk();
 
 	void stopLeft();
 	void stopRight();
@@ -76,6 +68,7 @@ public:
 	void stopDown();
 	void stopAttack();
 	void stopShoot();
+	void stopHalfDeadPerk();
 
 	void update(float elapsedTime, RenderWindow* window);
 	void setPosition(float posX, float posY);
@@ -98,13 +91,27 @@ public:
 	void setHeartPlusPerk();
 	void setChestArmorPerk();
 	void setFairyWandPerk();
+	void setFoamyDiscPerk();
+	void setIceBallPerk();
+	void setJugglerPerk();
+	void setDrippingBladePerk();
+	void setHalfDeadPerk();
 	void setVampireDraculaPerk();
+	void setTripleScratchesPerk();
 	void setCurrLevel(int level);
 	void setMaxMana(int maxMana);
 	void setMaxHealthPoints(int maxHp);
 	void setMaxStamina(int maxStamina);
 	void setLevelPoints(int levelPts);
 	void setNewGame(bool flag);
+	void setCurrShellName(int shellName);
+	void setIceBallPerkLevel(int level);
+	void setFoamyDiscPerkLevel(int level);
+	void setJugglerPerkLevel(int level);
+	void setDrippingBladePerkLevel(int level);
+	void setHalfDeadPerksLevel(int level);
+	void setVampireDraculaPerkLevel(int level);
+	void setTripleScratchesPerkLevel(int level);
 
 	Vector2f getCurrPosition();
 
@@ -119,7 +126,6 @@ public:
 	int getNumberOfAttackFrames();
 	int getWidth();
 	int getHeight();
-	int getCurrHealthPoints();
 	int getMaxHealthPoints();
 	int flyingShellsMakeDamage(Vector2f enemyPos, int enemyWidth, int enemyHeight);
 	int getCurrShellAmount();
@@ -128,10 +134,20 @@ public:
 	int getCurrLevel();
 	int getLevelPoints();
 	int getArmor();
-	int getVampireDraculaPerkLevel();
+	int getCurrVampireDraculaPerkLevel();
 	int getVampireDraculaPerkBonus();
 	int getTreasurePoints();
-	int getChestArmorPerkLevel();
+	int getCurrChestArmorPerkLevel();
+	int getCurrIceBallPerkLevel();
+	int getCurrFoamyDiscPerkLevel();
+	int getCurrShellName();
+	int getCurrJugglerPerkLevel();
+	int getCurrJugglerPerkBonus();
+	int getCurrDrippingBladePerkLevel();
+	int getCurrHalfDeadPerkLevel();
+	int getVampireDraculaPerkLevel();
+	int getTripleScratchesPerkLevel();
+	int getTripleScratchesPerkBonus();
 
 	float getGravity();
 	float getJumpForce();
@@ -142,10 +158,10 @@ public:
 	float getCurrStamina();
 	float getMaxMana();
 	float getMaxStamina();
+	float getCurrHealthPoints();
 
 	string getCurrState();
 	string getCurrSpriteSide();
-	string getCurrShellName();
 
 	bool getAttackState();
 	bool getCharacterMadeDamage();

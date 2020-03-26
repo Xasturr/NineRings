@@ -13,9 +13,15 @@ TreasureFactory::~TreasureFactory()
 
 	for (it = treasures_.begin(); it != treasures_.end(); it++)
 	{
+<<<<<<< HEAD
+		treasures_.erase(it);
+		Treasure* treasure = it->second;
+		delete treasure;
+=======
 		Treasure* treasure = it->second;
 		delete treasure;
 		treasures_.erase(it);
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	}
 }
 

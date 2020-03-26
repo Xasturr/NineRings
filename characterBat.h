@@ -5,12 +5,22 @@
 
 class CharacterBat : public Character
 {
+<<<<<<< HEAD
+	SoundBuffer bufferShoot_;
+	Sound soundShoot_;
+
+	Vector2f position_;
+
+	Texture textureFly_;
+	Texture textureDeath_;
+=======
 	Vector2f position_;
 
 	Texture textureFly_;
 
 	Texture textureDeath_;
 
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	Texture textureHurt_;
 
 	Sprite sprite_;

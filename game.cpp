@@ -2,7 +2,21 @@
 
 Game::Game()
 {
+<<<<<<< HEAD
+	if (mainMenuMusic_.openFromFile("./audio/mainMenu/danger.ogg"))
+	{
+		mainMenuMusic_.setVolume(15);
+		mainMenuMusic_.setLoop(true);
+	}
+	if (gameMusic_.openFromFile("./audio/level1/DanceoftheBlood.ogg"))
+	{
+		gameMusic_.setVolume(15);
+		gameMusic_.setLoop(true);
+	}
+
+=======
 	//Engine eengine_ = *Engine::getEngineInstance();
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	engine_->createRenderWindow(VideoMode(engine_->getResolution().x, engine_->getResolution().y), "NineRings", "Fullscreen");
 	
 	clickTime_ = 0;
@@ -14,7 +28,10 @@ Game::Game()
 	tabPressed_ = false;
 	mouseButtonPressed_ = false;
 	escPressed_ = false;
+<<<<<<< HEAD
+=======
 	//showNewLevel_ = false;
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	clickedButtonId_ = "";
 
@@ -78,12 +95,15 @@ Game::Game()
 	textBack_.setPosition(285, 650);
 	textBack_.setString("Back");
 
+<<<<<<< HEAD
+=======
 	textureMainMenu_.loadFromFile("./textures/backgrounds/background4.gif");
 	textureSettings_.loadFromFile("./textures/backgrounds/mainMenuScreen.jpg");
 	//texturePerksMenuBackground_.loadFromFile("./textures/backgrounds/backgroundPerksMenu.png");
 
 	//textureMainMenuBackground1_.loadFromFile("./textures/backgrounds/mainMenu/0.gif");
 
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	float engineResX = engine_->getResolution().x;
 	float engineResY = engine_->getResolution().y;
 
@@ -361,7 +381,12 @@ void Game::mainMenu()
 	rectSize.x = 380;
 	rectSize.y = 200;
 
+<<<<<<< HEAD
+	mainMenuMusic_.play();
+
+=======
 	//clickTime_ = 2;
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	clock_.restart();
 
 	while (engine_->renderWindowIsOpen())
@@ -388,25 +413,41 @@ void Game::mainMenu()
 
 		//Containing///////////////////////////////////
 
+<<<<<<< HEAD
+		if (engine_->mouseContains(textContinue.getGlobalBounds()) && !engine_->isNewGame())
+=======
 		if (engine_->mouseContains(0, 810, 455, 60) && !engine_->isNewGame())
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		{
 			textContinue.setFillColor(Color::Red);
 			textContinue.setOutlineColor(Color::Black);
 			menuState = 0;
 		}
+<<<<<<< HEAD
+		if (engine_->mouseContains(textNewGame.getGlobalBounds()))
+=======
 		if (engine_->mouseContains(0, 870, 455, 60))
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		{
 			textNewGame.setFillColor(Color::Red);
 			textNewGame.setOutlineColor(Color::Black);
 			menuState = 1;
 		}
+<<<<<<< HEAD
+		if (engine_->mouseContains(textSettings.getGlobalBounds()))
+=======
 		if (engine_->mouseContains(0, 930, 455, 60))
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		{
 			textSettings.setFillColor(Color::Red);
 			textSettings.setOutlineColor(Color::Black);
 			menuState = 2;
 		}
+<<<<<<< HEAD
+		if (engine_->mouseContains(textExit.getGlobalBounds()))
+=======
 		if (engine_->mouseContains(0, 990, 455, 60))
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		{
 			textExit.setFillColor(Color::Red);
 			textExit.setOutlineColor(Color::Black);
@@ -436,13 +477,29 @@ void Game::mainMenu()
 			{
 				if (menuState == 0 && mouseButtonPressed_)
 				{
+<<<<<<< HEAD
+					engine_->load();
+					mainMenuMusic_.stop();
 					play();
+					mainMenuMusic_.play();
+					engine_->setView(0, 0, engine_->getResolution().x, engine_->getResolution().y);
+=======
+					play();
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 					clock_.restart();
 				}
 				if (menuState == 1 && mouseButtonPressed_)
 				{
 					engine_->loadNewGame();
+<<<<<<< HEAD
+					engine_->setNewGame(false);
+					mainMenuMusic_.stop();
 					play();
+					mainMenuMusic_.play();
+					engine_->setView(0, 0, engine_->getResolution().x, engine_->getResolution().y);
+=======
+					play();
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 					clock_.restart();
 				}
 				if (menuState == 2 && mouseButtonPressed_)
@@ -486,8 +543,11 @@ void Game::mainMenu()
 
 void Game::play()
 {
+<<<<<<< HEAD
+=======
 	//engine_->createRenderWindow(VideoMode(engine_->getResolution().x, engine_->getResolution().y), "NineRings", "Fullscreen");
 
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	//1920x1080
 	pair<size_t, size_t> res1 = { 1920, 1080 };
 	pair<size_t, size_t> size1 = { 1000, 500 };
@@ -505,9 +565,12 @@ void Game::play()
 	};
 
 	GameWindow* win1 = engine_->createGameWindow(sizePosMap, "./textures/buttons/button1.png");
+<<<<<<< HEAD
+=======
 	//newLevelWindow_ = engine_->createGameWindow(sizePosMap, "./textures/buttons/button1.png");
 
 	//newLevelWindow();
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	pair<size_t, size_t> res3 = { 1920, 1080 };
 	pair<size_t, size_t> size3 = { 200, 50 };
@@ -524,11 +587,14 @@ void Game::play()
 
 	string clickedButtonId = "";
 
+<<<<<<< HEAD
+=======
 	//engine_->setPlayer("Character1", 1800, 350);
 	//engine_->createLevel(level);
 
 	//engine_->load();
 
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	float time = 0;
 
 	Font bebasRegular;
@@ -539,6 +605,17 @@ void Game::play()
 	timeText.setFont(bebasRegular);
 	timeText.setFillColor(Color::Green);
 
+<<<<<<< HEAD
+	float iter = 0;
+	char* intStr;
+
+	bool start = true;
+
+	gameMusic_.play();
+
+	clock_.restart();
+
+=======
 	int iter = 0;
 	char* intStr;
 
@@ -546,16 +623,24 @@ void Game::play()
 
 	bool start = true;
 
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	while (engine_->renderWindowIsOpen())
 	{
 		engine_->renderWindowClear();
 
+<<<<<<< HEAD
+		if (time >= 0.5)
+		{
+			textFPS_.setString("FPS: " + to_string(int(1 / iter)));
+			time = 0;
+=======
 		if (time >= 1)
 		{
 			//timeText.setString(to_string(iter));
 			textFPS_.setString("FPS " + to_string(iter));
 			time = 0;
 			iter = 0;
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		}
 
 		while (engine_->renderWindowPollEvent())
@@ -586,7 +671,10 @@ void Game::play()
 				{
 					iPressed_ = true;
 				}
+<<<<<<< HEAD
+=======
 				//else if (event.key.code == Keyboard::Tab && engine_->getNewPlayerLevel())
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 				if (event.key.code == Keyboard::Tab)
 				{
 					tabPressed_ = true;
@@ -619,10 +707,20 @@ void Game::play()
 				if (escPressed_)
 				{
 					escPressed_ = false;
+<<<<<<< HEAD
+					gameMusic_.pause();
+					if (inGameMenu() == 1)
+					{
+						gameMusic_.stop();
+						return;
+					}
+					gameMusic_.play();
+=======
 					if (inGameMenu() == 1)
 					{
 						return;
 					}
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 				}
 			}
 		}
@@ -640,7 +738,12 @@ void Game::play()
 		}
 
 		inputValue = engine_->input();
+<<<<<<< HEAD
+		iter = clock_.getElapsedTime().asSeconds();
+		time += iter;
+=======
 		time += clock_.getElapsedTime().asSeconds();
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 		//view_.reset(FloatRect(player_->getSprite().getPosition().x - sizeX / 2, player_->getSprite().getPosition().y - sizeY / 2, sizeX, sizeY));
 
@@ -670,14 +773,31 @@ void Game::play()
 
 		if (engine_->isEndOfLevel())
 		{
+<<<<<<< HEAD
+			if (loadNextLevel())
+			{
+				gameMusic_.stop();
+				return;
+			}
+=======
 			loadNextLevel();
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 			continue;
 		}
 
 		////////////////////////////////////////////////
 
 		engine_->draw(elapsedTime_);
+<<<<<<< HEAD
+		
+		if (engine_->update(elapsedTime_) == 1)
+		{
+			gameMusic_.stop();
+			return;
+		}
+=======
 		engine_->update(elapsedTime_);
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 		engine_->setView(engine_->getPlayerPosition().x - engine_->getViewSize().x / 2, engine_->getPlayerPosition().y - engine_->getViewSize().y / 2, engine_->getViewSize().x, engine_->getViewSize().y);
 
@@ -699,6 +819,15 @@ void Game::play()
 			textHP_.setString("HP: " + to_string((int)engine_->getCurrPlayerHealthPoints()) + " of " + to_string(engine_->getMaxPlayerHealthPoints()));
 			textStamina_.setString("Stamina: " + to_string((int)engine_->getCurrPlayerStamina()) + " of " + to_string(engine_->getMaxPlayerStamina()));
 			textMana_.setString("Mana: " + to_string((int)engine_->getCurrPlayerMana()) + " of " + to_string(engine_->getMaxPlayerMana()));
+<<<<<<< HEAD
+			if (engine_->getCurrPlayerShellName() == 0)
+				textShellsAmount_.setString("Fireball amount: " + to_string(engine_->getCurrPlayerShellAmount()));
+			else if (engine_->getCurrPlayerShellName() == 1)
+				textShellsAmount_.setString("Iceball amount: " + to_string(engine_->getCurrPlayerShellAmount()));
+			else 
+				textShellsAmount_.setString("Poisonball amount: " + to_string(engine_->getCurrPlayerShellAmount()));
+=======
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 			textShellsAmount_.setString(engine_->getCurrPlayerShellName() + " " + to_string(engine_->getCurrPlayerShellAmount()));
 			textPosX_.setString("PosX: " + to_string(engine_->getCurrPlayerPosX()));
 			textPosY_.setString("PosY: " + to_string(engine_->getCurrPlayerPosY()));
@@ -721,6 +850,8 @@ void Game::play()
 		}
 
 		engine_->renderWindowDisplay();
+<<<<<<< HEAD
+=======
 
 		iter++;
 	}
@@ -821,13 +952,17 @@ void Game::chooseLevelMenu()
 		engine_->draw(textBack_);
 
 		engine_->renderWindowDisplay();
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	}
 }
 
 void Game::settings()
 {
 	engine_->setView(0, 0, engine_->getResolution().x, engine_->getResolution().y);
+<<<<<<< HEAD
+=======
 	//window_.setMouseCursorVisible(true);
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	Text jumpText, turnLeftText, turnRightText, shootText, backText, fireBallText, iceBallText, foamyDiscText, halfDeadText;
 	Text jumpOptionText, turnLeftOptionText, turnRightOptionText, shootOptionText, fireBallOptionText, iceBallOptionText, foamyDiscOptionText, halfDeadOptionText;
@@ -1332,6 +1467,24 @@ void Game::perksMenu()
 			{
 				engine_->closeRenderWindow();
 			}
+<<<<<<< HEAD
+			if (event.type == Event::KeyPressed)
+			{
+				if (event.key.code == Keyboard::Tab)
+				{
+					tabPressed_ = true;
+				}
+			}
+			if (event.type == Event::KeyReleased)
+			{
+				if (tabPressed_)
+				{
+					tabPressed_ = false;
+					return;
+				}
+			}
+=======
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 			if (event.type == Event::MouseButtonPressed)
 			{
 				if (event.key.code == Mouse::Left)
@@ -1349,8 +1502,11 @@ void Game::perksMenu()
 				{
 					if (engine_->getClickedButtonId(gameWindowPerk) == clickedButtonId_)
 					{
+<<<<<<< HEAD
+=======
 						//cout << clickedButtonId_ << endl;
 
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 						if (clickedButtonId_ == "Confirm")
 						{
 							if (currMenuState == 1)
@@ -1411,7 +1567,11 @@ void Game::perksMenu()
 				{
 					currMenuState = 1;
 
+<<<<<<< HEAD
+					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.chestArmorPerkLevel_) + " max 3");
+=======
 					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.chestArmorPerkLevel_) + " max -");
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 					textPerkDescription_.setString("Description:\n+" + to_string(playerPerks.chestArmorPerkBonus_) + "% damage resistance");
 
 					gameWindowPerk->deleteTexts();
@@ -1423,7 +1583,11 @@ void Game::perksMenu()
 				{
 					currMenuState = 2;
 
+<<<<<<< HEAD
+					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.heartPlusPerkLevel_) + " max 3");
+=======
 					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.heartPlusPerkLevel_) + " max -");
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 					textPerkDescription_.setString("Description:\n+" + to_string(playerPerks.heartPlusPerkBonus_) + " hp");
 
 					gameWindowPerk->deleteTexts();
@@ -1435,7 +1599,11 @@ void Game::perksMenu()
 				{
 					currMenuState = 3;
 
+<<<<<<< HEAD
+					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.fairyWandPerkLevel_) + " max 3");
+=======
 					textCurrPerkLevel_.setString("Level: " + to_string(playerPerks.fairyWandPerkLevel_) + " max -");
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 					textPerkDescription_.setString("Description:\n+" + to_string(playerPerks.fairyWandPerkBonus_) + " mana");
 
 					gameWindowPerk->deleteTexts();
@@ -1545,7 +1713,10 @@ void Game::perksMenu()
 int Game::inGameMenu()
 {
 	engine_->setView(0, 0, engine_->getResolution().x, engine_->getResolution().y);
+<<<<<<< HEAD
+=======
 	//engine_->load();
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	int menuState = 0;
 
@@ -1553,7 +1724,12 @@ int Game::inGameMenu()
 	rectSize.x = 380;
 	rectSize.y = 200;
 
+<<<<<<< HEAD
+	mainMenuMusic_.play();
+
+=======
 	//clickTime_ = 2;
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	clock_.restart();
 
 	while (engine_->renderWindowIsOpen())
@@ -1635,6 +1811,10 @@ int Game::inGameMenu()
 			{
 				if (menuState == 0 && mouseButtonPressed_)
 				{
+<<<<<<< HEAD
+					mainMenuMusic_.pause();
+=======
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 					return 0;
 				}
 				else if (menuState == 1 && mouseButtonPressed_)
@@ -1645,7 +1825,10 @@ int Game::inGameMenu()
 				else if (menuState == 2 && mouseButtonPressed_)
 				{
 					return 1;
+<<<<<<< HEAD
+=======
 					clock_.restart();
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 				}
 
 				mouseButtonPressed_ = false;
@@ -1677,17 +1860,30 @@ int Game::inGameMenu()
 	}
 }
 
+<<<<<<< HEAD
+int Game::loadNextLevel()
+=======
 void Game::loadNextLevel()
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 {
 	if (engine_->getCurrLevelNumber() == 1)
 	{
 		Level* level2 = new Level2();
 		engine_->createLevel(level2);
+<<<<<<< HEAD
+		engine_->getPlayer()->setPosition(64 * 15, 64 * 7);
+		return 0;
+	}
+	else if (engine_->getCurrLevelNumber() == 2)
+	{
+		return 1;
+=======
 	}
 	else if (engine_->getCurrLevelNumber() == 2)
 	{
 		this->~Game();
 		exit(EXIT_SUCCESS);
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	}
 }
 

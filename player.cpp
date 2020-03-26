@@ -135,7 +135,11 @@ void Player::stopHalfDeadPerk()
 	halfDead_ = false;
 }
 
+<<<<<<< HEAD
+int Player::update(float elapsedTime, RenderWindow* window)
+=======
 void Player::update(float elapsedTime, RenderWindow* window)
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 {
 	if (character_->getCurrHealthPoints() > 0)
 	{
@@ -146,7 +150,11 @@ void Player::update(float elapsedTime, RenderWindow* window)
 			attack_ = false;
 			character_->setCurrHurtFrame(character_->getFrameSpeed() * elapsedTime);
 			character_->spriteUpdateHurt(character_->getCurrSpriteSide());
+<<<<<<< HEAD
+			return 0;
+=======
 			return;
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		}
 		else if (halfDead_)
 		{
@@ -156,6 +164,10 @@ void Player::update(float elapsedTime, RenderWindow* window)
 				float currMana = character_->getCurrMana();
 				if (dx <= currMana && dx <= character_->getMaxHealthPoints() - character_->getCurrHealthPoints())
 				{
+<<<<<<< HEAD
+					character_->setCurrMana(character_->getCurrMana() - dx);
+					character_->setCurrHealthPoints(character_->getCurrHealthPoints() + dx);
+=======
 		/*			cout << "dx: " << dx << endl;
 					cout << character_->getCurrMana() << endl;
 					cout << character_->getCurrHealthPoints() << endl;*/
@@ -163,6 +175,7 @@ void Player::update(float elapsedTime, RenderWindow* window)
 					character_->setCurrHealthPoints(character_->getCurrHealthPoints() + dx);
 					//cout << character_->getCurrMana() << endl;
 					//cout << character_->getCurrHealthPoints() << endl << endl;
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 				}
 				else if (dx > currMana)
 				{
@@ -192,6 +205,8 @@ void Player::update(float elapsedTime, RenderWindow* window)
 			}
 		}
 
+<<<<<<< HEAD
+=======
 		//if (character_->getCurrShotCoolDown() > 0)
 		//{
 		//	character_->setCurrShotCoolDown(character_->getCurrShotCoolDown() - elapsedTime);
@@ -202,6 +217,7 @@ void Player::update(float elapsedTime, RenderWindow* window)
 		//	}
 		//}
 
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		if (shoot_ && character_->getCurrShotCoolDown() == 0 && character_->getCurrShellAmount() > 0 && getCurrMana() >= 40)
 		{
 			setCurrMana(getCurrMana() - 40);
@@ -327,9 +343,16 @@ void Player::update(float elapsedTime, RenderWindow* window)
 	else
 	{
 		cout << "You are dead" << endl;
+<<<<<<< HEAD
+		return 1;
+	}
+
+	return 0;
+=======
 		delete this;
 		exit(0);
 	}
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 }
 
 void Player::setPosition(float posX, float posY)
@@ -452,7 +475,11 @@ void Player::calculateVariables(float elapsedTime)
 	else if (character_->getCurrState() == "jumping")
 	{
 		character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
+<<<<<<< HEAD
+		character_->setCurrJumpAccel(character_->getCurrJumpAccel() - character_->getCurrGravityAccel() * elapsedTime * 2);
+=======
 		character_->setCurrJumpAccel(character_->getCurrJumpAccel() - character_->getCurrGravityAccel() * elapsedTime);
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	}
 
 	if (ddTimer_ > 0)
@@ -535,7 +562,11 @@ void Player::setCurrExp(int exp)
 
 void Player::setHeartPlusPerk()
 {
+<<<<<<< HEAD
+	if (levelPoints_ >= 1 && perksInfo_.heartPlusPerkLevel_ < 3)
+=======
 	if (levelPoints_ >= 1)
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	{
 		character_->setMaxHealthPoints(character_->getMaxHealthPoints() + perksInfo_.heartPlusPerkBonus_);
 		levelPoints_ -= 1;
@@ -545,7 +576,11 @@ void Player::setHeartPlusPerk()
 
 void Player::setChestArmorPerk()
 {
+<<<<<<< HEAD
+	if (levelPoints_ >= 1 && perksInfo_.chestArmorPerkLevel_ < 3)
+=======
 	if (levelPoints_ >= 1)
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	{
 		character_->setArmor(character_->getArmor() + perksInfo_.chestArmorPerkBonus_);
 		levelPoints_ -= 1;
@@ -555,7 +590,11 @@ void Player::setChestArmorPerk()
 
 void Player::setFairyWandPerk()
 {
+<<<<<<< HEAD
+	if (levelPoints_ >= 1 && perksInfo_.fairyWandPerkLevel_ < 3)
+=======
 	if (levelPoints_ >= 1)
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	{
 		character_->setMaxMana(character_->getMaxMana() + perksInfo_.fairyWandPerkBonus_);
 		levelPoints_ -= 1;

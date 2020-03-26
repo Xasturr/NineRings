@@ -2,6 +2,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <ctime>
+<<<<<<< HEAD
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+=======
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 #include "map.h"
 #include "Characters.h"

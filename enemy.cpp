@@ -58,14 +58,22 @@ void Enemy::draw(RenderWindow* window, Player* player, Vector2f viewSize, float 
 
 				physx_->setStrategy(StrategyParams::angry, character_->getName());
 				
+<<<<<<< HEAD
+				//character_->setMaxMoveSpeed(380);
+=======
 				character_->setMaxMoveSpeed(300);
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 			}
 			else
 			{
 				physx_->setStrategy(StrategyParams::peacful, character_->getName());
 				//states_.angryState_ = false;
 				//states_.attack_ = false;
+<<<<<<< HEAD
+				//character_->setMaxMoveSpeed(250);
+=======
 				character_->setMaxMoveSpeed(200);
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 				//character_->setState("staying");
 				//stayingTime_ = 0;
 				//runningTime_ = 0;

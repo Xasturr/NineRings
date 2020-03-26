@@ -4,6 +4,33 @@ Map1::Map1()
 {
 	cout << "In Map1 constructor" << endl;
 
+<<<<<<< HEAD
+	texture1_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile1_orange.png");
+	texture2_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile2_orange.png");
+	texture3_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile3_orange.png");
+	texture4_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile4_orange.png");
+	texture5_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile5_orange.png");
+	texture6_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile6_orange.png");
+	texture7_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile7_orange.png");
+	texture8_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile8_orange.png");
+	texture9_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile9_orange.png");
+
+	textureStatue_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Details/marker_statue1.png");
+	textureBackground_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Background/Pale/Background.png");
+	textureBackground_.setRepeated(true);
+
+	sprite_.setOrigin(32, 0); // 32 == half of texture width
+
+	oldPlayerPos_.x = oldPlayerPos_.y = -1;
+
+	treasureFactory_ = new TreasureFactory();
+
+	catchedCoins = 0;
+	savedPosition_.x = 15;
+	savedPosition_.y = 7;
+	treasurePoints_ = 0;
+	offset_ = 0;
+=======
 	texture_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Tiles_rock/tile5.png");
 	textureStatue_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Details/marker_statue1.png");
 
@@ -16,6 +43,7 @@ Map1::Map1()
 	savedPosition_.x = 0;
 	savedPosition_.y = 0;
 	treasurePoints_ = 0;
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	inSaveZone_ = false;
 }
@@ -92,10 +120,17 @@ bool Map1::getInSaveZone()
 	return inSaveZone_;
 }
 
+<<<<<<< HEAD
+//Texture Map1::getTexture()
+//{
+//	return texture_;
+//}
+=======
 Texture Map1::getTexture()
 {
 	return texture_;
 }
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 Sprite Map1::getSprite(int i, int j, string tileMap)
 {
@@ -107,11 +142,23 @@ Sprite Map1::getSprite(int i, int j, string tileMap)
 
 	if (tileMap == "tileMapElse")
 	{
+<<<<<<< HEAD
+		if (tileMapElse[i][j] == '1')	sprite.setTexture(texture1_);
+		else if (tileMapElse[i][j] == '2')	sprite.setTexture(texture2_);
+		else if (tileMapElse[i][j] == '3')	sprite.setTexture(texture3_);
+		else if (tileMapElse[i][j] == '4')	sprite.setTexture(texture4_);
+		else if (tileMapElse[i][j] == '5')	sprite.setTexture(texture5_);
+		else if (tileMapElse[i][j] == '6')	sprite.setTexture(texture6_);
+		else if (tileMapElse[i][j] == '7')	sprite.setTexture(texture7_);
+		else if (tileMapElse[i][j] == '8')	sprite.setTexture(texture8_);
+		else if (tileMapElse[i][j] == '9')	sprite.setTexture(texture9_);
+=======
 		if (tileMapElse[i][j] == '1')	sprite.setTexture(texture_);
 		else if (tileMapElse[i][j] == '2')	sprite.setTexture(texture_);
 		else if (tileMapElse[i][j] == '3')	sprite.setTexture(texture_);
 		else if (tileMapElse[i][j] == '4')	sprite.setTexture(texture_);
 		else if (tileMapElse[i][j] == '0')	sprite.setTexture(texture_);
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 		//cout << "Here" << endl;
 		sprite.setPosition(j * 64, i * 64);
@@ -123,12 +170,20 @@ Sprite Map1::getSprite(int i, int j, string tileMap)
 
 size_t Map1::getTextureSizeX()
 {
+<<<<<<< HEAD
+	return texture1_.getSize().x;
+=======
 	return texture_.getSize().x;
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 }
 
 size_t Map1::getTextureSizeY()
 {
+<<<<<<< HEAD
+	return texture1_.getSize().y;
+=======
 	return texture_.getSize().y;
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 }
 
 void Map1::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize, int playerWidth, int playerHeight, float elapsedTime)
@@ -170,6 +225,31 @@ void Map1::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize,
 		jMax = playerPos.y / TILE_HEIGHT + viewSize.y / TILE_HEIGHT / 2 + 1;
 	}
 
+<<<<<<< HEAD
+	if (oldPlayerPos_.x == -1)
+	{
+		spriteBackground_.setTextureRect(IntRect(0, 0, 9999999, 9999999));
+		spriteBackground_.setPosition(playerPos.x - 9999, playerPos.y - viewSize.y / 2);
+		spriteBackground_.setScale(viewSize.x / textureBackground_.getSize().x, viewSize.y / textureBackground_.getSize().y);
+	}
+
+	spriteBackground_.setPosition(spriteBackground_.getPosition().x, playerPos.y - viewSize.y / 2);
+	if (oldPlayerPos_.x < playerPos.x)
+	{
+		offset_ = 130 * elapsedTime;
+		spriteBackground_.setPosition(spriteBackground_.getPosition().x + offset_, playerPos.y - viewSize.y / 2);
+	}
+	else if (oldPlayerPos_.x > playerPos.x)
+	{
+		offset_ = -130 * elapsedTime;
+		spriteBackground_.setPosition(spriteBackground_.getPosition().x + offset_, playerPos.y - viewSize.y / 2);
+	}
+	oldPlayerPos_ = playerPos;
+	spriteBackground_.setTexture(textureBackground_);
+	window->draw(spriteBackground_);
+
+=======
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	for (int i = jMin; i < jMax; i++)
 	{
 		for (int j = iMin; j < iMax; j++)
@@ -179,6 +259,20 @@ void Map1::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize,
 			}
 			else
 			{
+<<<<<<< HEAD
+				if (tileMapElse[i][j] == '1') sprite_.setTexture(texture1_);
+				else if (tileMapElse[i][j] == '2')  sprite_.setTexture(texture2_);
+				else if (tileMapElse[i][j] == '3')  sprite_.setTexture(texture3_);
+				else if (tileMapElse[i][j] == '4')  sprite_.setTexture(texture4_);
+				else if (tileMapElse[i][j] == '5')  sprite_.setTexture(texture5_);
+				else if (tileMapElse[i][j] == '6')  sprite_.setTexture(texture6_);
+				else if (tileMapElse[i][j] == '7')  sprite_.setTexture(texture7_);
+				else if (tileMapElse[i][j] == '8')  sprite_.setTexture(texture8_);
+				else if (tileMapElse[i][j] == '9')  sprite_.setTexture(texture9_);
+									  
+				sprite_.setPosition(j * TILE_HEIGHT, i * TILE_WIDTH);
+				sprite_.setOrigin(32, 0);
+=======
 				if (tileMapElse[i][j] == '1') sprite_.setTexture(texture_);
 				else if (tileMapElse[i][j] == '2')  sprite_.setTexture(texture_);
 				else if (tileMapElse[i][j] == '3')  sprite_.setTexture(texture_);
@@ -186,6 +280,7 @@ void Map1::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize,
 				else if (tileMapElse[i][j] == '0')  sprite_.setTexture(texture_);
 									  
 				sprite_.setPosition(j * TILE_HEIGHT, i * TILE_WIDTH);
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 				window->draw(sprite_);
 			}
 
@@ -196,10 +291,13 @@ void Map1::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize,
 				treasure_->setCurrFrame(elapsedTime);
 				treasure_->spriteUpdate();
 
+<<<<<<< HEAD
+=======
 				//cout << "j: " << j << endl;
 				//cout << (playerPos.x - 20) / TILE_WIDTH << endl;
 				//cout << (playerPos.x + 20) / TILE_WIDTH << endl << endl;
 
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 				if ((playerPos.x + playerWidth) / TILE_WIDTH > j && (playerPos.x - playerWidth) / TILE_WIDTH < j
 					&& int(playerPos.y) / TILE_HEIGHT >= i && int(playerPos.y - playerHeight / 2) / TILE_HEIGHT <= i)
 				{
@@ -214,6 +312,10 @@ void Map1::buildMap(RenderWindow* window, Vector2f playerPos, Vector2f viewSize,
 			{
 				sprite_.setTexture(textureStatue_);
 				sprite_.setPosition(j * TILE_HEIGHT, i * TILE_WIDTH + 3);
+<<<<<<< HEAD
+				sprite_.setOrigin(32, 0);
+=======
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 				window->draw(sprite_);
 				inSaveZone_ = false;
 

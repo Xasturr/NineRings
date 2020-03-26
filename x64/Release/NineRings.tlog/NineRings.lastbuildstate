@@ -1,2 +1,6 @@
+<<<<<<< HEAD
+PlatformToolSet=v142:VCToolArchitecture=Native32Bit:VCToolsVersion=14.25.28610:TargetPlatformVersion=10.0.18362.0:
+=======
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v142:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 Release|x64|D:\Repos\NineRings\|

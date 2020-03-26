@@ -70,7 +70,10 @@ public:
 	void stopShoot();
 	void stopHalfDeadPerk();
 
+<<<<<<< HEAD
+=======
 	void update(float elapsedTime, RenderWindow* window);
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	void setPosition(float posX, float posY);
 	void setCurrGravityAccel(float value);
 	void setCurrJumpAccel(float value);
@@ -148,6 +151,10 @@ public:
 	int getVampireDraculaPerkLevel();
 	int getTripleScratchesPerkLevel();
 	int getTripleScratchesPerkBonus();
+<<<<<<< HEAD
+	int update(float elapsedTime, RenderWindow* window);
+=======
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	float getGravity();
 	float getJumpForce();

@@ -147,15 +147,23 @@ bool Engine::isEndOfLevel()
 {
 	if (level_->getLevelNumber() == 1)
 	{
+<<<<<<< HEAD
+		if (int(player_->getCurrPosition().x / level_->getTileWidth()) == 18 && int(player_->getCurrPosition().y / level_->getTileHeight()) == 21)
+=======
 		if (int(player_->getCurrPosition().x / level_->getTileWidth()) == 58 && int(player_->getCurrPosition().y / level_->getTileHeight()) == 34)
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		{
 			return true;
 		}
 	}
 	else if (level_->getLevelNumber() == 2)
 	{	
+<<<<<<< HEAD
+		if (int(player_->getCurrPosition().x / level_->getTileWidth()) == 18 && int(player_->getCurrPosition().y / level_->getTileHeight()) == 21)
+=======
 		if (int(player_->getCurrPosition().x / level_->getTileWidth() <= 3) && int(player_->getCurrPosition().y / level_->getTileHeight()) >= 33
 			&& int(player_->getCurrPosition().x / level_->getTileWidth() >= 2) && int(player_->getCurrPosition().y / level_->getTileHeight()) <= 34)
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		{
 			return true;
 		}
@@ -394,9 +402,15 @@ void Engine::createLevel(Level* level)
 		delete level_;
 	}
 
+<<<<<<< HEAD
+	//player_->setPosition(1800, 300);
+	level_ = level;
+	cout << "Creating new level" << endl;
+=======
 	player_->setPosition(1800, 300);
 	level_ = level;
 	cout << "Creating" << endl;
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 }
 
 void Engine::setPlayer(string charName, float posX, float posY)
@@ -424,11 +438,21 @@ void Engine::playerMoveDown()
 	player_->moveDown();
 }
 
+<<<<<<< HEAD
+int Engine::update(float elapsedTime)
+{
+	Vector2f oldPlayerPosition = player_->getCurrPosition();
+	if (player_->update(elapsedTime, &window_) == 1)
+	{
+		return 1;
+	}
+=======
 void Engine::update(float elapsedTime)
 {
 	Vector2f oldPlayerPosition = player_->getCurrPosition();
 	player_->update(elapsedTime, &window_);
 	//updateTreasurePoints();
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	player_->interactionWithMap(oldPlayerPosition, player_->getSprite().getPosition(), level_->getMap(), elapsedTime);
 	player_->calculateVariables(elapsedTime);
 	if (level_->getInSaveZone())
@@ -436,6 +460,10 @@ void Engine::update(float elapsedTime)
 		saveLoad_.save(level_, player_);
 	}
 	view_.setCenter(player_->getCurrPosition().x, player_->getCurrPosition().y);
+<<<<<<< HEAD
+	return 0;
+=======
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 }
 
 void Engine::draw(float elapsedTime)
@@ -506,7 +534,14 @@ void Engine::loadNewGame()
 	saveLoad_.loadNewGame(&level_, &player_);
 }
 
+<<<<<<< HEAD
+void Engine::setNewGame(bool flag)
+{
+	player_->setNewGame(flag);
+}
+=======
 //void Engine::updateTreasurePoints()
 //{
 //	treasurePoints_ = level_->getCatchedCoins() * coinsValue_;
 //}
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57

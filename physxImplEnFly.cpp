@@ -89,6 +89,8 @@ void PhysxImplEnFly::updatePosition(Character* character, float elapsedTime)
 void PhysxImplEnFly::decision(Player* player, Character* character, float elapsedTime)
 {
 	strategy_->decision(player, character, &states_, elapsedTime);
+<<<<<<< HEAD
+=======
 	//if (!character->getHurt())
 	//{
 	//	if (player->getCurrPosition().x < minPosX_ && player->getCurrPosition().x > maxPosX_)
@@ -153,6 +155,7 @@ void PhysxImplEnFly::decision(Player* player, Character* character, float elapse
 	//		}
 	//	}
 	//}
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 }
 
 void PhysxImplEnFly::setStrategy(int param, int charName)
@@ -169,6 +172,8 @@ void PhysxImplEnFly::setStrategy(int param, int charName)
 	{
 		strategy_ = makeStrategy(param, charName);
 	}
+<<<<<<< HEAD
+=======
 
 	//if (param == strategyParams::angry)
 	//{
@@ -178,4 +183,5 @@ void PhysxImplEnFly::setStrategy(int param, int charName)
 	//{
 	//	strategy_ = makeStrategy(StrategyType::StatePeace1);
 	//}
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 }

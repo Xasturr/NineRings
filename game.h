@@ -13,6 +13,12 @@ class Game
 
 	Clock clock_;
 
+<<<<<<< HEAD
+	Music mainMenuMusic_;
+	Music gameMusic_;
+
+=======
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	Font bebasRegular_;
 	Font arcadeClassic_;
 	Font playMyGames_;
@@ -121,13 +127,21 @@ class Game
 
 	void mainMenu();
 	void play();
+<<<<<<< HEAD
+=======
 	void chooseLevelMenu(); //
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	void settings();
 	void perksMenu();
 
 	int inGameMenu();
+<<<<<<< HEAD
+	int loadNextLevel();
+
+=======
 
 	void loadNextLevel();
+>>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	void drawPerksMenu();
 
 public:

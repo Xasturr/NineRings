@@ -41,6 +41,11 @@ void SaveLoad::save(Level* level, Player* player)
 		ofs << player->getCurrJugglerPerkLevel() << endl;
 		ofs << player->getCurrDrippingBladePerkLevel() << endl;
 		ofs << player->getCurrHalfDeadPerkLevel() << endl;
+		ofs << player->getCurrChestArmorPerkLevel() << endl;
+		ofs << player->getCurrVampireDraculaPerkLevel() << endl;
+		ofs << player->getCurrHalfDeadPerkLevel() << endl;
+		ofs << player->getCurrTripleScratchesPerkLevel() << endl;
+		ofs << player->getCurrFairyWandPerkLevel() << endl;
 
 		ofs.close();
 	}
@@ -78,20 +83,11 @@ void SaveLoad::load(Level** level, Player** player)
 			else if (i == 1)
 			{
 				*player = new Player("Character1", 0, 0);
-<<<<<<< HEAD
 				(*player)->setPosition(stof(s), 0);
 			}
 			else if (i == 2)
 			{
 				(*player)->setPosition((*player)->getCurrPosition().x, stof(s));
-=======
-				(*player)->setPosition(stoi(s), 0);
-			
-			}
-			else if (i == 2)
-			{
-				(*player)->setPosition((*player)->getCurrPosition().x, stoi(s));
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 			}
 			else if (i == 3)
 			{
@@ -152,10 +148,7 @@ void SaveLoad::load(Level** level, Player** player)
 				{
 					if (str[i] == '&')
 					{
-<<<<<<< HEAD
 						tempStr[temp] = '\0';
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 						posX = atoi(tempStr);
 						temp = 0;
 					}
@@ -164,15 +157,15 @@ void SaveLoad::load(Level** level, Player** player)
 						tempStr[temp] = '\0';
 						posY = atoi(tempStr);
 						temp = 0;
-						cout << "\nposX: " << posX << endl;
-						cout << "posY: " << posY << endl << endl;
+			/*			cout << "\nposX: " << posX << endl;
+						cout << "posY: " << posY << endl << endl;*/
 						(*level)->getTileMapTreasure()[posX][posY] = 'x';
 					}
 					else
 					{
 						tempStr[temp++] = str[i];
 					}
-					cout << str[i];
+					//cout << str[i];
 				}
 			}
 			else if (i == 13)
@@ -201,7 +194,6 @@ void SaveLoad::load(Level** level, Player** player)
 			else if (i == 17)
 			{
 				(*player)->setJugglerPerkLevel(stoi(s));
-				cout << "Juggler perk level: " << s << endl;
 			}
 			else if (i == 18)
 			{
@@ -210,6 +202,26 @@ void SaveLoad::load(Level** level, Player** player)
 			else if (i == 19)
 			{
 				(*player)->setHalfDeadPerksLevel(stoi(s));
+			}
+			else if (i == 20)
+			{
+				(*player)->setChestArmorPerkLevel(stoi(s));
+			}
+			else if (i == 21)
+			{
+				(*player)->setVampireDraculaPerkLevel(stoi(s));
+			}
+			else if (i == 22)
+			{
+				(*player)->setHalfDeadPerksLevel(stoi(s));
+			}
+			else if (i == 23)
+			{
+				(*player)->setTripleScratchesPerkLevel(stoi(s));
+			}
+			else if (i == 24)
+			{
+				(*player)->setFairyWandPerkLevel(stoi(s));
 			}
 			i++;
 		}
@@ -223,17 +235,10 @@ void SaveLoad::load(Level** level, Player** player)
 		if (ofs.is_open())
 		{
 			*level = new Level1();
-<<<<<<< HEAD
 			*player = new Player("Character1", 15 * 64, 7 * 64);
 			ofs << (*level)->getLevelNumber() << endl;
 			ofs << 15 * (*level)->getTileWidth() << endl;
 			ofs << 7 * (*level)->getTileHeight() << endl;
-=======
-			*player = new Player("Character1", 2 * 64, 2 * 64);
-			ofs << (*level)->getLevelNumber() << endl;
-			ofs << 2 * (*level)->getTileWidth() << endl;
-			ofs << 2 * (*level)->getTileHeight() << endl;
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 			ofs << (*player)->getCurrHealthPoints() << endl;
 			ofs << (*player)->getCurrMana() << endl;
 			ofs << (*player)->getCurrStamina() << endl;
@@ -261,6 +266,11 @@ void SaveLoad::load(Level** level, Player** player)
 			ofs << (*player)->getCurrJugglerPerkLevel() << endl;
 			ofs << (*player)->getCurrDrippingBladePerkLevel() << endl;
 			ofs << (*player)->getCurrHalfDeadPerkLevel() << endl;
+			ofs << (*player)->getCurrChestArmorPerkLevel() << endl;
+			ofs << (*player)->getCurrVampireDraculaPerkLevel() << endl;
+			ofs << (*player)->getCurrHalfDeadPerkLevel() << endl;
+			ofs << (*player)->getCurrTripleScratchesPerkLevel() << endl;
+			ofs << (*player)->getCurrFairyWandPerkLevel() << endl;
 
 			ofs.close();
 			cout << "Save file created" << endl;
@@ -278,17 +288,10 @@ void SaveLoad::loadNewGame(Level** level, Player** player)
 	if (ofs.is_open())
 	{
 		*level = new Level1();
-<<<<<<< HEAD
 		*player = new Player("Character1", 15 * 64, 7 * 64);
 		ofs << (*level)->getLevelNumber() << endl;
 		ofs << 15 * (*level)->getTileWidth() << endl;
 		ofs << 7 * (*level)->getTileHeight() << endl;
-=======
-		*player = new Player("Character1", 2 * 64, 2 * 64);
-		ofs << (*level)->getLevelNumber() << endl;
-		ofs << 2 * (*level)->getTileWidth() << endl;
-		ofs << 2 * (*level)->getTileHeight() << endl;
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		ofs << (*player)->getCurrHealthPoints() << endl;
 		ofs << (*player)->getCurrMana() << endl;
 		ofs << (*player)->getCurrStamina() << endl;
@@ -316,6 +319,11 @@ void SaveLoad::loadNewGame(Level** level, Player** player)
 		ofs << (*player)->getCurrJugglerPerkLevel() << endl;
 		ofs << (*player)->getCurrDrippingBladePerkLevel() << endl;
 		ofs << (*player)->getCurrHalfDeadPerkLevel() << endl;
+		ofs << (*player)->getCurrChestArmorPerkLevel() << endl;
+		ofs << (*player)->getCurrVampireDraculaPerkLevel() << endl;
+		ofs << (*player)->getCurrHalfDeadPerkLevel() << endl;
+		ofs << (*player)->getCurrTripleScratchesPerkLevel() << endl;
+		ofs << (*player)->getCurrFairyWandPerkLevel() << endl;
 
 		ofs.close();
 		cout << "Save file created" << endl;

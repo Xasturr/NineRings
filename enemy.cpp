@@ -50,37 +50,14 @@ void Enemy::draw(RenderWindow* window, Player* player, Vector2f viewSize, float 
 	{
 		if (player->getCurrPosition().y + viewSize.y / 2 + 50 >= character_->getCurrPosition().y && player->getCurrPosition().y - viewSize.y / 2 - 50 <= character_->getCurrPosition().y)
 		{
-			//if (abs(player->getCurrPosition().x - character_->getCurrPosition().x) <= character_->getOverview() && abs(player->getCurrPosition().y - character_->getCurrPosition().y) <= character_->getHeight())
 			if (character_->calculateAngryState(player->getCurrPosition()))
 			{
-				//states_.angryState_ = true;
-				//physx_->states_.angryState_ = true;
-
 				physx_->setStrategy(StrategyParams::angry, character_->getName());
-				
-<<<<<<< HEAD
-				//character_->setMaxMoveSpeed(380);
-=======
-				character_->setMaxMoveSpeed(300);
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 			}
 			else
 			{
 				physx_->setStrategy(StrategyParams::peacful, character_->getName());
-				//states_.angryState_ = false;
-				//states_.attack_ = false;
-<<<<<<< HEAD
-				//character_->setMaxMoveSpeed(250);
-=======
-				character_->setMaxMoveSpeed(200);
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
-				//character_->setState("staying");
-				//stayingTime_ = 0;
-				//runningTime_ = 0;
 			}
-			////character_->setPosition(character_->getCurrPosition().x, character_->getCurrPosition().y + character_->getGravity() * elapsedTime);
-			//character_->setCurrIdleFrame(character_->getFrameSpeed() * elapsedTime);
-			//character_->spriteUpdateIdle();
 			checkDamage(player);
 			window->draw(character_->getSprite());
 		}
@@ -108,15 +85,6 @@ void Enemy::calculateVariables(float elapsedTime)
 			character_->setCurrShotCoolDown(0);
 		}
 	}
-	//if (character_->getCurrState() == "falling")
-	//{
-	//	character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
-	//}
-	//else if (character_->getCurrState() == "jumping")
-	//{
-	//	character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
-	//	character_->setCurrJumpAccel(character_->getCurrJumpAccel() - character_->getCurrGravityAccel() * elapsedTime);
-	//}
 }
 
 void Enemy::setCurrHealthPoints(int healthPoints)
@@ -193,7 +161,7 @@ void Enemy::checkDamage(Player* player)
 				{
 					player->setEnemyDamaged(true);
 					int oldHp = character_->getCurrHealthPoints();
-					if (player->getCurrHealthPoints() * 2 <= player->getMaxHealthPoints() && player->getTripleScratchesPerkLevel())
+					if (player->getCurrHealthPoints() * 2 <= player->getMaxHealthPoints() && player->getCurrTripleScratchesPerkLevel())
 					{
 						character_->setCurrHealthPoints(character_->getCurrHealthPoints() - player->getAttackDamage() - (float)player->getAttackDamage() / 100 * (float)player->getTripleScratchesPerkBonus());
 					}
@@ -221,7 +189,7 @@ void Enemy::checkDamage(Player* player)
 				{
 					player->setEnemyDamaged(true);
 					int oldHp = character_->getCurrHealthPoints();
-					if (player->getCurrHealthPoints() * 2 <= player->getMaxHealthPoints() && player->getTripleScratchesPerkLevel())
+					if (player->getCurrHealthPoints() * 2 <= player->getMaxHealthPoints() && player->getCurrTripleScratchesPerkLevel())
 					{
 						character_->setCurrHealthPoints(character_->getCurrHealthPoints() - player->getAttackDamage() - (float)player->getAttackDamage() / 100 * (float)player->getTripleScratchesPerkBonus());
 					}

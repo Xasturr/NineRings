@@ -7,14 +7,16 @@
 
 class TreasureFactory
 {
-	map<pair<int, int>, Treasure*> treasures_;
+	map<string, Treasure*> treasures_;
 
 	string currentTreasureName;
+
+	Treasure* treasureCoin_ = nullptr;
 public:
 	TreasureFactory();
 	~TreasureFactory();
 
-	Treasure* getTreasure(Vector2f position, int tileWith, int tileHeight);
+	Treasure* getTreasure();
 
 	void setTreasureName(string treasureName);
 };

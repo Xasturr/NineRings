@@ -26,13 +26,14 @@ class TreasureCoinInner : public Treasure
 	int points_;
 
 public:
-	TreasureCoinInner(Vector2f position);
+	TreasureCoinInner();
 	~TreasureCoinInner();
 
 	Sprite getSprite();
 
 	void setCurrFrame(float elapsedTime);
 	void spriteUpdate();
+	void setCurrPosition(Vector2f position);
 
 	int getTreasurePoints();
 

@@ -2,10 +2,7 @@
 
 #include <map>
 #include <math.h>
-<<<<<<< HEAD
 #include <SFML/Audio/Music.hpp>
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 #include "button.h"
 #include "windowStyle.h"
 #include "gameWindow.h"
@@ -83,10 +80,6 @@ public:
 	void playerMoveRight();
 	void playerMoveUp();
 	void playerMoveDown();
-<<<<<<< HEAD
-=======
-	void update(float elapsedTime);
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	void draw(float elapsedTime);
 	void draw(Text text);
 	void draw(Sprite sprite);
@@ -96,10 +89,7 @@ public:
 	void setView(int rectLeft, int rectTop, int rectWidth, int rectHeight);
 	void load();
 	void loadNewGame();
-<<<<<<< HEAD
 	void setNewGame(bool flag);
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	bool renderWindowIsOpen();
 	bool renderWindowPollEvent();
@@ -125,10 +115,7 @@ public:
 	int getTreasurePoints();
 	int getPlayerExp();
 	int getCurrPlayerShellName();
-<<<<<<< HEAD
 	int update(float elapsedTime);
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	string getClickedButtonId(GameWindow* gameWindow);
 

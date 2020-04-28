@@ -13,13 +13,9 @@ class Enemy
 {
 	Character* character_;
 
-	//struct states states_;
-
 	int charName_;
 
 	void checkDamage(Player* player);
-	//void makeStrategy(int param);
-	//void updateDecisionTime(float elapsedTime);
 
 	PhysxImplement* physx_;
 
@@ -29,7 +25,6 @@ public:
 
 	bool getEnemyLife();
 	bool getHurt();
-	//bool getAngryState();
 
 	void draw(RenderWindow* window, Player* player, Vector2f viewSize, float elapsedTime);
 	void updatePosition(float elapsedTime);

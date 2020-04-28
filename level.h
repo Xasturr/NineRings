@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "map.h"
-//#include "player.h"
 #include "physxImplEnWalk.h"
 #include "physxImplEnFly.h"
 
@@ -25,12 +24,6 @@ public:
 	virtual bool getValue(int i, int j, char c, string tileMap[]) = 0;
 	virtual bool getCollision(int i, int j, char c) = 0;
 	virtual bool getInSaveZone() = 0;
-
-<<<<<<< HEAD
-	//virtual Texture getTexture() = 0;
-=======
-	virtual Texture getTexture() = 0;
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	virtual Sprite getSprite(int i, int j, string tileMap) = 0;
 

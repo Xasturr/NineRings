@@ -135,11 +135,7 @@ void Player::stopHalfDeadPerk()
 	halfDead_ = false;
 }
 
-<<<<<<< HEAD
 int Player::update(float elapsedTime, RenderWindow* window)
-=======
-void Player::update(float elapsedTime, RenderWindow* window)
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 {
 	if (character_->getCurrHealthPoints() > 0)
 	{
@@ -150,11 +146,7 @@ void Player::update(float elapsedTime, RenderWindow* window)
 			attack_ = false;
 			character_->setCurrHurtFrame(character_->getFrameSpeed() * elapsedTime);
 			character_->spriteUpdateHurt(character_->getCurrSpriteSide());
-<<<<<<< HEAD
 			return 0;
-=======
-			return;
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		}
 		else if (halfDead_)
 		{
@@ -164,18 +156,8 @@ void Player::update(float elapsedTime, RenderWindow* window)
 				float currMana = character_->getCurrMana();
 				if (dx <= currMana && dx <= character_->getMaxHealthPoints() - character_->getCurrHealthPoints())
 				{
-<<<<<<< HEAD
 					character_->setCurrMana(character_->getCurrMana() - dx);
 					character_->setCurrHealthPoints(character_->getCurrHealthPoints() + dx);
-=======
-		/*			cout << "dx: " << dx << endl;
-					cout << character_->getCurrMana() << endl;
-					cout << character_->getCurrHealthPoints() << endl;*/
-					character_->setCurrMana(character_->getCurrMana() - dx);
-					character_->setCurrHealthPoints(character_->getCurrHealthPoints() + dx);
-					//cout << character_->getCurrMana() << endl;
-					//cout << character_->getCurrHealthPoints() << endl << endl;
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 				}
 				else if (dx > currMana)
 				{
@@ -205,19 +187,6 @@ void Player::update(float elapsedTime, RenderWindow* window)
 			}
 		}
 
-<<<<<<< HEAD
-=======
-		//if (character_->getCurrShotCoolDown() > 0)
-		//{
-		//	character_->setCurrShotCoolDown(character_->getCurrShotCoolDown() - elapsedTime);
-		//	
-		//	if (character_->getCurrShotCoolDown() < 0)
-		//	{
-		//		character_->setCurrShotCoolDown(0);
-		//	}
-		//}
-
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		if (shoot_ && character_->getCurrShotCoolDown() == 0 && character_->getCurrShellAmount() > 0 && getCurrMana() >= 40)
 		{
 			setCurrMana(getCurrMana() - 40);
@@ -229,7 +198,7 @@ void Player::update(float elapsedTime, RenderWindow* window)
 				{
 					shell->setAlphaStrike(shell->getAlphaStrike() / 2 + perksInfo_.jugglerPerkBonus_);
 				}
-				if (character_->getCurrHealthPoints() * 2 <= character_->getMaxHealthPoints() && getTripleScratchesPerkLevel())
+				if (character_->getCurrHealthPoints() * 2 <= character_->getMaxHealthPoints() && getCurrTripleScratchesPerkLevel())
 				{
 					shell->setAlphaStrike(shell->getAlphaStrike() / 2 + (float)shell->getAlphaStrike() / 200 * (float)getTripleScratchesPerkBonus());
 				}
@@ -343,16 +312,10 @@ void Player::update(float elapsedTime, RenderWindow* window)
 	else
 	{
 		cout << "You are dead" << endl;
-<<<<<<< HEAD
 		return 1;
 	}
 
 	return 0;
-=======
-		delete this;
-		exit(0);
-	}
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 }
 
 void Player::setPosition(float posX, float posY)
@@ -475,11 +438,7 @@ void Player::calculateVariables(float elapsedTime)
 	else if (character_->getCurrState() == "jumping")
 	{
 		character_->setCurrGravityAccel(character_->getCurrGravityAccel() + character_->getGravity() * elapsedTime);
-<<<<<<< HEAD
 		character_->setCurrJumpAccel(character_->getCurrJumpAccel() - character_->getCurrGravityAccel() * elapsedTime * 2);
-=======
-		character_->setCurrJumpAccel(character_->getCurrJumpAccel() - character_->getCurrGravityAccel() * elapsedTime);
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	}
 
 	if (ddTimer_ > 0)
@@ -562,11 +521,7 @@ void Player::setCurrExp(int exp)
 
 void Player::setHeartPlusPerk()
 {
-<<<<<<< HEAD
 	if (levelPoints_ >= 1 && perksInfo_.heartPlusPerkLevel_ < 3)
-=======
-	if (levelPoints_ >= 1)
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	{
 		character_->setMaxHealthPoints(character_->getMaxHealthPoints() + perksInfo_.heartPlusPerkBonus_);
 		levelPoints_ -= 1;
@@ -576,11 +531,7 @@ void Player::setHeartPlusPerk()
 
 void Player::setChestArmorPerk()
 {
-<<<<<<< HEAD
 	if (levelPoints_ >= 1 && perksInfo_.chestArmorPerkLevel_ < 3)
-=======
-	if (levelPoints_ >= 1)
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	{
 		character_->setArmor(character_->getArmor() + perksInfo_.chestArmorPerkBonus_);
 		levelPoints_ -= 1;
@@ -590,11 +541,7 @@ void Player::setChestArmorPerk()
 
 void Player::setFairyWandPerk()
 {
-<<<<<<< HEAD
 	if (levelPoints_ >= 1 && perksInfo_.fairyWandPerkLevel_ < 3)
-=======
-	if (levelPoints_ >= 1)
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	{
 		character_->setMaxMana(character_->getMaxMana() + perksInfo_.fairyWandPerkBonus_);
 		levelPoints_ -= 1;
@@ -657,7 +604,7 @@ void Player::updateJugglerPerkBonus()
 	{
 		perksInfo_.jugglerPerkBonus_ = 100;
 	}
-	else
+	else if (perksInfo_.jugglerPerkLevel_ == 3)
 	{
 		perksInfo_.jugglerPerkBonus_ = 150;
 	}
@@ -673,7 +620,7 @@ void Player::updateDrippingBladePerkBonus()
 	{
 		perksInfo_.drippingBladePerkBonus_ = 175;
 	}
-	else
+	else if (perksInfo_.drippingBladePerkLevel_ == 3)
 	{
 		perksInfo_.drippingBladePerkBonus_ = 250;
 	}
@@ -700,6 +647,38 @@ void Player::updateTripleScratchesPerkBonus()
 	if (perksInfo_.tripleScratchesPerkLevel_ == 1)
 	{
 		perksInfo_.tripleScratchesPerkBonus_ = 30;
+	}
+}
+
+void Player::updateChestArmorPerkBonus()
+{
+	if (perksInfo_.chestArmorPerkLevel_ == 1)
+	{
+		character_->setArmor(perksInfo_.chestArmorPerkBonus_);
+	}
+	else if (perksInfo_.chestArmorPerkLevel_ == 2)
+	{
+		character_->setArmor(perksInfo_.chestArmorPerkBonus_ * 2);
+	}
+	else if (perksInfo_.chestArmorPerkLevel_ == 3)
+	{
+		character_->setArmor(perksInfo_.chestArmorPerkBonus_ * 3);
+	}
+}
+
+void Player::updateFairyWandPerkBonus()
+{
+	if (perksInfo_.fairyWandPerkLevel_ == 1)
+	{
+		character_->setMaxMana(character_->getMaxMana() + perksInfo_.fairyWandPerkBonus_);
+	}
+	else if (perksInfo_.fairyWandPerkLevel_ == 2)
+	{
+		character_->setMaxMana(character_->getMaxMana() + perksInfo_.fairyWandPerkBonus_ * 2);
+	}
+	else if (perksInfo_.fairyWandPerkLevel_ == 3)
+	{
+		character_->setMaxMana(character_->getMaxMana() + perksInfo_.fairyWandPerkBonus_ * 3);
 	}
 }
 
@@ -805,6 +784,18 @@ void Player::setTripleScratchesPerkLevel(int level)
 {
 	perksInfo_.tripleScratchesPerkLevel_ = level;
 	updateTripleScratchesPerkBonus();
+}
+
+void Player::setChestArmorPerkLevel(int level)
+{
+	perksInfo_.chestArmorPerkLevel_ = level;
+	updateChestArmorPerkBonus();
+}
+
+void Player::setFairyWandPerkLevel(int level)
+{
+	perksInfo_.fairyWandPerkLevel_ = level;
+	updateFairyWandPerkBonus();
 }
 
 void Player::updateLevel(RenderWindow* window)
@@ -1073,12 +1064,7 @@ int Player::getCurrHalfDeadPerkLevel()
 	return perksInfo_.halfDeadPerkLevel_;
 }
 
-int Player::getVampireDraculaPerkLevel()
-{
-	return perksInfo_.vampireDraculaPerkLevel_;
-}
-
-int Player::getTripleScratchesPerkLevel()
+int Player::getCurrTripleScratchesPerkLevel()
 {
 	return perksInfo_.tripleScratchesPerkLevel_;
 }
@@ -1086,6 +1072,11 @@ int Player::getTripleScratchesPerkLevel()
 int Player::getTripleScratchesPerkBonus()
 {
 	return perksInfo_.tripleScratchesPerkBonus_;
+}
+
+int Player::getCurrFairyWandPerkLevel()
+{
+	return perksInfo_.fairyWandPerkLevel_;
 }
 
 float Player::getGravity()

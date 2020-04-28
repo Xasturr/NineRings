@@ -11,7 +11,6 @@ class ShellIceBall : public Shell
 	Texture textureExplosion_;
 	
 	Sprite sprite_;
-	//Vector2f origin_;
 
 	float speed_;
 	float angle_;

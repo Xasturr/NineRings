@@ -15,7 +15,6 @@ class ShellFireBall : public Shell
 	Texture textureExplosion_;
 
 	Sprite sprite_;
-	//Vector2f origin_;
 
 	float speed_;
 	float angle_;
@@ -31,7 +30,6 @@ class ShellFireBall : public Shell
 
 	string spriteSide_;
 
-	//void updateSpriteSide();
 public:
 	ShellFireBall(float posX, float posY, float angle, string spriteSide);
 	~ShellFireBall();

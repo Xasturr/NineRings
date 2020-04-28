@@ -8,18 +8,12 @@ int main()
 	return 0;
 }
 
-/*bugs:
-	-вражеский персонаж находясь на краю, заагрившись, бежит в край
-	-double damage в классе Player, а не Character
-*/
-
 //patterns:
 //singleton (Engine)
 //builder (Level)
 //bridge (Physix)
-//factory (Strategy)
 //strategy (Strategy)
 //flyweight (Treasure)
+//factory (Treasure)
 //decorator (Double damage)
-//state (Shell)
 //proxy (TreasureCoin)

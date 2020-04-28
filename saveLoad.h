@@ -13,8 +13,6 @@ class SaveLoad
 	ifstream ifs;
 	ofstream ofs;
 
-	//vector<pair<int, int>> savePositions_;
-
 	bool checkSavePosition(Player* player);
 public:
 	void save(Level* level, Player* player);

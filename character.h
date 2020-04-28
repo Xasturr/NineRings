@@ -2,11 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <ctime>
-<<<<<<< HEAD
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 #include "map.h"
 #include "Characters.h"
@@ -38,9 +35,7 @@ public:
 	virtual float getCurrShellAngle() = 0;
 	virtual float getAttackDamage() = 0;
 	virtual float getCurrHealthPoints() = 0;
-	//virtual float getCurrentSpeed() = 0;
 
-	//virtual void spriteFrameUpdate(float currentFrame) = 0;
 	virtual void setPosition(float posX, float posY) = 0;
 	virtual void setCurrIdleFrame(float increase) = 0;
 	virtual void setCurrFlyFrame(float increase) = 0;

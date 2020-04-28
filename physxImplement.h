@@ -24,7 +24,6 @@ protected:
 	states states_;
 
 public:
-	//states states_;
 
 	virtual ~PhysxImplement() {};
 

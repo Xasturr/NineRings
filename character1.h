@@ -12,12 +12,9 @@ using namespace std;
 
 class Character1 : public Character
 {
-<<<<<<< HEAD
 	SoundBuffer bufferShoot_;
 	Sound soundShoot_;
 
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	Vector2f position_;
 	Texture textureIdle1_;
 	Texture textureIdle2_;

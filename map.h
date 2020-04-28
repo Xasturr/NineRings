@@ -7,7 +7,6 @@
 
 #include "treasureFactory.h"
 #include "treasure.h"
-//#include "player.h"
 
 using namespace std;
 using namespace sf;
@@ -29,12 +28,6 @@ public:
 	virtual bool getValue(int i, int j, char c, string tileMap[]) = 0;
 	virtual bool getCollision(int i, int j, char c) = 0;
 	virtual bool getInSaveZone() = 0;
-
-<<<<<<< HEAD
-	//virtual Texture getTexture() = 0;
-=======
-	virtual Texture getTexture() = 0;
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	virtual Sprite getSprite(int i, int j, string tileMap) = 0;
 

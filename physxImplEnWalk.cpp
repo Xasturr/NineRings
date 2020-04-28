@@ -22,25 +22,7 @@ PhysxImplEnWalk::~PhysxImplEnWalk()
 	cout << "In PhysxImplEnWalk distructor" << endl;
 }
 
-void PhysxImplEnWalk::updateDecisionTime(float elapsedTime)
-{
-	//if (runningTime_ > 0)
-	//{
-	//	runningTime_ -= elapsedTime;
-	//}
-	//else if (stayingTime_ > 0)
-	//{
-	//	stayingTime_ -= elapsedTime;
-	//}
-
-	//if (runningTime_ <= 0 && stayingTime_ <= 0)
-	//{
-	//	runningTime_ = 0;
-	//	stayingTime_ = 0;
-	//	states_.leftPressed_ = false;
-	//	states_.rightPressed_ = false;
-	//}
-}
+void PhysxImplEnWalk::updateDecisionTime(float elapsedTime){}
 
 void PhysxImplEnWalk::interactionWithMap(Character* character, Vector2f oldEnemyPosition, Map* map, float elapsedTime)
 {
@@ -66,11 +48,6 @@ void PhysxImplEnWalk::interactionWithMap(Character* character, Vector2f oldEnemy
 		gap = map->getTileWidth() / 2;
 	}
 
-	//if (angryState_)
-	//{
-	//	//gap *= 2;
-	//}
-
 	//preventing from fall
 	for (int i = (newEnemyPosition.x) / map->getTileWidth(); i < (newEnemyPosition.x + gap) / map->getTileWidth(); i++)
 	{
@@ -78,16 +55,13 @@ void PhysxImplEnWalk::interactionWithMap(Character* character, Vector2f oldEnemy
 		{
 			if (map->getValue(j, i, ' ', map->getTileMapElse()))
 			{
-				//position.x = oldEnemyPosition.x;
 				if (states_.leftPressed_)
 				{
-					//character->setPosition(oldEnemyPosition.x + (oldEnemyPosition.x - newEnemyPosition.x), oldEnemyPosition.y);
 					states_.leftPressed_ = false;
 					states_.rightPressed_ = true;
 				}
 				else if (states_.rightPressed_)
 				{
-					//character->setPosition(oldEnemyPosition.x - (newEnemyPosition.x - oldEnemyPosition.x), oldEnemyPosition.y);
 					states_.rightPressed_ = false;
 					states_.leftPressed_ = true;
 				}

@@ -15,6 +15,7 @@ public:
 
 	virtual void setCurrFrame(float elapsedTime) = 0;
 	virtual void spriteUpdate() = 0;
+	virtual void setCurrPosition(Vector2f position) = 0;
 
 	virtual int getTreasurePoints() = 0;
 

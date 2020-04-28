@@ -30,17 +30,17 @@ void Animation::addTexture(string path)
 
 void Animation::updateAnimation(float elapsedTime)
 {
-	oldTexture_ = int(currTexture_);
+	//oldTexture_ = int(currTexture_);
 	currTexture_ += elapsedTime * updateSpeed_;
 
-	if (int(currTexture_) > oldTexture_)
-	{
-		if (int(currTexture_) >= textures_.size())
+	//if (int(currTexture_) > oldTexture_)
+	//{
+		if (currTexture_ >= textures_.size())
 		{
 			currTexture_ = 1;
 		}
 		sprite_.setTexture(*textures_.at((int(currTexture_)) - 1));
-	}
+	//}
 }
 
 void Animation::drawAnimation(RenderWindow* window)

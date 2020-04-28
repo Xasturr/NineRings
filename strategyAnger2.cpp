@@ -21,19 +21,13 @@ void StrategyAnger2::decision(Player* player, Character* character, states* stat
 			&& player->getCurrPosition().x - character->getCurrPosition().x > 0
 			&& player->getCurrPosition().x - player->getWidth() - character->getCurrPosition().x > character->getAttackRange() / 2)
 		{
-			//if (player->getCurrPosition().x < maxPosX_)
-			//{
-				states->rightPressed_ = true;
-			//}
+			states->rightPressed_ = true;
 		}
 		else if (character->getCurrPosition().x - player->getCurrPosition().x <= character->getOverview()
 			&& character->getCurrPosition().x - player->getCurrPosition().x > 0
 			&& character->getCurrPosition().x - player->getWidth() - player->getCurrPosition().x > character->getAttackRange() / 2)
 		{
-		/*	if (player->getCurrPosition().x > minPosX_)
-			{*/
-				states->leftPressed_ = true;
-			//}
+			states->leftPressed_ = true;
 		}
 		else if (character->getCurrShotCoolDown() == 0)
 		{

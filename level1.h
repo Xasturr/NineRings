@@ -27,12 +27,6 @@ public:
 	bool getCollision(int i, int j, char c);
 	bool getInSaveZone();
 
-<<<<<<< HEAD
-	//Texture getTexture();
-=======
-	Texture getTexture();
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
-
 	Sprite getSprite(int i, int j, string tileMap);
 
 	size_t getTextureSizeX();

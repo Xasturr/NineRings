@@ -77,17 +77,10 @@ bool Level2::getInSaveZone()
 	return map_->getInSaveZone();
 }
 
-<<<<<<< HEAD
 //Texture Level2::getTexture()
 //{
 //	return map_->getTexture();
 //}
-=======
-Texture Level2::getTexture()
-{
-	return map_->getTexture();
-}
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 Sprite Level2::getSprite(int i, int j, string tileMap)
 {

@@ -9,13 +9,14 @@ class TreasureCoin : public Treasure
 	Vector2f position_;
 
 public:
-	TreasureCoin(Vector2f position);
+	TreasureCoin();
 	~TreasureCoin();
 
 	Sprite getSprite();
 
 	void setCurrFrame(float elapsedTime);
 	void spriteUpdate();
+	void setCurrPosition(Vector2f position);
 
 	int getTreasurePoints();
 

@@ -2,13 +2,10 @@
 
 Character1::Character1(float posX, float posY)
 {
-<<<<<<< HEAD
 	bufferShoot_.loadFromFile("./audio/effects/magicShoot/shoot.ogg");
 	soundShoot_.setBuffer(bufferShoot_);
 	soundShoot_.setVolume(6);
 
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	position_.x = posX;
 	position_.y = posY;
 
@@ -85,11 +82,7 @@ Character1::Character1(float posX, float posY)
 	hurt_ = false;
 	shoot_ = false;
 
-<<<<<<< HEAD
 	maxMoveSpeed_ = 350;
-=======
-	maxMoveSpeed_ = 440;
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	currentIdleFrame_ = 1;
 	currentRunFrame_ = 1;
 	currentJumpFrame_ = 1;
@@ -107,24 +100,13 @@ Character1::Character1(float posX, float posY)
 	numberOfDeathFrames_ = 10;
 	numberOfHurtFrames_ = 4;
 	frameSpeed_ = 10;
-<<<<<<< HEAD
 	gravity_ = 2700.f;
 	jumpForce_ = 700.f;
-=======
-	gravity_ = 1900.f;
-	jumpForce_ = 900.f;
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	currJumpAccel_ = 0.f;
 	leftGap_ = 20; //from center to left edge
 	rightGap_ = 20;//from center to right edge
-	//lowerGap_ = 23;
-	//upperGap_ = 52;
 	currGravityAccel_ = jumpForce_;
-<<<<<<< HEAD
 	maxHealthPoints_ = currHealthPoints_ =  1500;
-=======
-	maxHealthPoints_ = currHealthPoints_ =  1000;
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	maxStamina_ = 1000; 
 	currentStamina_ = 1000.f;
 	maxMana_ = currentMana_ = 1000;
@@ -134,7 +116,6 @@ Character1::Character1(float posX, float posY)
 	height_ = 60; //height of character
 	width_ = 40; //width of caracter
 	overview_ = 330;
-<<<<<<< HEAD
 	currFireBallAmount_ = 80;
 	currIceBallAmount_ = 80;
 	currFoamyDiscAmount_ = 80;
@@ -144,17 +125,6 @@ Character1::Character1(float posX, float posY)
 	manaRegen_ = 100;
 	staminaRegen_ = 150;
 	jumpStaminaCost_ = 100;
-=======
-	currFireBallAmount_ = 100;
-	currIceBallAmount_ = 100;
-	currFoamyDiscAmount_ = 100;
-	currAngle_ = 90;
-	maxShotCoolDown_ = 0.2;
-	currShotCoolDown_ = 0;
-	manaRegen_ = 100;
-	staminaRegen_ = 150;
-	jumpStaminaCost_ = 150;
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	attackStaminaCost_ = 250;
 	killExp_ = 100;
 	armor_ = 0;
@@ -465,11 +435,7 @@ void Character1::setCurrJumpFrame(float increase)
 	currentFallFrame_ = 1;
 	currentRunAttackFrame_ = 1;
 
-<<<<<<< HEAD
 	currentJumpFrame_ += (increase / 1);
-=======
-	currentJumpFrame_ += (increase / 1.4);
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	runAttack_ = false;
 
@@ -524,7 +490,7 @@ void Character1::setCurrRunAttackFrame(float increase)
 {
 	currentRunAttackFrame_ += increase * 1.5;
 
-	if (currentRunAttackFrame_ < 5)
+	if (currentRunAttackFrame_ < 3)
 	{
 		damageDisabled_ = true;
 	}
@@ -560,8 +526,6 @@ void Character1::setCurrHurtFrame(float increase)
 	currentRunAttackFrame_ = 1;
 
 	currentHurtFrame_ += increase / 2;
-	//damageDisabled_ = true;
-	//hurt_ = true;
 
 	if (currentHurtFrame_ > numberOfHurtFrames_)
 	{
@@ -569,7 +533,6 @@ void Character1::setCurrHurtFrame(float increase)
 		currGravityAccel_ = 0;
 		state_ = "falling";
 		currentHurtFrame_ = 1;
-		//damageDisabled_ = false;
 	}
 }
 
@@ -798,10 +761,7 @@ Shell* Character1::addFlyingShell(int shellName, float angle)
 		currFireBallAmount_ -= 1;
 
 		shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
-<<<<<<< HEAD
 		soundShoot_.play();
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		flyingShells_.push_back(shell);
 	}
 	else if (shellName == Shells::iceBallShell_name && currIceBallAmount_ > 0)
@@ -809,10 +769,7 @@ Shell* Character1::addFlyingShell(int shellName, float angle)
 		currIceBallAmount_ -= 1;
 
 		shell = new ShellIceBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
-<<<<<<< HEAD
 		soundShoot_.play();
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		flyingShells_.push_back(shell);
 	}
 	else if (shellName == Shells::foamyDiscShell_name && foamyDiscShell_name > 0)
@@ -820,11 +777,8 @@ Shell* Character1::addFlyingShell(int shellName, float angle)
 		currFoamyDiscAmount_ -= 1;
 
 		shell = new ShellFoamyDisc(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
-<<<<<<< HEAD
 		soundShoot_.play();
 
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		flyingShells_.push_back(shell);
 	}
 
@@ -847,10 +801,7 @@ Shell* Character1::addFlyingShell(int shellName, bool doubleDamage, float angle)
 		{
 			shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
 		}
-<<<<<<< HEAD
 		soundShoot_.play();
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 		flyingShells_.push_back(shell);
 	}
@@ -866,10 +817,7 @@ Shell* Character1::addFlyingShell(int shellName, bool doubleDamage, float angle)
 		{
 			shell = new ShellIceBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
 		}
-<<<<<<< HEAD
 		soundShoot_.play();
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 		flyingShells_.push_back(shell);
 	}
@@ -885,10 +833,7 @@ Shell* Character1::addFlyingShell(int shellName, bool doubleDamage, float angle)
 		{
 			shell = new ShellFoamyDisc(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
 		}
-<<<<<<< HEAD
 		soundShoot_.play();
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 		flyingShells_.push_back(shell);
 	}

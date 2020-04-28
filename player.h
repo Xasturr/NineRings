@@ -46,6 +46,8 @@ class Player
 	void updateHalfDeadPerkBonus();
 	void updateVampireDraculaPerkBonus();
 	void updateTripleScratchesPerkBonus();
+	void updateChestArmorPerkBonus();
+	void updateFairyWandPerkBonus();
 
 	float ddTimer_;
 	float ddDuration_;
@@ -70,10 +72,6 @@ public:
 	void stopShoot();
 	void stopHalfDeadPerk();
 
-<<<<<<< HEAD
-=======
-	void update(float elapsedTime, RenderWindow* window);
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	void setPosition(float posX, float posY);
 	void setCurrGravityAccel(float value);
 	void setCurrJumpAccel(float value);
@@ -115,6 +113,8 @@ public:
 	void setHalfDeadPerksLevel(int level);
 	void setVampireDraculaPerkLevel(int level);
 	void setTripleScratchesPerkLevel(int level);
+	void setChestArmorPerkLevel(int level);
+	void setFairyWandPerkLevel(int level);
 
 	Vector2f getCurrPosition();
 
@@ -148,13 +148,10 @@ public:
 	int getCurrJugglerPerkBonus();
 	int getCurrDrippingBladePerkLevel();
 	int getCurrHalfDeadPerkLevel();
-	int getVampireDraculaPerkLevel();
-	int getTripleScratchesPerkLevel();
+	int getCurrTripleScratchesPerkLevel();
 	int getTripleScratchesPerkBonus();
-<<<<<<< HEAD
+	int getCurrFairyWandPerkLevel();
 	int update(float elapsedTime, RenderWindow* window);
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 	float getGravity();
 	float getJumpForce();

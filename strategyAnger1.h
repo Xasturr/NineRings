@@ -2,7 +2,7 @@
 
 #include "strategy.h"
 
-class StrategyAnger1 : public Strategy //for character1
+class StrategyAnger1 : public Strategy
 {
 public:
 	StrategyAnger1();

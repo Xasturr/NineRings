@@ -12,19 +12,12 @@ StrategyAnger1::~StrategyAnger1()
 
 void StrategyAnger1::decision(Player* player, Character* character, states* states, float elapsedTime)
 {
-<<<<<<< HEAD
 	states->attack_ = false;
 
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	if (!character->getHurt())
 	{
 		states->leftPressed_ = false;
 		states->rightPressed_ = false;
-<<<<<<< HEAD
-=======
-		states->attack_ = false;
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 		if (character->getCurrSpriteSide() == "left")
 		{

@@ -9,48 +9,35 @@ TreasureFactory::~TreasureFactory()
 {
 	cout << "In TreasureFactory destructor" << endl;
 
-	map<pair<int, int>, Treasure*>::iterator it;
-
-	for (it = treasures_.begin(); it != treasures_.end(); it++)
+	for (auto it = treasures_.begin(); it != treasures_.end(); it++)
 	{
-<<<<<<< HEAD
 		treasures_.erase(it);
 		Treasure* treasure = it->second;
 		delete treasure;
-=======
-		Treasure* treasure = it->second;
-		delete treasure;
-		treasures_.erase(it);
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	}
 }
 
-Treasure* TreasureFactory::getTreasure(Vector2f position, int tileWidth, int tileHeight)
+Treasure* TreasureFactory::getTreasure()
 {
 	Treasure* treasure = NULL;
 
-	pair<int, int> pos;
-	pos.first = position.x;
-	pos.second = position.y;
+	auto iter = treasures_.find(currentTreasureName);
 
-	map<pair<int, int>, Treasure*>::iterator it;
-
-	it = treasures_.find(pos);
-
-	if (it != treasures_.end())
+	if (iter != treasures_.end())
 	{
-		treasure = treasures_[pos];
+		treasure = treasures_[currentTreasureName];
 	}
 	else
 	{
 		if (currentTreasureName == "Coin")
 		{
-			position.x *= tileWidth;
-			position.y *= tileHeight;
-
-			treasure = new TreasureCoin(position);
-			treasures_.insert({pos, treasure});
+			if (!treasureCoin_)
+			{
+				treasureCoin_ = new TreasureCoin();
+			}
+			treasure = treasureCoin_;
 		}
+		treasures_.insert({ currentTreasureName, treasure });
 	}
 	return treasure;
 }

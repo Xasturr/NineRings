@@ -231,4 +231,14 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram9.cd" />
+    <None Include="ClassDiagram91.cd" />
+    <None Include="ClassDiagram92.cd" />
+    <None Include="ClassDiagram93.cd" />
+    <None Include="ClassDiagram94.cd" />
+    <None Include="ClassDiagram95.cd" />
+    <None Include="ClassDiagram96.cd" />
+  </ItemGroup>
 </Project>

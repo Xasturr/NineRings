@@ -1,8 +1,8 @@
 #include "treasureCoinInner.h"
 
-TreasureCoinInner::TreasureCoinInner(Vector2f position)
+TreasureCoinInner::TreasureCoinInner()
 {
-	position_ = position;
+	position_ = { 0, 0 };
 
 	texture1_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Items/coin1.png");
 	texture2_.loadFromFile("./textures/tiles/DungeonTiles/PNG/Items/coin2.png");
@@ -66,6 +66,12 @@ void TreasureCoinInner::spriteUpdate()
 		sprite_.setTexture(texture9_);
 	else
 		sprite_.setTexture(texture10_);
+}
+
+void TreasureCoinInner::setCurrPosition(Vector2f position)
+{
+	position_ = position;
+	sprite_.setPosition(position_);
 }
 
 int TreasureCoinInner::getTreasurePoints()

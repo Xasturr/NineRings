@@ -2,13 +2,10 @@
 
 CharacterBat::CharacterBat(float posX, float posY)
 {
-<<<<<<< HEAD
 	bufferShoot_.loadFromFile("./audio/effects/magicShoot/shoot.ogg");
 	soundShoot_.setBuffer(bufferShoot_);
 	soundShoot_.setVolume(6);
 
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	position_.x = posX;
 	position_.y = posY;
 
@@ -486,10 +483,7 @@ Shell* CharacterBat::addFlyingShell(int shellName, float angle)
 		currFireBallAmount_ -= 1;
 
 		shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
-<<<<<<< HEAD
 		soundShoot_.play();
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 		flyingShells_.push_back(shell);
 	}
 
@@ -512,10 +506,7 @@ Shell* CharacterBat::addFlyingShell(int shellName, bool doubleDamage, float angl
 		{
 			shell = new ShellFireBall(position_.x + width_ / 2, position_.y - height_ / 2, angle, currSpriteSide_);
 		}
-<<<<<<< HEAD
 		soundShoot_.play();
-=======
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 
 		flyingShells_.push_back(shell);
 	}
@@ -644,11 +635,7 @@ bool CharacterBat::getHurt()
 
 bool CharacterBat::calculateAngryState(Vector2f playerPos)
 {
-<<<<<<< HEAD
 	if (abs(playerPos.x - position_.x) <= overview_ && abs(playerPos.y - position_.y) <= 64 * 4) //!
-=======
-	if (abs(playerPos.x - position_.x) <= overview_ && abs(playerPos.y - position_.y) <= 128) //!
->>>>>>> 41294986eeff1eef9bba63422654c3dde8c27d57
 	{
 		return true;
 	}
